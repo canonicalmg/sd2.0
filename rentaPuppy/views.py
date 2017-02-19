@@ -1,20 +1,20 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-
-from .models import Greeting
-
-# Create your views here.
-def index(request):
-    # return HttpResponse('Hello from Python!')
-    return render(request, 'index.html')
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import loader
+from django.contrib.auth.models import User
 
 
-def db(request):
+def signUpLogIn(request):
+    template = loader.get_template('index.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
 
-    greeting = Greeting()
-    greeting.save()
-
-    greetings = Greeting.objects.all()
-
-    return render(request, 'db.html', {'greetings': greetings})
+def home(request):
+    if request.user.is_authenticated():
+        template = loader.get_template('home.html')
+        context = {}
+        return HttpResponse(template.render(context, request))
+    else:
+        #login
+        return HttpResponseRedirect("/")
 
