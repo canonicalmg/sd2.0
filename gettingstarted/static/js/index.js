@@ -9,6 +9,9 @@
       console.log("swiped ", event);
     }
 
+    var swiper = new Swiper('.swiper-container', {
+    });
+
 
   }); // end of document ready
 })(jQuery); // end of jQuery name space
