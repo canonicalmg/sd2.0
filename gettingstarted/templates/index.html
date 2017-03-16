@@ -42,7 +42,6 @@
             flex: 1 0 auto;
         }
         .card {
-            height:95%;
             width:97%;
         }
         .card-content span{
@@ -61,10 +60,7 @@
         nav .brand-logo{
             left:90%;
         }
-
-        footer {
-            margin-top:3.5%;
-        }
+        
         .task-card-title {
             padding:20px;
             margin: 0;
@@ -74,116 +70,128 @@
     </style>
 </head>
 <body>
-<nav class="cyan" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-        <ul class="right hide-on-med-and-down">
-            <li><a href="#">Navbar Link</a></li>
-        </ul>
+<header>
+    <nav class="cyan" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#">Navbar Link</a></li>
+            </ul>
 
-        <ul id="nav-mobile" class="side-nav">
-            <li><a href="#">Navbar Link</a></li>
-        </ul>
-        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="side-nav">
+                <li><a href="#">Navbar Link</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div class="section no-pad-bot" id="index-banner">
+
+        <div style="height:81%; margin-top:-5%; padding-top:5%; padding-left:3%;" class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="card z-depth-3">
+                        <div class="collection-header green">
+                            <h4 class="task-card-title">Featured</h4>
+                        </div>
+                        <div class="row z-depth-2" style="margin-bottom:0px;">
+                            <div class="col s3" style="margin-top:-15px;">
+                                <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                            </div>
+                            <div class="col s9">
+                                <h5 class="grey-text text-darken-4 margin">John Doe</h5>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img class="activator" src="http://lorempixel.com/800/400/food/3">
+                        </div>
+                        <div class="card-action">
+                            <div class="row">
+                                <div class="col s1 right-align">
+                                    <i class="mdi-navigation-expand-more"></i>
+                                </div>
+                            </div>
+                            <a href="#">Like</a>
+                            <a href="#">Share</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card z-depth-3">
+                        <div class="collection-header cyan">
+                            <h4 class="task-card-title">Most Popular</h4>
+                        </div>
+                        <div class="row z-depth-2" style="margin-bottom:0px;">
+                            <div class="col s3" style="margin-top:-15px;">
+                                <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                            </div>
+                            <div class="col s9">
+                                <h5 class="grey-text text-darken-4 margin">John Doe</h5>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img class="activator" src="http://lorempixel.com/800/400/food/4">
+                        </div>
+                        <div class="card-action">
+                            <div class="row">
+                                <div class="col s1 right-align">
+                                    <i class="mdi-navigation-expand-more"></i>
+                                </div>
+                            </div>
+                            <a href="#">This is a link</a>
+                            <a href="#">This is a link</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card z-depth-3">
+                        <div class="collection-header cyan">
+                            <h4 class="task-card-title">Newest</h4>
+                        </div>
+                        <div class="row z-depth-2" style="margin-bottom:0px;">
+                            <div class="col s3" style="margin-top:-15px;">
+                                <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                            </div>
+                            <div class="col s9">
+                                <h5 class="grey-text text-darken-4 margin">John Doe</h5>
+                            </div>
+                        </div>
+                        <div class="card-image">
+                            <img class="activator" src="http://lorempixel.com/800/400/food/2">
+                        </div>
+                        <div class="card-action">
+                            <div class="row">
+                                <div class="col s1 right-align">
+                                    <i class="mdi-navigation-expand-more"></i>
+                                </div>
+                            </div>
+                            <a href="#">This is a link</a>
+                            <a href="#">This is a link</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add Pagination -->
+        </div>
+
+
     </div>
-</nav>
-
-
-<div class="section no-pad-bot" id="index-banner">
-
-    <div style="height:81%; margin-top:-5%; padding-top:5%; padding-left:3%;" class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="card z-depth-3">
-                    <div class="collection-header cyan">
-                        <h4 class="task-card-title">Featured</h4>
-                    </div>
-                    <div class="row z-depth-2" style="margin-bottom:0px;">
-                        <div class="col s3" style="margin-top:-15px;">
-                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
-                        </div>
-                        <div class="col s9">
-                            <h5 class="grey-text text-darken-4 margin">John Doe</h5>
-                        </div>
-                    </div>
-                    <div class="card-image">
-                        <img class="activator" src="http://lorempixel.com/800/400/food/3">
-                    </div>
-                    <div class="card-action">
-                        <div class="row">
-                            <div class="col s1 right-align">
-                                <i class="mdi-navigation-expand-more"></i>
-                            </div>
-                        </div>
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
-                    </div>
-                </div>
+</main>
+    <footer class="page-footer white">
+        <div class="row">
+            <div class="col s4">
+                <a class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>button</a>
             </div>
-            <div class="swiper-slide">
-                <div class="card z-depth-3">
-                    <div class="collection-header cyan">
-                        <h4 class="task-card-title">Most Popular</h4>
-                    </div>
-                    <div class="row z-depth-2" style="margin-bottom:0px;">
-                        <div class="col s3" style="margin-top:-15px;">
-                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
-                        </div>
-                        <div class="col s9">
-                            <h5 class="grey-text text-darken-4 margin">John Doe</h5>
-                        </div>
-                    </div>
-                    <div class="card-image">
-                        <img class="activator" src="http://lorempixel.com/800/400/food/4">
-                    </div>
-                    <div class="card-action">
-                        <div class="row">
-                            <div class="col s1 right-align">
-                                <i class="mdi-navigation-expand-more"></i>
-                            </div>
-                        </div>
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
-                    </div>
-                </div>
+            <div class="col s4">
+                <a class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>button</a>
             </div>
-            <div class="swiper-slide">
-                <div class="card z-depth-3">
-                    <div class="collection-header cyan">
-                        <h4 class="task-card-title">Newest</h4>
-                    </div>
-                    <div class="row z-depth-2" style="margin-bottom:0px;">
-                        <div class="col s3" style="margin-top:-15px;">
-                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
-                        </div>
-                        <div class="col s9">
-                            <h5 class="grey-text text-darken-4 margin">John Doe</h5>
-                        </div>
-                    </div>
-                    <div class="card-image">
-                        <img class="activator" src="http://lorempixel.com/800/400/food/2">
-                    </div>
-                    <div class="card-action">
-                        <div class="row">
-                            <div class="col s1 right-align">
-                                <i class="mdi-navigation-expand-more"></i>
-                            </div>
-                        </div>
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
-                    </div>
-                </div>
+            <div class="col s4">
+                <a class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>button</a>
             </div>
         </div>
-        <!-- Add Pagination -->
-    </div>
 
-    <footer class="page-footer cyan z-depth-2">
-            <a style="display: block; margin: auto;" class="btn-floating btn-large waves-effect waves-light teal">
-                <i class="material-icons center-align">add</i>
-            </a>
     </footer>
-</div>
-
 
 <!--  Scripts-->
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
