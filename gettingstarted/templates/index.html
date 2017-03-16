@@ -12,8 +12,8 @@
 
 <body>
 <!--Import jQuery before materialize.js-->
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="../static/js/materialize.min.js"></script>
+{#<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>#}
+{#<script type="text/javascript" src="../static/js/materialize.min.js"></script>#}
 </body>
 </html>
 
@@ -36,18 +36,45 @@
             display: flex;
             min-height: 100vh;
             flex-direction: column;
-            background-color: #2196F3;
+            background-color: #0097A7;
         }
         main {
             flex: 1 0 auto;
         }
         .card {
-            height:100%;
+            height:95%;
+            width:97%;
+        }
+        .card-content span{
+            text-align:center;
+        }
+        .card .card-content{
+            padding:12px;
+        }
+        .card-image img{
+            height: 60%;
+        }
+        .card-image{
+            padding-top:10px;
+        }
+
+        nav .brand-logo{
+            left:90%;
+        }
+
+        footer {
+            margin-top:3.5%;
+        }
+        .task-card-title {
+            padding:20px;
+            margin: 0;
+            color: #fff;
+            font-weight: 300;
         }
     </style>
 </head>
 <body>
-<nav class="light-blue lighten-1" role="navigation">
+<nav class="cyan" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
         <ul class="right hide-on-med-and-down">
             <li><a href="#">Navbar Link</a></li>
@@ -63,48 +90,84 @@
 
 <div class="section no-pad-bot" id="index-banner">
 
-    <div style="height:84%; margin-top:-5%;" class="swiper-container">
+    <div style="height:81%; margin-top:-5%; padding-top:5%; padding-left:3%;" class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <div class="card">
+                <div class="card z-depth-3">
+                    <div class="collection-header cyan">
+                        <h4 class="task-card-title">Featured</h4>
+                    </div>
+                    <div class="row z-depth-2" style="margin-bottom:0px;">
+                        <div class="col s3" style="margin-top:-15px;">
+                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                        </div>
+                        <div class="col s9">
+                            <h5 class="grey-text text-darken-4 margin">John Doe</h5>
+                        </div>
+                    </div>
                     <div class="card-image">
                         <img class="activator" src="http://lorempixel.com/800/400/food/3">
                     </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Card Title 3
-                        </span>
-                    </div>
                     <div class="card-action">
+                        <div class="row">
+                            <div class="col s1 right-align">
+                                <i class="mdi-navigation-expand-more"></i>
+                            </div>
+                        </div>
                         <a href="#">This is a link</a>
                         <a href="#">This is a link</a>
                     </div>
                 </div>
             </div>
             <div class="swiper-slide">
-                <div class="card">
+                <div class="card z-depth-3">
+                    <div class="collection-header cyan">
+                        <h4 class="task-card-title">Most Popular</h4>
+                    </div>
+                    <div class="row z-depth-2" style="margin-bottom:0px;">
+                        <div class="col s3" style="margin-top:-15px;">
+                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                        </div>
+                        <div class="col s9">
+                            <h5 class="grey-text text-darken-4 margin">John Doe</h5>
+                        </div>
+                    </div>
                     <div class="card-image">
                         <img class="activator" src="http://lorempixel.com/800/400/food/4">
                     </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Card Title 3
-                        </span>
-                    </div>
                     <div class="card-action">
+                        <div class="row">
+                            <div class="col s1 right-align">
+                                <i class="mdi-navigation-expand-more"></i>
+                            </div>
+                        </div>
                         <a href="#">This is a link</a>
                         <a href="#">This is a link</a>
                     </div>
                 </div>
             </div>
             <div class="swiper-slide">
-                <div class="card">
+                <div class="card z-depth-3">
+                    <div class="collection-header cyan">
+                        <h4 class="task-card-title">Newest</h4>
+                    </div>
+                    <div class="row z-depth-2" style="margin-bottom:0px;">
+                        <div class="col s3" style="margin-top:-15px;">
+                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                        </div>
+                        <div class="col s9">
+                            <h5 class="grey-text text-darken-4 margin">John Doe</h5>
+                        </div>
+                    </div>
                     <div class="card-image">
                         <img class="activator" src="http://lorempixel.com/800/400/food/2">
                     </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Card Title 3
-                        </span>
-                    </div>
                     <div class="card-action">
+                        <div class="row">
+                            <div class="col s1 right-align">
+                                <i class="mdi-navigation-expand-more"></i>
+                            </div>
+                        </div>
                         <a href="#">This is a link</a>
                         <a href="#">This is a link</a>
                     </div>
@@ -114,52 +177,12 @@
         <!-- Add Pagination -->
     </div>
 
-{#    <div id="mainSlider" style="height:81%;" class="carousel carousel-slider center" data-indicators="true">#}
-{#        <div class="carousel-fixed-item center">#}
-{#            <a class="btn waves-effect white grey-text darken-text-2">button</a>#}
-{#        </div>#}
-{#        <div class="carousel-item blue white-text" href="#one!">#}
-{#            <h2>Featured</h2>#}
-{#            <p class="white-text">This is your first panel</p>#}
-{#            <div class="card-image">#}
-{#                <img class="activator" src="http://lorempixel.com/800/400/food/1">#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="carousel-item blue white-text" href="#two!">#}
-{#            <h2>Most Popular</h2>#}
-{#            <p class="white-text">This is your second panel</p>#}
-{#            <div class="card-image">#}
-{#                <img class="activator" src="http://lorempixel.com/800/400/food/3">#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="carousel-item blue white-text" href="#three!">#}
-{#            <h2>New</h2>#}
-{#            <p class="white-text">This is your third panel</p>#}
-{#            <div class="card-image">#}
-{#                <img class="activator" src="http://lorempixel.com/800/400/food/2">#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-    <footer class="page-footer blue darken-4">
-        <div class="footer-copyright">
-            <div class="container">
-                Made by <a class="orange-text text-lighten-3">Opti-Trainer</a>
-            </div>
-        </div>
+    <footer class="page-footer cyan z-depth-2">
+            <a style="display: block; margin: auto;" class="btn-floating btn-large waves-effect waves-light teal">
+                <i class="material-icons center-align">add</i>
+            </a>
     </footer>
 </div>
-
-
-{#<div class="container">#}
-{#    <div class="section">#}
-{##}
-{#    </div>#}
-{#    <br><br>#}
-{##}
-{#    <div class="section">#}
-{##}
-{#    </div>#}
-{#</div>#}
 
 
 <!--  Scripts-->
