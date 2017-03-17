@@ -30,3 +30,7 @@
 
   }); // end of document ready
 })(jQuery); // end of jQuery name space
+
+$('#featuredCard').on('swipedown',function(){
+  alert("swipedown..");
+});

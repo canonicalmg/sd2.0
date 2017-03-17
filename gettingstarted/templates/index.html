@@ -35,7 +35,7 @@
         body {
             display: flex;
             flex-direction: column;
-            background-color: #0097A7;
+            background-color: white;
         }
 {#        main {#}
 {#            flex: 1 0 auto;#}
@@ -73,7 +73,7 @@
 </head>
 <body>
 <header>
-    <nav class="cyan" role="navigation">
+    <nav class="grey darken-2" role="navigation">
         <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="#">Navbar Link</a></li>
@@ -93,20 +93,20 @@
         <div style="height:90%; margin-top:-5%; padding-top:3%; padding-left:3%;" class="swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <div class="card z-depth-3">
-                        <div class="collection-header green z-depth-2">
+                    <div id="featuredCard" class="card z-depth-3">
+                        <div class="collection-header grey z-depth-2">
                             <h4 class="task-card-title">Featured</h4>
                         </div>
                         <div class="card-image">
                             <img class="activator" src="http://lorempixel.com/800/400/food/3">
                         </div>
                         <div class="card-action row">
-{#                            <div class="row">#}
-{#                                <div class="col s1 right-align">#}
-{#                                    <i class="mdi-navigation-expand-more"></i>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="row z-depth-2" style="margin-bottom:0px;">#}
+                            {#                            <div class="row">#}
+                            {#                                <div class="col s1 right-align">#}
+                            {#                                    <i class="mdi-navigation-expand-more"></i>#}
+                            {#                                </div>#}
+                            {#                            </div>#}
+                            {#                            <div class="row z-depth-2" style="margin-bottom:0px;">#}
                             <div class="col s3" style="margin-top:-15px;">
                                 <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
                             </div>
@@ -117,7 +117,7 @@
                                 <a href="#">Like</a>
                                 <a href="#">Share</a>
                             </div>
-{#                            </div>#}
+                            {#                            </div>#}
 
                         </div>
                     </div>
