@@ -53,7 +53,7 @@
             height: 60%;
         }
         .card-image{
-            padding-top:5px;
+            margin-top:-10px;
         }
         .card-action .row{
             margin-bottom:0px;
@@ -179,66 +179,103 @@
 <main>
     <div class="section no-pad-bot" id="index-banner">
 
-        <div id="featuredCard" class="card z-depth-3">
-            <div class="collection-header grey z-depth-2">
-                <h4 class="task-card-title">Featured</h4>
-                <div class="card-action row">
-                    {#                            <div class="row">#}
-                    {#                                <div class="col s1 right-align">#}
-                    {#                                    <i class="mdi-navigation-expand-more"></i>#}
-                    {#                                </div>#}
-                    {#                            </div>#}
-                    {#                            <div class="row z-depth-2" style="margin-bottom:0px;">#}
-                    <div class="col s3" style="margin-top:-15px;">
-                        <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
-                    </div>
-                    <div class="col s5">
-                        <h5 class="grey-text text-darken-4 margin">John Doe</h5>
-                    </div>
-                    <div class="col-s4">
-                        <a href="#">Like</a>
-                        <a href="#">Share</a>
-                    </div>
-                    {#                            </div>#}
+        <div class="row">
+            <div class="card col s12 l4">
+                <div class="collection-header grey z-depth-2">
+                    <h4 class="task-card-title">Featured</h4>
+                    <hr>
+                    <div class="card-action row">
 
+                        <div class="col s3" style="float:left; margin-top:-15px;">
+                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                        </div>
+                        <div class="col s5">
+                            <h5 class="white-text margin">John Doe</h5>
+                        </div>
+                        <div class="col-s4">
+                            <a href="#">Like</a>
+                            <a href="#">Share</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-image">
+                    <img class="activator" src="http://lorempixel.com/800/400/food/3">
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <a style="float:left; margin-top:10px;" class="waves-effect waves-light btn">
+                            <i class="material-icons left">cloud</i>Previous</a>
+                        <a style="float:right; margin-top:10px;" class="waves-effect waves-light btn">
+                            <i class="material-icons right">cloud</i>Next</a>
+                    </div>
                 </div>
             </div>
-            <div class="card-image">
-                <img class="activator" src="http://lorempixel.com/800/400/food/3">
-            </div>
 
-        </div>
+            <hr>
 
-        <hr>
+            <div class="card col s12 l4">
+                <div class="collection-header grey z-depth-2">
+                    <h4 class="task-card-title">Popular</h4>
+                    <hr>
+                    <div class="card-action row">
 
-        <div id="featuredCard" class="card z-depth-3">
-            <div class="collection-header grey z-depth-2">
-                <h4 class="task-card-title">New</h4>
-                <div class="card-action row">
-                    {#                            <div class="row">#}
-                    {#                                <div class="col s1 right-align">#}
-                    {#                                    <i class="mdi-navigation-expand-more"></i>#}
-                    {#                                </div>#}
-                    {#                            </div>#}
-                    {#                            <div class="row z-depth-2" style="margin-bottom:0px;">#}
-                    <div class="col s3" style="margin-top:-15px;">
-                        <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                        <div class="col s3" style="float:left; margin-top:-15px;">
+                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                        </div>
+                        <div class="col s5">
+                            <h5 class="white-text margin">John Doe</h5>
+                        </div>
+                        <div class="col-s4">
+                            <a href="#">Like</a>
+                            <a href="#">Share</a>
+                        </div>
                     </div>
-                    <div class="col s5">
-                        <h5 class="grey-text text-darken-4 margin">John Doe</h5>
+                </div>
+                <div class="card-image">
+                    <img class="activator" src="http://lorempixel.com/800/400/food/3">
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <a style="float:left; margin-top:10px;" class="waves-effect waves-light btn">
+                            <i class="material-icons left">cloud</i>Previous</a>
+                        <a style="float:right; margin-top:10px;" class="waves-effect waves-light btn">
+                            <i class="material-icons right">cloud</i>Next</a>
                     </div>
-                    <div class="col-s4">
-                        <a href="#">Like</a>
-                        <a href="#">Share</a>
-                    </div>
-                    {#                            </div>#}
-
                 </div>
             </div>
-            <div class="card-image">
-                <img class="activator" src="http://lorempixel.com/800/400/food/3">
-            </div>
 
+            <hr>
+
+            <div class="card col s12 l4">
+                <div class="collection-header grey z-depth-2">
+                    <h4 class="task-card-title">New</h4>
+                    <hr>
+                    <div class="card-action row">
+
+                        <div class="col s3" style="float:left; margin-top:-15px;">
+                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                        </div>
+                        <div class="col s5">
+                            <h5 class="white-text margin">John Doe</h5>
+                        </div>
+                        <div class="col-s4">
+                            <a href="#">Like</a>
+                            <a href="#">Share</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-image">
+                    <img class="activator" src="http://lorempixel.com/800/400/food/3">
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <a style="float:left; margin-top:10px;" class="waves-effect waves-light btn">
+                            <i class="material-icons left">cloud</i>Previous</a>
+                        <a style="float:right; margin-top:10px;" class="waves-effect waves-light btn">
+                            <i class="material-icons right">cloud</i>Next</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
