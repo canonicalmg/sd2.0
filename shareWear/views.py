@@ -4,6 +4,7 @@ from django.template import loader
 import json
 from .models import *
 from django.contrib.auth.models import User
+from amazon.api import AmazonAPI
 
 
 def signUpLogIn(request):
@@ -18,16 +19,24 @@ def about(request):
 
 def contact(request):
     template = loader.get_template('contact.html')
+
+
     context = {}
     return HttpResponse(template.render(context, request))
 
-def catalog(request):
-    template = loader.get_template('catalog.html')
-
-    all_dogs = dogs.objects.filter()
-    dog_list = []
-    context = {"dog_list": json.dumps(dog_list),
-               "all_dogs": all_dogs,}
+def addNew(request):
+    amazon = AmazonAPI('AKIAJOR5NTXK2ERTU6AQ',
+                       'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
+                       'can037-20',
+                       region="US")
+    products = amazon.search_n(15, Keywords="Women's Shirts", SearchIndex="All")
+    # print "product 1 = ", dir(products[1])
+    # print "products = ", products
+    # for i, product in enumerate(products):
+    #     print "{0}. '{1}'".format(i, product.title)
+    #     print "small img url = ", product.small_image_url
+    template = loader.get_template('addNew.html')
+    context = {"products": products}
     return HttpResponse(template.render(context, request))
 
 def dog_page(request, name, pk):
