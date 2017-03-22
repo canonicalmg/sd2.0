@@ -31,16 +31,20 @@ def contact(request):
 def get_product(request):
     if request.is_ajax():
         if request.method == 'POST':
+            cloth_type = request.POST.get('cloth_type')
+
             amazon = AmazonAPI('AKIAJOR5NTXK2ERTU6AQ',
                                'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
                                'can037-20',
                                region="US")
-            products = amazon.search_n(15, Keywords="Women's Shirts", SearchIndex="Apparel")
+            products = amazon.search_n(15, Keywords="Women's " + cloth_type, SearchIndex="Apparel")
             product_list = []
             for each_product in products:
                 if each_product.small_image_url is not None:
-                    product_list.append({'small_url': each_product.small_image_url})
-            json_stuff = json.dumps({"products": product_list})
+                    product_list.append({'small_url': each_product.small_image_url,
+                                         'cloth_type': cloth_type})
+            json_stuff = json.dumps({"products": product_list,
+                                     "cloth_type": cloth_type})
             return HttpResponse(json_stuff, content_type="application/json")
     return HttpResponse("Error")
 
@@ -48,17 +52,23 @@ def get_product(request):
 def get_product_full(request):
     if request.is_ajax():
         if request.method == 'POST':
-            amazon = AmazonAPI('AKIAJOR5NTXK2ERTU6AQ',
-                               'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
-                               'can037-20',
-                               region="US")
-            products = amazon.search_n(99, Keywords="Women's Shirts", SearchIndex="Apparel")
-            product_list = []
-            for each_product in products:
-                if each_product.small_image_url is not None:
-                    product_list.append({'small_url': each_product.small_image_url})
-            json_stuff = json.dumps({"products": product_list})
-            return HttpResponse(json_stuff, content_type="application/json")
+            try:
+                cloth_type = request.POST.get('cloth_type')
+                amazon = AmazonAPI('AKIAJOR5NTXK2ERTU6AQ',
+                                   'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
+                                   'can037-20',
+                                   region="US")
+                products = amazon.search_n(99, Keywords="Women's " + cloth_type, SearchIndex="Apparel")
+                product_list = []
+                for each_product in products:
+                    if each_product.small_image_url is not None:
+                        product_list.append({'small_url': each_product.small_image_url,
+                                             'cloth_type': cloth_type})
+                json_stuff = json.dumps({"products": product_list,
+                                         "cloth_type": cloth_type})
+                return HttpResponse(json_stuff, content_type="application/json")
+            except Exception as e:
+                print "Error ", e
     return HttpResponse("Error")
 
 def addNew(request):

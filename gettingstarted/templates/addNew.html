@@ -240,9 +240,9 @@
 {#                        <label style="color:black;" for="autocomplete-input">Search</label>#}
                     </div>
                     <div class="input-field col s12">
-                        <a class="waves-effect waves-light btn">Shirts</a>
-                        <a class="waves-effect waves-light btn">Pants</a>
-                        <a class="waves-effect waves-light btn">Shoes</a>
+                        <a onClick="shirtClick(this.id)" id="shirtBtn" class="waves-effect waves-light red btn z-depth-3 clothType">Shirts</a>
+                        <a onClick="pantsClick(this.id)" id="pantsBtn" class="waves-effect waves-light btn z-depth-3 clothType">Pants</a>
+                        <a onClick="shoesClick(this.id)" id="shoesBtn" class="waves-effect waves-light btn z-depth-3 clothType">Shoes</a>
                     </div>
                     <div id="routineLoader" class="col s12">
                         <div id='routineBeforeL' class='loading-container'>
@@ -251,23 +251,15 @@
                         </div>
                     </div>
                     <div class="col s12" id="product_list" style="padding-top:15px;">
-{#                        {% for each_product in products %}#}
-{#                            {% if each_product.small_image_url != None %}#}
-{#                                <img src="{{ each_product.small_image_url }}">#}
-{#                            {% endif %}#}
-{#                        {% endfor %}#}
 
                     </div>
                     <div class="col s12">
                         <ul class="pagination" id="pagination">
                             <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
                             <li class="active"><a href="#!">1</a></li>
-{#                            <li id='pag2' class="waves-effect disabled"><a href="#!">2</a></li>#}
-{#                            <li id='pag3' class="waves-effect disabled"><a href="#!">3</a></li>#}
-{#                            <li id='pag4' class="waves-effect disabled"><a href="#!">4</a></li>#}
-{#                            <li id='pag5' class="waves-effect disabled"><a href="#!">5</a></li>#}
                             <li id='pag6' class="waves-effect disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
                         </ul>
+                        <div id="loading_paginate" style="display:None;"><p>Loading more items..</p></div>
                     </div>
                 </div>
             </div>
