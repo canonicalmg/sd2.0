@@ -6,6 +6,7 @@ from .models import *
 from django.contrib.auth.models import User
 from amazon.api import AmazonAPI
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -26,6 +27,7 @@ def contact(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
+@csrf_exempt
 def get_product(request):
     if request.is_ajax():
         if request.method == 'POST':
@@ -42,6 +44,7 @@ def get_product(request):
             return HttpResponse(json_stuff, content_type="application/json")
     return HttpResponse("Error")
 
+@csrf_exempt
 def get_product_full(request):
     if request.is_ajax():
         if request.method == 'POST':
