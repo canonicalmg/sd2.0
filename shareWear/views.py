@@ -52,7 +52,7 @@ def get_product_full(request):
                                'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
                                'can037-20',
                                region="US")
-            products = amazon.search_n(50, Keywords="Women's Shirts", SearchIndex="Apparel")
+            products = amazon.search_n(75, Keywords="Women's Shirts", SearchIndex="Apparel")
             product_list = []
             for each_product in products:
                 if each_product.small_image_url is not None:
