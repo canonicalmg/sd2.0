@@ -42,9 +42,12 @@ def get_product(request):
             for each_product in products:
                 if each_product.small_image_url is not None:
                     product_list.append({'small_url': each_product.small_image_url,
-                                         'cloth_type': cloth_type})
+                                         'cloth_type': cloth_type,
+                                         'item_id': str(each_product.asin),
+                                         'large_url': each_product.large_image_url})
             json_stuff = json.dumps({"products": product_list,
-                                     "cloth_type": cloth_type})
+                                     "cloth_type": cloth_type,
+                                     })
             return HttpResponse(json_stuff, content_type="application/json")
     return HttpResponse("Error")
 
@@ -63,7 +66,9 @@ def get_product_full(request):
                 for each_product in products:
                     if each_product.small_image_url is not None:
                         product_list.append({'small_url': each_product.small_image_url,
-                                             'cloth_type': cloth_type})
+                                             'cloth_type': cloth_type,
+                                             'item_id': str(each_product.asin),
+                                             'large_url': each_product.large_image_url})
                 json_stuff = json.dumps({"products": product_list,
                                          "cloth_type": cloth_type})
                 return HttpResponse(json_stuff, content_type="application/json")

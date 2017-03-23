@@ -71,7 +71,69 @@ function populate_product(){
 function product_loader_template(items){
     $("#product_list").empty();
     for(var i=0; i < items.length; i++){
-        $("#product_list").append("<img src='"+items[i].small_url+"'>");
+        $("#product_list").append("<img onclick=\"itemClick('" + items[i].item_id + "')\" id='item"+items[i].item_id+"' class='clothItem' src='"+items[i].small_url+"'>");
+    }
+}
+
+function itemClick(id){
+    console.log("clicked ", id);
+    for(var i=0; i < PAGINATION.length; i++){
+        if (PAGINATION[i].item_id == id){
+            console.log("found");
+            displayOnCanvas(PAGINATION[i]);
+            break;
+        }
+    }
+}
+
+function displayOnCanvas(item){
+    if(item.cloth_type == "Shirt"){
+        $("#shirt").html("<img class='outfitCanvasItem' id='can"+item.item_id+"' src='"+item.large_url+"'>");
+        var scale = 1,
+            gestureArea = document.getElementById('shirt'),
+            scaleElement = document.getElementById("can"+item.item_id),
+            resetTimeout;
+
+        interact(gestureArea)
+            .gesturable({
+                onstart: function (event) {
+                    clearTimeout(resetTimeout);
+                    scaleElement.classList.remove('reset');
+                },
+                onmove: function (event) {
+                    scale = scale * (1 + event.ds);
+
+                    scaleElement.style.webkitTransform =
+                        scaleElement.style.transform =
+                            'scale(' + scale + ')';
+
+                    dragMoveListener(event);
+                },
+                onend: function (event) {
+                }
+            })
+            .draggable({ onmove: dragMoveListener });
+        function dragMoveListener (event) {
+            var target = event.target,
+            // keep the dragged position in the data-x/data-y attributes
+                x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+            // translate the element
+            target.style.webkitTransform =
+                target.style.transform =
+                    'translate(' + x + 'px, ' + y + 'px)';
+
+            // update the posiion attributes
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
+        }
+    }
+    else if(item.cloth_type == "Pants"){
+        $("#pants").html("<img class='outfitCanvasItem' src='"+item.large_url+"'>");
+    }
+    else if(item.cloth_type == "Shoes"){
+        $("#shoes").html("<img class='outfitCanvasItem' src='"+item.large_url+"'>");
     }
 }
 
@@ -179,3 +241,4 @@ function shoesClick(elem){
     remove_requests();
     populate_product();
 }
+

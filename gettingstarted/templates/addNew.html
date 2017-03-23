@@ -77,6 +77,10 @@
             background-color: #616161 !important;
             z-index: 999;
         }
+
+        .outfitCanvasItem{
+            width:100%;
+        }
     </style>
 
     <style>
@@ -229,8 +233,42 @@
                     <h4 class="task-card-title">Add New</h4>
                     <hr>
                 </div>
-                <div style="height:50%;" class="addNewBody">
+                <div style="height:50%;" id="addNewBody">
+                    <div class="col s12">
+                        <div id="accessory_left" class="col s3">
 
+                        </div>
+                        <div id="shirt" class="col s6">
+
+                        </div>
+                        <div id="accessory_right" class="col s3">
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col s12">
+                        <div id="mid_accessory_left" class="col s3">
+
+                        </div>
+                        <div id="pants" class="col s6">
+
+                        </div>
+                        <div id="mid_accessory_right" class="col s3">
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col s12">
+                        <div id="bot_accessory_left" class="col s3">
+
+                        </div>
+                        <div id="shoes" class="col s6">
+
+                        </div>
+                        <div id="bot_accessory_right" class="col s3">
+
+                        </div>
+                    </div>
                 </div>
                 <hr>
                 <div class="row">
@@ -277,6 +315,7 @@
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/js/swiper.jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-touch-events/1.0.5/jquery.mobile-events.js"></script>
+<script src="../static/js/interact.js"></script>
 
 <script src="../static/js/materialize.js"></script>
 <script src="../static/js/addNew.js"></script>
