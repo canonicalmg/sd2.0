@@ -89,45 +89,7 @@ function itemClick(id){
 function displayOnCanvas(item){
     if(item.cloth_type == "Shirt"){
         $("#shirt").html("<img class='outfitCanvasItem' id='can"+item.item_id+"' src='"+item.large_url+"'>");
-        var scale = 1,
-            gestureArea = document.getElementById('shirt'),
-            scaleElement = document.getElementById("can"+item.item_id),
-            resetTimeout;
-
-        interact(gestureArea)
-            .gesturable({
-                onstart: function (event) {
-                    clearTimeout(resetTimeout);
-                    scaleElement.classList.remove('reset');
-                },
-                onmove: function (event) {
-                    scale = scale * (1 + event.ds);
-
-                    scaleElement.style.webkitTransform =
-                        scaleElement.style.transform =
-                            'scale(' + scale + ')';
-
-                    dragMoveListener(event);
-                },
-                onend: function (event) {
-                }
-            })
-            .draggable({ onmove: dragMoveListener });
-        function dragMoveListener (event) {
-            var target = event.target,
-            // keep the dragged position in the data-x/data-y attributes
-                x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-                y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-            // translate the element
-            target.style.webkitTransform =
-                target.style.transform =
-                    'translate(' + x + 'px, ' + y + 'px)';
-
-            // update the posiion attributes
-            target.setAttribute('data-x', x);
-            target.setAttribute('data-y', y);
-        }
+        hammerIt(document.getElementById("can"+item.item_id));
     }
     else if(item.cloth_type == "Pants"){
         $("#pants").html("<img class='outfitCanvasItem' src='"+item.large_url+"'>");
@@ -135,6 +97,83 @@ function displayOnCanvas(item){
     else if(item.cloth_type == "Shoes"){
         $("#shoes").html("<img class='outfitCanvasItem' src='"+item.large_url+"'>");
     }
+}
+
+function hammerIt(elm) {
+    hammertime = new Hammer(elm, {});
+    hammertime.get('pinch').set({
+        enable: true
+    });
+    var posX = 0,
+        posY = 0,
+        scale = 1,
+        last_scale = 1,
+        last_posX = 0,
+        last_posY = 0,
+        max_pos_x = 0,
+        max_pos_y = 0,
+        transform = "",
+        el = elm;
+
+    hammertime.on('doubletap pan pinch panend pinchend', function(ev) {
+        if (ev.type == "doubletap") {
+            transform =
+                "translate3d(0, 0, 0) " +
+                "scale3d(2, 2, 1) ";
+            scale = 2;
+            last_scale = 2;
+            try {
+                if (window.getComputedStyle(el, null).getPropertyValue('-webkit-transform').toString() != "matrix(1, 0, 0, 1, 0, 0)") {
+                    transform =
+                        "translate3d(0, 0, 0) " +
+                        "scale3d(1, 1, 1) ";
+                    scale = 1;
+                    last_scale = 1;
+                }
+            } catch (err) {}
+            el.style.webkitTransform = transform;
+            transform = "";
+        }
+
+        //pan
+        posX = last_posX + ev.deltaX;
+        posY = last_posY + ev.deltaY;
+        max_pos_x = el.clientWidth / 2.2;
+        max_pos_y = el.clientHeight / 4;
+        if (posX > max_pos_x) {
+            posX = max_pos_x;
+        }
+        if (posX < -max_pos_x) {
+            posX = -max_pos_x;
+        }
+        if (posY > max_pos_y) {
+            posY = max_pos_y;
+        }
+        if (posY < -max_pos_y+30) {
+            posY = -max_pos_y+30;
+        }
+
+
+        //pinch
+        if (ev.type == "pinch") {
+            scale = Math.max(.5, Math.min(last_scale * (ev.scale), 1.5));
+        }
+        if(ev.type == "pinchend"){last_scale = scale;}
+
+        //panend
+        if(ev.type == "panend"){
+            last_posX = posX < max_pos_x ? posX : max_pos_x;
+            last_posY = posY < max_pos_y ? posY : max_pos_y+30;
+        }
+
+        transform =
+            "translate3d(" + posX + "px," + posY + "px, 0) " +
+            "scale3d(" + scale + ", " + scale + ", 1)";
+
+        if (transform) {
+            el.style.webkitTransform = transform;
+        }
+    });
 }
 
 function back_load_product(){
