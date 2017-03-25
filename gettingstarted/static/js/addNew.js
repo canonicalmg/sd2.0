@@ -1,13 +1,7 @@
 (function($){
     $(function(){
-
-
-
         $('.button-collapse').sideNav();
-
-
-
-
+        $('.modal').modal();
     }); // end of document ready
 })(jQuery); // end of jQuery name space
 
@@ -32,6 +26,7 @@ function csrfSafeMethod(method) {
 
 var PAGINATION = [];
 var REQUESTS = [];
+var HAMMERS = [];
 var CURRENT_PAGE = 1;
 var CLOTH_TYPE = "Shirt";
 populate_product();
@@ -88,15 +83,35 @@ function itemClick(id){
 
 function displayOnCanvas(item){
     if(item.cloth_type == "Shirt"){
-        $("#shirt").html("<img class='outfitCanvasItem' id='can"+item.item_id+"' src='"+item.large_url+"'>");
-        hammerIt(document.getElementById("can"+item.item_id));
+        $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
     }
     else if(item.cloth_type == "Pants"){
-        $("#pants").html("<img class='outfitCanvasItem' src='"+item.large_url+"'>");
+        $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
     }
     else if(item.cloth_type == "Shoes"){
-        $("#shoes").html("<img class='outfitCanvasItem' src='"+item.large_url+"'>");
+        $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
     }
+    //remove any items with the same item type (?) //what if the user wants multiple shirts?
+    for(var i=0; i < HAMMERS.length; i++){
+        if(HAMMERS[i][1] == item.cloth_type){
+            //remove this item
+            var element = document.getElementById(HAMMERS[i][0]);
+            element.outerHTML = "";
+            delete element;
+
+            HAMMERS.splice( i, 1 );
+        }
+    }
+    hammerIt(document.getElementById("can"+item.item_id));
+    HAMMERS.push(["can"+item.item_id, item.cloth_type]);
+    if(HAMMERS.length > 0){
+        $("#submitBtn").fadeIn();
+        window.scrollTo(0,document.body.scrollHeight);
+    }
+    else{
+        $("#submitBtn").fadeOut();
+    }
+
 }
 
 function hammerIt(elm) {
@@ -106,8 +121,8 @@ function hammerIt(elm) {
     });
     var posX = 0,
         posY = 0,
-        scale = 1,
-        last_scale = 1,
+        scale = 0.5,
+        last_scale = 0.5,
         last_posX = 0,
         last_posY = 0,
         max_pos_x = 0,
@@ -119,19 +134,19 @@ function hammerIt(elm) {
         if (ev.type == "doubletap") {
             transform =
                 "translate3d(0, 0, 0) " +
-                "scale3d(2, 2, 1) ";
-            scale = 2;
-            last_scale = 2;
+                "scale3d(0.5, 0.5, 1) ";
+            scale = 0.5;
+            last_scale = 0.5;
             try {
                 if (window.getComputedStyle(el, null).getPropertyValue('-webkit-transform').toString() != "matrix(1, 0, 0, 1, 0, 0)") {
                     transform =
                         "translate3d(0, 0, 0) " +
-                        "scale3d(1, 1, 1) ";
-                    scale = 1;
-                    last_scale = 1;
+                        "scale3d(0.5, 0.5, 1) ";
+                    scale = 0.5;
+                    last_scale = 0.5;
                 }
             } catch (err) {}
-            el.style.webkitTransform = transform;
+            el.style.WebkitTransform = transform;
             transform = "";
         }
 
@@ -139,31 +154,34 @@ function hammerIt(elm) {
         posX = last_posX + ev.deltaX;
         posY = last_posY + ev.deltaY;
         max_pos_x = el.clientWidth / 2.2;
-        max_pos_y = el.clientHeight / 4;
-        if (posX > max_pos_x) {
-            posX = max_pos_x;
+        // max_pos_y = (el.clientHeight / 2);
+        console.log(document.getElementById('addNewBody').clientHeight);
+        max_pos_y = document.getElementById('addNewBody').clientHeight / 4;
+        max_pos_x = document.getElementById('addNewBody').clientWidth / 4;
+        if (posX > max_pos_x / 2) {
+            posX = max_pos_x / 2;
         }
-        if (posX < -max_pos_x) {
-            posX = -max_pos_x;
+        if (posX < -max_pos_x * 2.5) {
+            posX = -max_pos_x * 2.5;
         }
-        if (posY > max_pos_y) {
-            posY = max_pos_y;
+        if (posY > max_pos_y * 1.5) {
+            posY = max_pos_y * 1.5;
         }
-        if (posY < -max_pos_y+30) {
-            posY = -max_pos_y+30;
+        if (posY < -max_pos_y * 2) {
+            posY = -max_pos_y * 2;
         }
 
 
         //pinch
         if (ev.type == "pinch") {
-            scale = Math.max(.5, Math.min(last_scale * (ev.scale), 1.5));
+            scale = Math.max(.3, Math.min(last_scale * (ev.scale), 0.7));
         }
         if(ev.type == "pinchend"){last_scale = scale;}
 
         //panend
         if(ev.type == "panend"){
             last_posX = posX < max_pos_x ? posX : max_pos_x;
-            last_posY = posY < max_pos_y ? posY : max_pos_y+30;
+            last_posY = posY < max_pos_y ? posY : max_pos_y;
         }
 
         transform =
@@ -171,9 +189,26 @@ function hammerIt(elm) {
             "scale3d(" + scale + ", " + scale + ", 1)";
 
         if (transform) {
-            el.style.webkitTransform = transform;
+            el.style.WebkitTransform = transform;
         }
     });
+}
+
+function submit_outfit(){
+    var items = [];
+    for(var i=0; i < HAMMERS.length; i++){
+        var currentItem = $("#"+HAMMERS[i][0])[0];
+        var curTransform = new WebKitCSSMatrix(window.getComputedStyle(currentItem).webkitTransform);
+
+        items.push({"id": currentItem.id,
+                    "transform": curTransform,
+                    "type": HAMMERS[i][1]});
+    }
+
+    console.log("ITEMS = ", items);
+    //gather outfit name(?), items, gender, etc
+
+    //ajax post
 }
 
 function back_load_product(){

@@ -71,15 +71,19 @@
         }
 
         #fixedFooter {
-            position: fixed;
-            bottom: 0px;
-            width: 100%;
-            background-color: #616161 !important;
-            z-index: 999;
+{#            position: fixed;#}
+{#            bottom: 0px;#}
+{#            width: 100%;#}
+{#            background-color: #616161 !important;#}
+{#            z-index: 999;#}
+            display:None;
         }
 
         .outfitCanvasItem{
             width:100%;
+            -moz-transform:scale(0.5);
+            -webkit-transform:scale(0.5);
+            transform:scale(0.5);
         }
 
 {#        #shirt {#}
@@ -251,12 +255,12 @@
                     <h4 class="task-card-title">Add New</h4>
                     <hr>
                 </div>
-                <div style="height:50%;" id="addNewBody">
+                <div style="height:50%; position:relative; overflow-x:hidden; overflow-y: hidden;" id="addNewBody">
                     <div class="col s12">
                         <div id="accessory_left" class="col s3">
 
                         </div>
-                        <div id="shirt" class="col s6">
+                        <div id="shirt" style="overflow-y:hidden;" class="col s6">
 
                         </div>
                         <div id="accessory_right" class="col s3">
@@ -271,7 +275,7 @@
                         <div id="pants" class="col s6">
 
                         </div>
-                        <div id="mid_accessory_right" class="col s3">
+                        <div id="shoes" class="col s3">
 
                         </div>
                     </div>
@@ -280,9 +284,9 @@
                         <div id="bot_accessory_left" class="col s3">
 
                         </div>
-                        <div id="shoes" class="col s6">
-
-                        </div>
+{#                        <div id="shoes" class="col s6">#}
+{##}
+{#                        </div>#}
                         <div id="bot_accessory_right" class="col s3">
 
                         </div>
@@ -317,11 +321,26 @@
                         </ul>
                         <div id="loading_paginate" style="display:None;"><p>Loading more items..</p></div>
                     </div>
+                    <div class="col s12">
+                        <a id="submitBtn" style="display:none; width:100%;" href="#modal1" class="waves-effect waves-light btn z-depth-3 clothType">Save</a>
+                    </div>
                 </div>
             </div>
 
         </div>
+        <div id="modal1" class="modal bottom-sheet">
+            <div class="modal-content">
+                <h4>Sharing Outfit</h4>
+                <input style="color:black;" placeholder="Write a caption..." id="autocomplete-input" class="autocomplete">
+                <p><i style="margin-right:5px;" class="material-icons">location_on</i>Add Location</p>
+                <p><i style="margin-right:5px;" class="material-icons">person_pin</i>Tag People</p>
 
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+                <a href="#!" onClick="submit_outfit()" class="waves-effect waves-green btn-flat">Submit</a>
+            </div>
+        </div>
     </div>
     <div id="fixedFooter">
         <img class="brand-logo center" style="padding-left:45%;" src="../static/img/ic_add_circle_outline_white_48px.svg">
