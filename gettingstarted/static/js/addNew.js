@@ -209,6 +209,23 @@ function submit_outfit(){
     //gather outfit name(?), items, gender, etc
 
     //ajax post
+    var data = {"items": items};
+    $.ajax({
+            type: 'POST',
+            url: 'user_submit_outfit/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'data': data},
+            success: function (json) {
+                
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
+            }
+        }
+    )
 }
 
 function back_load_product(){
