@@ -148,7 +148,7 @@ def user_submit_outfit(request):
             #create outfit
             new_outfit = outfit(profile=current_profile,
                                gender=items['gender'],
-                               description=items['description'],
+                               description=items['caption'],
                                tags=items['tags'])
             new_outfit.save()
 
