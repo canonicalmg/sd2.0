@@ -19,43 +19,43 @@ def populate_db(request):
         cloth_types = ["Shirt", "Pants", "Shoes"]
         gender = ["Women", "Men"]
 
-        products = amazon.search_n(1, Keywords="Women's Shirt", SearchIndex="Apparel")
-        for each_product in products:
-            print dir(each_product)
-            print each_product.availability
-            print each_product.availability_type
-            print each_product.price_and_currency
-            print each_product.list_price
-            print each_product.formatted_price
-            print each_product.get_parent
+        # products = amazon.search_n(1, Keywords="Women's Shirt", SearchIndex="Apparel")
+        # for each_product in products:
+        #     print dir(each_product)
+        #     print each_product.availability
+        #     print each_product.availability_type
+        #     print each_product.price_and_currency
+        #     print each_product.list_price
+        #     print each_product.formatted_price
+        #     print each_product.get_parent
 
-        # for each_gender in gender:
-        #     for each_cloth_type in cloth_types:
-        #         products = amazon.search_n(99, Keywords=each_gender + "'s " + each_cloth_type, SearchIndex="Apparel")
-        #         for each_product in products:
-        #             current_id = each_product.asin
-        #             current_carrier = "amazon"
-        #             print "price = ", each_product.price_and_currency
-        #             if each_product.price_and_currency[0] is not None:
-        #                 try:
-        #                     current_clothing = clothing.objects.get(carrier=current_carrier,
-        #                                                             carrier_id=current_id)
-        #                 except:
-        #                     #clothing does not exist in db
-        #                     if gender == "Women":
-        #                         gender_bool = True
-        #                     else:
-        #                         gender_bool = False
-        #                     new_clothing = clothing(name=each_product.title,
-        #                                             carrier="amazon",
-        #                                             carrier_id=each_product.asin,
-        #                                             small_url=each_product.small_image_url,
-        #                                             large_url=each_product.large_image_url,
-        #                                             gender=gender_bool,
-        #                                             price=each_product.price_and_currency[0],
-        #                                             cloth_type=each_cloth_type)
-        #                     new_clothing.save()
-        #                     print "added item"
+        for each_gender in gender:
+            for each_cloth_type in cloth_types:
+                products = amazon.search_n(99, Keywords=each_gender + "'s " + each_cloth_type, SearchIndex="Apparel")
+                for each_product in products:
+                    current_id = each_product.asin
+                    current_carrier = "amazon"
+                    print "price = ", each_product.price_and_currency
+                    if each_product.price_and_currency[0] is not None:
+                        try:
+                            current_clothing = clothing.objects.get(carrier=current_carrier,
+                                                                    carrier_id=current_id)
+                        except:
+                            #clothing does not exist in db
+                            if gender == "Women":
+                                gender_bool = True
+                            else:
+                                gender_bool = False
+                            new_clothing = clothing(name=each_product.title,
+                                                    carrier="amazon",
+                                                    carrier_id=each_product.asin,
+                                                    small_url=each_product.small_image_url,
+                                                    large_url=each_product.large_image_url,
+                                                    gender=gender_bool,
+                                                    price=each_product.price_and_currency[0],
+                                                    cloth_type=each_cloth_type)
+                            new_clothing.save()
+                            print "added item"
         return HttpResponse("Success")
     except Exception as e:
         print "error ", e
