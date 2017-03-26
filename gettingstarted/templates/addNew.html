@@ -290,7 +290,11 @@
                     <div class="switch">
                         <label>
                             Male
-                            <input id='gender_check' type="checkbox" checked>
+                            {% if profile.gender %}
+                                <input id='gender_check' type="checkbox" checked>
+                            {% else %}
+                                <input id="gender_check" type="checkbox">
+                            {% endif %}
                             <span class="lever"></span>
                             Female
                         </label>
