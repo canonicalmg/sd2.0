@@ -29,6 +29,7 @@ var REQUESTS = [];
 var HAMMERS = [];
 var CURRENT_PAGE = 1;
 var CLOTH_TYPE = "Shirt";
+var GENDER = document.getElementById('gender_check').checked;
 populate_product();
 
 function populate_product(){
@@ -43,7 +44,8 @@ function populate_product(){
                 headers: {
                     "X-CSRFToken": getCookie("csrftoken")
                 },
-                data: {'cloth_type': CLOTH_TYPE},
+                data: {'cloth_type': CLOTH_TYPE,
+                        'gender': GENDER},
                 success: function (json) {
                     console.log("json = ", json);
                     PAGINATION = json.products;
@@ -52,7 +54,7 @@ function populate_product(){
                     load_page(1);
                     $("#loading_paginate").show();
                     $("#routineLoader").hide();
-                    back_load_product()
+                    // back_load_product()
                 },
                 error: function (json) {
                     // $("#createRoutine").show();
@@ -103,7 +105,17 @@ function displayOnCanvas(item){
         }
     }
     hammerIt(document.getElementById("can"+item.item_id));
-    HAMMERS.push(["can"+item.item_id, item.cloth_type]);
+    var large_url = "";
+    var carrier = "";
+    for(var j=0; j < PAGINATION.length; j++){
+        if (PAGINATION[j].item_id == item.item_id){
+            console.log("ajax found");
+            large_url = PAGINATION[j].large_url;
+            carrier = PAGINATION[j].carrier;
+            break;
+        }
+    }
+    HAMMERS.push(["can"+item.item_id, item.cloth_type, large_url, carrier]);
     if(HAMMERS.length > 0){
         $("#submitBtn").fadeIn();
         window.scrollTo(0,document.body.scrollHeight);
@@ -196,36 +208,118 @@ function hammerIt(elm) {
 
 function submit_outfit(){
     var items = [];
+    var transformList = [];
     for(var i=0; i < HAMMERS.length; i++){
         var currentItem = $("#"+HAMMERS[i][0])[0];
         var curTransform = new WebKitCSSMatrix(window.getComputedStyle(currentItem).webkitTransform);
+        console.log("curtransform = ", curTransform);
+        console.log("cur a ", curTransform.a);
+        console.log("cur b ", curTransform.b);
+        transformList = [];
+        transformList.push(curTransform.a);
+        transformList.push(curTransform.b);
+        transformList.push(curTransform.c);
+        transformList.push(curTransform.d);
+        transformList.push(curTransform.e);
+        transformList.push(curTransform.f);
+        transformList.push(curTransform.m11);
+        transformList.push(curTransform.m12);
+        transformList.push(curTransform.m13);
+        transformList.push(curTransform.m14);
+        transformList.push(curTransform.m21);
+        transformList.push(curTransform.m22);
+        transformList.push(curTransform.m23);
+        transformList.push(curTransform.m24);
+        transformList.push(curTransform.m31);
+        transformList.push(curTransform.m32);
+        transformList.push(curTransform.m33);
+        transformList.push(curTransform.m34);
+        transformList.push(curTransform.m41);
+        transformList.push(curTransform.m42);
+        transformList.push(curTransform.m43);
+        transformList.push(curTransform.m44);
 
-        items.push({"id": currentItem.id,
-                    "transform": curTransform,
-                    "type": HAMMERS[i][1]});
+
+
+        items.push({"item_id": currentItem.id.split("can")[1],
+                    "transform": transformList,
+                    "type": HAMMERS[i][1],
+                    "large_url": HAMMERS[i][2],
+                    "carrier": HAMMERS[i][3]});
     }
 
     console.log("ITEMS = ", items);
     //gather outfit name(?), items, gender, etc
-
+    var checkbox = document.getElementById('gender_check');
+    var caption = $("#caption_field");
+    var tag = $("#tag_field");
+    console.log("caption = ", caption.val());
+    console.log("tag = ", tag.val());
     //ajax post
-    var data = {"items": items};
+    var data = {"items": items,
+                'gender': checkbox.checked,
+                'caption': caption.val(),
+                'tag': tag.val()};
     $.ajax({
             type: 'POST',
             url: 'user_submit_outfit/',
             headers: {
                 "X-CSRFToken": getCookie("csrftoken")
             },
-            data: {'data': data},
+            data: {'data[]': JSON.stringify(data)},
             success: function (json) {
-                
+                //if not logged in
+                //success
+                console.log("success, ", json);
+                $("#addNewButtonGroup").hide();
+                $("#addNewAfterSuccess").show();
+                $(".task-card-title").html("Success");
+                $("#userTitle").show();
+                for(var i=0; i < items.length; i++){
+                    load_outfit($("#shirt"), items[i]);
+                }
+                $('#modal1').modal('close');
             },
             error: function (json) {
                 // $("#createRoutine").show();
                 console.log("ERROR", json);
             }
         }
-    )
+    );
+    console.log("after saving");
+}
+
+function load_outfit(whereToAdd, whatToAdd){
+    //remove existing
+    $("#can"+whatToAdd.item_id).remove();
+    //add new
+    whereToAdd.append("<img class='outfitCanvasItem' style='position:absolute;' id='fixed"+whatToAdd.item_id+"' src='"+whatToAdd.large_url+"'>");
+    //change transform
+    var curTransform = new WebKitCSSMatrix();
+    curTransform.a = whatToAdd.transform[0];
+    curTransform.b = whatToAdd.transform[1];
+    curTransform.c = whatToAdd.transform[2];
+    curTransform.d = whatToAdd.transform[3];
+    curTransform.e = whatToAdd.transform[4];
+    curTransform.f = whatToAdd.transform[5];
+    curTransform.m11 = whatToAdd.transform[6];
+    curTransform.m12 = whatToAdd.transform[7];
+    curTransform.m13 = whatToAdd.transform[8];
+    curTransform.m14 = whatToAdd.transform[9];
+    curTransform.m21 = whatToAdd.transform[10];
+    curTransform.m22 = whatToAdd.transform[11];
+    curTransform.m23 = whatToAdd.transform[12];
+    curTransform.m24 = whatToAdd.transform[13];
+    curTransform.m31 = whatToAdd.transform[14];
+    curTransform.m32 = whatToAdd.transform[15];
+    curTransform.m33 = whatToAdd.transform[16];
+    curTransform.m34 = whatToAdd.transform[17];
+    curTransform.m41 = whatToAdd.transform[18];
+    curTransform.m42 = whatToAdd.transform[19];
+    curTransform.m43 = whatToAdd.transform[20];
+    curTransform.m44 = whatToAdd.transform[21];
+
+    document.getElementById("fixed"+whatToAdd.item_id).style.WebkitTransform = curTransform;
 }
 
 function back_load_product(){
@@ -332,4 +426,9 @@ function shoesClick(elem){
     remove_requests();
     populate_product();
 }
+
+$("#gender_check").change(function() {
+    GENDER = this.checked;
+    populate_product();
+});
 

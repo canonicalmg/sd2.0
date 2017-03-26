@@ -24,7 +24,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1"/>
-    <title>Starter Template - Materialize</title>
+    <title>Add New Outfit</title>
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -64,45 +64,16 @@
         }
 
         .task-card-title {
-            padding:20px;
+            padding:10px;
             margin: 0;
             color: #fff;
             font-weight: 300;
         }
 
         #fixedFooter {
-{#            position: fixed;#}
-{#            bottom: 0px;#}
-{#            width: 100%;#}
-{#            background-color: #616161 !important;#}
-{#            z-index: 999;#}
             display:None;
         }
 
-        .outfitCanvasItem{
-            width:100%;
-            -moz-transform:scale(0.5);
-            -webkit-transform:scale(0.5);
-            transform:scale(0.5);
-        }
-
-{#        #shirt {#}
-{#            overflow: hidden;#}
-{#            position: relative;#}
-{#            width: 100%;#}
-{#            height: 100%#}
-{#        }#}
-{##}
-{#        #shirt img {#}
-{#            -ms-transform: scale(1) translate(0px, 0px);#}
-{#            -webkit-transform: scale(1) translate(0px, 0px);#}
-{#            transform: scale(1) translate(0px, 0px);#}
-{#            top: 0;#}
-{#            left: 0;#}
-{#            height: auto;#}
-{#            width: 100%;#}
-{#            position: relative;#}
-{#        }#}
     </style>
 
     <style>
@@ -228,6 +199,35 @@
             width: 100px;
         }
     </style>
+    <style>
+{#        Follow Buttons#}
+        .entry-social {margin-bottom: 20px;color: rgb(126, 126, 126);display: block;font-family: 'Open Sans',Tahoma, Verdana, Arial, sans-serif, Faruma, Faseyha;font-size: 14px;font-weight: normal;height: auto;line-height:23.799999237060547px;margin-bottom: 20px;width: 100%;
+            width: 100%;float:left;border: solid 0px #aaa;text-align: center;}
+
+        .entry-social div {display: block;width:138px;margin:2px;display: inline-block;
+            vertical-align: middle;}
+
+        .entry-social a {text-decoration:none;display: block;padding-left: 20px;color: #FFFFFF !important;font-weight: bold;transition:background-color .3s;    }
+
+        .entry-social .fb a {padding: 7px 10px 7px 26px;background: #3B5999 url('http://3.bp.blogspot.com/-yqD2363XuAo/UeDk98twSlI/AAAAAAAAArg/kXIzFBWmczM/s1600/fb14.png') no-repeat 10px center;}
+
+        .entry-social .twitter a {padding: 7px 10px 7px 32px;background: #01BBF6 url('http://3.bp.blogspot.com/-0u8P4VQmEeU/UeDlVdilwcI/AAAAAAAAAro/lGTnlvHGyVw/s1600/twitter14.png') no-repeat 8px center;}
+
+        .entry-social .gplus a {padding: 7px 10px 7px 32px;background: #D54135 url('http://3.bp.blogspot.com/-A8fFRexz_zk/UeDlgadvpiI/AAAAAAAAArw/TRd7NWNwo9s/s1600/gplus14.png') no-repeat 10px center;}
+
+        .entry-social .linkedin a {padding: 7px 10px 7px 32px;background: #136F9B url('http://4.bp.blogspot.com/-yuEMxhpIXPc/UeDltjBGR1I/AAAAAAAAAr4/kgidavlGbY8/s1600/linkedin14.png') no-repeat 10px center;}
+
+        .entry-social .pinterest a {padding: 7px 10px 7px 32px;background: #CB2027 url('http://1.bp.blogspot.com/-v-ZkEQhYpug/UeDl6uIio-I/AAAAAAAAAsA/9rqq2cXT08k/s320/pinterest14.png') no-repeat 10px center;}
+
+        .entry-social .delicious a {padding: 7px 10px 7px 32px;background: #3173D1 url('http://2.bp.blogspot.com/-J9p31gkQfXw/UeDmILHMQwI/AAAAAAAAAsI/bEws_iRNx7g/s320/delicious14.png') no-repeat 10px center;}
+
+        .entry-social .fb a:hover {background-color: rgb(50, 75, 129);}
+        .entry-social .twitter a:hover {background-color: rgb(1, 159, 211);}
+        .entry-social .gplus a:hover {background-color: rgb(191, 52, 40);}
+        .entry-social .linkedin a:hover {background-color: rgb(15, 89, 125);}
+        .entry-social .pinterest a:hover {background-color: rgb(174, 28, 35);}
+        .entry-social .delicious a:hover {background-color: rgb(38, 90, 168);}
+    </style>
 
 </head>
 <body>
@@ -236,10 +236,12 @@
         <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">Logo</a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="#">Navbar Link</a></li>
+                <li><a onClick="signOut()">Sign Out</a></li>
             </ul>
 
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="#">Navbar Link</a></li>
+                <li><a onClick="signOut()">Sign Out</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         </div>
@@ -254,6 +256,19 @@
                 <div class="collection-header grey z-depth-2">
                     <h4 class="task-card-title">Add New</h4>
                     <hr>
+                    <div id='userTitle' class="card-action row" style="display:none;">
+
+                        <div class="col s3" style="float:left; margin-top:-15px;">
+                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                        </div>
+                        <div class="col s5">
+                            <h5 class="white-text margin">John Doe</h5>
+                        </div>
+                        <div class="col-s4">
+                            <a href="#">Like</a>
+                            <a href="#">Share</a>
+                        </div>
+                    </div>
                 </div>
                 <div style="height:50%; position:relative; overflow-x:hidden; overflow-y: hidden;" id="addNewBody">
                     <div class="col s12">
@@ -263,41 +278,22 @@
                         <div id="shirt" style="overflow-y:hidden;" class="col s6">
 
                         </div>
-                        <div id="accessory_right" class="col s3">
-
-                        </div>
-                    </div>
-                    <br>
-                    <div class="col s12">
-                        <div id="mid_accessory_left" class="col s3">
-
-                        </div>
-                        <div id="pants" class="col s6">
-
-                        </div>
-                        <div id="shoes" class="col s3">
-
-                        </div>
-                    </div>
-                    <br>
-                    <div class="col s12">
-                        <div id="bot_accessory_left" class="col s3">
-
-                        </div>
-{#                        <div id="shoes" class="col s6">#}
-{##}
-{#                        </div>#}
-                        <div id="bot_accessory_right" class="col s3">
-
-                        </div>
                     </div>
                 </div>
                 <hr>
-                <div class="row">
+                <div class="row" id="addNewButtonGroup">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">search</i>
                         <input style="color:black;" placeholder="search" id="autocomplete-input" class="autocomplete">
 {#                        <label style="color:black;" for="autocomplete-input">Search</label>#}
+                    </div>
+                    <div class="switch">
+                        <label>
+                            Male
+                            <input id='gender_check' type="checkbox" checked>
+                            <span class="lever"></span>
+                            Female
+                        </label>
                     </div>
                     <div class="input-field col s12">
                         <a onClick="shirtClick(this.id)" id="shirtBtn" class="waves-effect waves-light red btn z-depth-3 clothType">Shirts</a>
@@ -319,10 +315,41 @@
                             <li class="active"><a href="#!">1</a></li>
                             <li id='pag6' class="waves-effect disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
                         </ul>
-                        <div id="loading_paginate" style="display:None;"><p>Loading more items..</p></div>
+{#                        <div id="loading_paginate" style="display:None;"><p>Loading more items..</p></div>#}
                     </div>
                     <div class="col s12">
                         <a id="submitBtn" style="display:none; width:100%;" href="#modal1" class="waves-effect waves-light btn z-depth-3 clothType">Save</a>
+                    </div>
+                </div>
+                <div class="row" id="addNewAfterSuccess" style="display:none;">
+                    <div class="col s12 center-align">
+                        <h5>Share your outfit</h5>
+                    </div>
+                    <div class="col s12">
+                        <div class="entry-social">
+                            <div class="fb">
+                                <a href="Your_Facebok_Page" target="_blank">Facebook</a>
+                            </div>
+                            <div class="twitter">
+                                <a href="Your_twitter_Profile" target="_blank">Twitter</a>
+                            </div>
+                            <div class="gplus">
+                                <a href="Your_Googleplus_Follow" target="_blank">Google+</a>
+                            </div>
+                            <div class="linkedin">
+                                <a href="Your_Linkedin_Profile" target="_blank">Linkedin</a>
+                            </div>
+                            <div class="pinterest">
+                                <a href="You_Pinterest_Page" target="_blank">Pinterest</a>
+                            </div>
+                            <div class="delicious">
+                                <a href="Your_Delicious_Profile" target="_blank">Delicious</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 center-align">
+                        <a href="/" class="waves-effect waves-light btn z-depth-3 clothType">Home</a>
+                        <a href="/addNew" class="waves-effect waves-light btn z-depth-3 clothType">Add Another</a>
                     </div>
                 </div>
             </div>
@@ -330,10 +357,23 @@
         </div>
         <div id="modal1" class="modal bottom-sheet modal-fixed-footer">
             <div class="modal-content">
-                <h4>Sharing Outfit</h4>
-                <input style="color:black;" placeholder="Write a caption..." id="autocomplete-input" class="autocomplete">
-                <p><i style="margin-right:5px;" class="material-icons">location_on</i>Add Location</p>
-                <p><i style="margin-right:5px;" class="material-icons">person_pin</i>Tag People</p>
+                <div class="row">
+                    <div class="col s12">
+                        <h4>Sharing Outfit</h4>
+                    </div>
+                    <div class="col s12">
+                        <input style="color:black;" placeholder="Write a caption..." id="caption_field" class="autocomplete">
+                        <p style="float:left;"><i style="margin-right:5px;" class="material-icons">location_on</i>Add Location</p>
+                    </div>
+                <br>
+
+                    <div class="col s1">
+                        <p><i style="margin-right:5px;" class="material-icons">chat</i></p>
+                    </div>
+                    <div class="col s11">
+                        <input style="color:black;" placeholder="Add a Tag" id="tag_field" class="autocomplete">
+                    </div>
+                </div>
 
             </div>
             <div class="modal-footer">
