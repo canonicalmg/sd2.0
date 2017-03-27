@@ -3,9 +3,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class test(models.Model):
-    user = models.ForeignKey(User)
-
 class profile(models.Model):
     user = models.ForeignKey(User)
     gender = models.BooleanField(default=True)
