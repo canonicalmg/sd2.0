@@ -21,7 +21,9 @@ def populate_db_amazon(request):
                                    'can037-20',
                                    )
         cloth_types = ["Shirt", "Pants", "Shoes"]
-        gender = ["Women", "Men"]
+        gender = [
+            # "Women",
+            "Men"]
         pages = [1,2,3,4,5,6,7,8,9,10]
         for each_gender in gender:
             for each_cloth_type in cloth_types:
