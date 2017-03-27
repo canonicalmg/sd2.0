@@ -255,7 +255,7 @@
     <div class="section no-pad-bot" id="index-banner">
 
         <div class="row">
-            <div class="card col s12 l12">
+            <div class="card col s12 l4 center">
                 <div class="collection-header grey z-depth-2">
                     <h4 class="task-card-title">Add New</h4>
                     <hr>
@@ -265,7 +265,7 @@
                             <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
                         </div>
                         <div class="col s5">
-                            <h5 class="white-text margin">John Doe</h5>
+                            <h5 class="white-text margin">{{ request.user.username }}</h5>
                         </div>
                         <div class="col-s4">
                             <a href="#">Like</a>

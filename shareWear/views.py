@@ -249,7 +249,7 @@ def get_featured_outfits():
 
 def get_new_outfits():
     outfits = []
-    outfit_objs = outfit.objects.filter().order_by('-id')[:10][::-1]
+    outfit_objs = outfit.objects.filter().order_by('-id')[:10]
     for each_outfit in outfit_objs:
         outfit_items = outfit_item.objects.filter(outfit=each_outfit)
         inner_outfit = []

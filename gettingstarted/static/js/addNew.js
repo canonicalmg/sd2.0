@@ -84,15 +84,32 @@ function itemClick(id){
 }
 
 function displayOnCanvas(item){
+    var max_pos_y, max_pos_x, transform;
     if(item.cloth_type == "Shirt"){
         $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
+        max_pos_y = document.getElementById('addNewBody').clientHeight * .45;
+        max_pos_x = document.getElementById('addNewBody').clientWidth * .5;
+        transform = "translate3d(-"+max_pos_x+"px, -"+max_pos_y+"px, 0) "
+            + "scale3d(0.35, 0.35, 1)";
     }
     else if(item.cloth_type == "Pants"){
         $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
+        max_pos_y = document.getElementById('addNewBody').clientHeight * .15;
+        max_pos_x = document.getElementById('addNewBody').clientWidth / 2;
+        transform = "translate3d(-"+max_pos_x+"px, -"+max_pos_y+"px, 0) "
+            + "scale3d(0.5, 0.5, 1)";
     }
     else if(item.cloth_type == "Shoes"){
         $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
+        max_pos_y = document.getElementById('addNewBody').clientHeight * .3;
+        max_pos_x = document.getElementById('addNewBody').clientWidth * .4;
+        transform = "translate3d(-"+max_pos_x+"px, "+max_pos_y+"px, 0) "
+            + "scale3d(0.3, 0.3, 1)";
     }
+
+
+    document.getElementById("can"+item.item_id).style.WebkitTransform = transform;
+
     //remove any items with the same item type (?) //what if the user wants multiple shirts?
     for(var i=0; i < HAMMERS.length; i++){
         if(HAMMERS[i][1] == item.cloth_type){
@@ -131,12 +148,14 @@ function hammerIt(elm) {
     hammertime.get('pinch').set({
         enable: true
     });
-    var posX = 0,
-        posY = 0,
-        scale = 0.5,
-        last_scale = 0.5,
-        last_posX = 0,
-        last_posY = 0,
+    var curTransform = new WebKitCSSMatrix(window.getComputedStyle(elm).webkitTransform);
+    console.log("cur trans = ", curTransform);
+    var posX = curTransform.e,
+        posY = curTransform.f,
+        scale = curTransform.a,
+        last_scale = curTransform.a,
+        last_posX = curTransform.e,
+        last_posY = curTransform.f,
         max_pos_x = 0,
         max_pos_y = 0,
         transform = "",
@@ -167,9 +186,8 @@ function hammerIt(elm) {
         posY = last_posY + ev.deltaY;
         max_pos_x = el.clientWidth / 2.2;
         // max_pos_y = (el.clientHeight / 2);
-        console.log(document.getElementById('addNewBody').clientHeight);
-        max_pos_y = document.getElementById('addNewBody').clientHeight / 4;
-        max_pos_x = document.getElementById('addNewBody').clientWidth / 4;
+        max_pos_y = document.getElementById('addNewBody').clientHeight * .45;
+        max_pos_x = document.getElementById('addNewBody').clientWidth * .45;
         if (posX > max_pos_x / 2) {
             posX = max_pos_x / 2;
         }
@@ -195,10 +213,9 @@ function hammerIt(elm) {
             last_posX = posX < max_pos_x ? posX : max_pos_x;
             last_posY = posY < max_pos_y ? posY : max_pos_y;
         }
-
         transform =
             "translate3d(" + posX + "px," + posY + "px, 0) " +
-            "scale3d(" + scale + ", " + scale + ", 1)";
+            "scale3d(" + scale + ", " + scale + ", 0.5)";
 
         if (transform) {
             el.style.WebkitTransform = transform;

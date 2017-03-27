@@ -129,7 +129,9 @@ function newNext(){
 }
 
 function newPrev(){
-  NEW_CURRENT -= 1;
+  if(NEW_CURRENT > 0) {
+    NEW_CURRENT -= 1;
+  }
   $("#new").empty();
   $("#newProfileImg").attr("src", NEW[NEW_CURRENT % NEW.length].user.profile_img);
   $("#newProfileUser").html(NEW[NEW_CURRENT % NEW.length].user.username);
@@ -155,7 +157,9 @@ function popularNext(){
 }
 
 function popularPrev(){
-  POPULAR_CURRENT -= 1;
+  if(POPULAR_CURRENT > 0) {
+    POPULAR_CURRENT -= 1;
+  }
   $("#popular").empty();
   $("#popularProfileImg").attr("src", POPULAR[POPULAR_CURRENT % POPULAR.length].user.profile_img);
   $("#popularProfileUser").html(POPULAR[POPULAR_CURRENT % POPULAR.length].user.username);
@@ -206,7 +210,16 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey){
   curTransform.b = whatToAdd.transform[1];
   curTransform.c = whatToAdd.transform[2];
   curTransform.d = whatToAdd.transform[3];
-  curTransform.e = whatToAdd.transform[4];
+  console.log("what to add = ", Math.abs(whatToAdd.transform[4]));
+  console.log("where to add = ", whereToAdd.width());
+  // if(Math.abs(whatToAdd.transform[4]) > whereToAdd.width() ){
+  //   console.log("bang ", trey);
+  //   curTransform.e = whatToAdd.transform[4] + 100;
+  //       // (Math.abs(whatToAdd.transform[4]) - whereToAdd.width());
+  // }
+  // else {
+  //   curTransform.e = whatToAdd.transform[4];
+  // }
   curTransform.f = whatToAdd.transform[5];
   curTransform.m11 = whatToAdd.transform[6];
   curTransform.m12 = whatToAdd.transform[7];
@@ -220,7 +233,14 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey){
   curTransform.m32 = whatToAdd.transform[15];
   curTransform.m33 = whatToAdd.transform[16];
   curTransform.m34 = whatToAdd.transform[17];
-  curTransform.m41 = whatToAdd.transform[18];
+  if(Math.abs(whatToAdd.transform[18]) > whereToAdd.width() ){
+    console.log("bang ", trey);
+    curTransform.m41 = whatToAdd.transform[18] + (Math.abs(whatToAdd.transform[4]) - whereToAdd.width());
+  }
+  else {
+    curTransform.m41 = whatToAdd.transform[18];
+  }
+  // curTransform.m41 = whatToAdd.transform[18];
   curTransform.m42 = whatToAdd.transform[19];
   curTransform.m43 = whatToAdd.transform[20];
   curTransform.m44 = whatToAdd.transform[21];
