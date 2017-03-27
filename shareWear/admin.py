@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(clothing)
 admin.site.register(outfit)
 admin.site.register(profile)
+admin.site.register(outfit_item)

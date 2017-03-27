@@ -13,6 +13,7 @@ import requests
 import bottlenose
 from bs4 import BeautifulSoup
 import xmltodict
+import ast
 
 def populate_db_amazon(request):
     try:
@@ -230,15 +231,94 @@ def headerSignUp(request):
             else:
                 return HttpResponse("Does not match")
 
+def get_featured_outfits():
+    outfits = []
+    outfit_objs = outfit.objects.filter()
+    for each_outfit in outfit_objs:
+        outfit_items = outfit_item.objects.filter(outfit=each_outfit)
+        inner_outfit = []
+        for each_outfit_item in outfit_items:
+            inner_outfit.append({"pk": each_outfit_item.pk,
+                                 "transform": ast.literal_eval(each_outfit_item.transform_matrix,),
+                                 "large_url": each_outfit_item.clothing.large_url})
+        outfits.append({"outfit": inner_outfit,
+                        "user": {"username": each_outfit.profile.user.username,
+                                 "profile_img": each_outfit.profile.profile_image},
+                        "outfit_pk": each_outfit.pk})
+    return outfits
+
+def get_new_outfits():
+    outfits = []
+    outfit_objs = outfit.objects.filter().order_by('-id')[:10][::-1]
+    for each_outfit in outfit_objs:
+        outfit_items = outfit_item.objects.filter(outfit=each_outfit)
+        inner_outfit = []
+        for each_outfit_item in outfit_items:
+            inner_outfit.append({"pk": each_outfit_item.pk,
+                                 "transform": ast.literal_eval(each_outfit_item.transform_matrix,),
+                                 "large_url": each_outfit_item.clothing.large_url})
+        outfits.append({"outfit": inner_outfit,
+                        "user": {"username": each_outfit.profile.user.username,
+                                 "profile_img": each_outfit.profile.profile_image},
+                        "outfit_pk": each_outfit.pk})
+    return outfits
+
+def get_popular_outfits():
+    outfits = []
+    outfit_objs = outfit.objects.filter().order_by('likes')[:10]
+    for each_outfit in outfit_objs:
+        outfit_items = outfit_item.objects.filter(outfit=each_outfit)
+        inner_outfit = []
+        for each_outfit_item in outfit_items:
+            inner_outfit.append({"pk": each_outfit_item.pk,
+                                 "transform": ast.literal_eval(each_outfit_item.transform_matrix,),
+                                 "large_url": each_outfit_item.clothing.large_url})
+        outfits.append({"outfit": inner_outfit,
+                        "user": {"username": each_outfit.profile.user.username,
+                                 "profile_img": each_outfit.profile.profile_image},
+                        "outfit_pk": each_outfit.pk})
+    return outfits
+
+def get_front_page(request):
+    if request.user.is_authenticated():
+        if request.method == "POST":
+            if request.is_ajax():
+                index = request.POST.get("index")
+
+                featured_outfits = get_featured_outfits()
+                popular_outfits = get_popular_outfits()
+                new_outfits = get_new_outfits()
+
+                print "index = ", index
+                json_stuff = json.dumps({"featured": featured_outfits,
+                                         "new": new_outfits,
+                                         "popular": popular_outfits})
+                return HttpResponse(json_stuff, content_type="application/json")
+    return HttpResponse("Error")
+
 def signUpLogIn(request):
     if request.user.is_authenticated():
         #send them to /home
         template = loader.get_template('index.html')
+        outfits = []
+        outfit_objs = outfit.objects.filter()
+        for each_outfit in outfit_objs:
+            # print "each outfit = ", each_outfit
+            outfit_items = outfit_item.objects.filter(outfit=each_outfit)
+            outfit_inner = []
+            for each_outfit_item in outfit_items:
+                # print "each outfit = ", each_outfit_item
+                outfit_inner.append(each_outfit_item)
+            outfits.append(outfit_inner)
+        print outfits
+        context = {
+            "outfits": outfits
+        }
     else:
         template = loader.get_template('headerLogin.html')
-    context = {
-        "asd": "asd"
-    }
+        context = {
+            "asd": "asd"
+        }
     return HttpResponse(template.render(context, request))
 
 def about(request):
@@ -371,19 +451,4 @@ def addNew(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
-def dog_page(request, name, pk):
-    template = loader.get_template('dog-page.html')
-    dog_object = dogs.objects.get(pk=pk)
-    context = {"dog": dog_object,
-               "tricks": dog_object.get_tricks}
-    return HttpResponse(template.render(context, request))
-
-def home(request):
-    if request.user.is_authenticated():
-        template = loader.get_template('home.html')
-        context = {}
-        return HttpResponse(template.render(context, request))
-    else:
-        #login
-        return HttpResponseRedirect("/")
 

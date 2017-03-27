@@ -196,17 +196,17 @@
     <div class="section no-pad-bot" id="index-banner">
 
         <div class="row">
-            <div class="card col s12 l4">
+            <div class="card col s12 l12">
                 <div class="collection-header grey z-depth-2">
                     <h4 class="task-card-title">Featured</h4>
                     <hr>
-                    <div class="card-action row">
+                    <div id='userTitle' class="card-action row">
 
                         <div class="col s3" style="float:left; margin-top:-15px;">
-                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                            <img id="featuredProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
                         </div>
                         <div class="col s5">
-                            <h5 class="white-text margin">John Doe</h5>
+                            <h5 class="white-text margin" id="featuredProfileUser"></h5>
                         </div>
                         <div class="col-s4">
                             <a href="#">Like</a>
@@ -214,32 +214,41 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-image">
-                    <img class="activator" src="http://lorempixel.com/800/400/food/3">
+                <div style="height:50%; position:relative; overflow-x:hidden; overflow-y: hidden;" id="addNewBody">
+                    <div class="col s12">
+                        <div id="accessory_left" class="col s3">
+
+                        </div>
+                        <div id="featured" style="overflow-y:hidden;" class="col s6">
+
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <a style="float:left; margin-top:10px;" class="waves-effect waves-light btn">
+                        <a style="float:left; margin-top:10px;" onClick="featuredPrev()" class="waves-effect waves-light btn">
                             <i class="material-icons left">cloud</i>Previous</a>
-                        <a style="float:right; margin-top:10px;" class="waves-effect waves-light btn">
+                        <a style="float:right; margin-top:10px;" onClick="featuredNext()" class="waves-effect waves-light btn">
                             <i class="material-icons right">cloud</i>Next</a>
                     </div>
                 </div>
+
             </div>
+
 
             <hr>
 
-            <div class="card col s12 l4">
+            <div class="card col s12 l12">
                 <div class="collection-header grey z-depth-2">
                     <h4 class="task-card-title">Popular</h4>
                     <hr>
                     <div class="card-action row">
 
                         <div class="col s3" style="float:left; margin-top:-15px;">
-                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                            <img id="popularProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
                         </div>
                         <div class="col s5">
-                            <h5 class="white-text margin">John Doe</h5>
+                            <h5 class="white-text margin" id="popularProfileUser"></h5>
                         </div>
                         <div class="col-s4">
                             <a href="#">Like</a>
@@ -247,32 +256,40 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-image">
-                    <img class="activator" src="http://lorempixel.com/800/400/food/3">
+                <div style="height:50%; position:relative; overflow-x:hidden; overflow-y: hidden;" id="popularBody">
+                    <div class="col s12">
+                        <div class="col s3">
+
+                        </div>
+                        <div id="popular" style="overflow-y:hidden;" class="col s6">
+
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <a style="float:left; margin-top:10px;" class="waves-effect waves-light btn">
+                        <a style="float:left; margin-top:10px;" onClick="popularPrev()" class="waves-effect waves-light btn">
                             <i class="material-icons left">cloud</i>Previous</a>
-                        <a style="float:right; margin-top:10px;" class="waves-effect waves-light btn">
+                        <a style="float:right; margin-top:10px;" onClick="popularNext()" class="waves-effect waves-light btn">
                             <i class="material-icons right">cloud</i>Next</a>
                     </div>
                 </div>
+
             </div>
 
             <hr>
 
-            <div class="card col s12 l4">
+            <div class="card col s12 l12">
                 <div class="collection-header grey z-depth-2">
                     <h4 class="task-card-title">New</h4>
                     <hr>
                     <div class="card-action row">
 
                         <div class="col s3" style="float:left; margin-top:-15px;">
-                            <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
+                            <img id="newProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
                         </div>
                         <div class="col s5">
-                            <h5 class="white-text margin">John Doe</h5>
+                            <h5 class="white-text margin" id="newProfileUser"></h5>
                         </div>
                         <div class="col-s4">
                             <a href="#">Like</a>
@@ -280,17 +297,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-image">
-                    <img class="activator" src="http://lorempixel.com/800/400/food/3">
+                <div style="height:50%; position:relative; overflow-x:hidden; overflow-y: hidden;" id="newBody">
+                    <div class="col s12">
+                        <div class="col s3">
+
+                        </div>
+                        <div id="new" style="overflow-y:hidden;" class="col s6">
+
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <a style="float:left; margin-top:10px;" class="waves-effect waves-light btn">
+                        <a style="float:left; margin-top:10px;" onClick="newPrev()" class="waves-effect waves-light btn">
                             <i class="material-icons left">cloud</i>Previous</a>
-                        <a style="float:right; margin-top:10px;" class="waves-effect waves-light btn">
+                        <a style="float:right; margin-top:10px;" onClick="newNext()" class="waves-effect waves-light btn">
                             <i class="material-icons right">cloud</i>Next</a>
                     </div>
                 </div>
+
             </div>
         </div>
 

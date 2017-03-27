@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 class profile(models.Model):
     user = models.ForeignKey(User)
     gender = models.BooleanField(default=True)
+    profile_image = models.CharField(max_length=200, null=True, blank=True)
 
     def __unicode__(self):
         return self.user.username
@@ -36,8 +37,16 @@ class outfit(models.Model):
     gender = models.BooleanField(default=True)
     description = models.CharField(max_length=300, null=True, blank=True)
     tags = models.CharField(max_length=300, null=True, blank=True)
+    likes = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return self.profile.user.username
 
 class outfit_item(models.Model):
     clothing = models.ForeignKey(clothing)
     outfit = models.ForeignKey(outfit)
     transform_matrix = models.CharField(max_length=300, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.outfit.profile.user.username + " - " + self.clothing.name
+
