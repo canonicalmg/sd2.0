@@ -257,10 +257,10 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey, originalHeight, origin
   // else {
   //   curTransform.m41 = whatToAdd.transform[18];
   // }
-  // curTransform.m41 = whatToAdd.transform[18] + 100; //width, plus goes right
-  // curTransform.m42 = whatToAdd.transform[19] + 100; //height, plus goes down
-  curTransform.m41 = new_x;
-  curTransform.m42 = new_y;
+  curTransform.m41 = whatToAdd.transform[18]; //width, plus goes right
+  curTransform.m42 = whatToAdd.transform[19]; //height, plus goes down
+  // curTransform.m41 = new_x;
+  // curTransform.m42 = new_y;
   curTransform.m43 = whatToAdd.transform[20];
   curTransform.m44 = whatToAdd.transform[21];
 
