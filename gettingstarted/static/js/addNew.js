@@ -160,6 +160,10 @@ function hammerIt(elm) {
         max_pos_y = 0,
         transform = "",
         el = elm;
+    // var static_height = 368;
+    // var static_width = 394;
+    // var client_height;
+    // var client_width;
 
     hammertime.on('doubletap pan pinch panend pinchend', function(ev) {
         if (ev.type == "doubletap") {
@@ -182,23 +186,32 @@ function hammerIt(elm) {
         }
 
         //pan
+        // client_height = document.getElementById('addNewBody').clientHeight;
+        // client_width = document.getElementById('addNewBody').clientWidth;
+        // last_posX = last_posX * (client_width / static_width);
+        // last_posY = last_posY * (client_height / static_height);
         posX = last_posX + ev.deltaX;
         posY = last_posY + ev.deltaY;
-        max_pos_x = el.clientWidth / 2.2;
-        // max_pos_y = (el.clientHeight / 2);
+
+        // posX = posX * (client_width / static_width);
+        // posY = posY * (client_height / static_height);
+        // console.log("client height = ", document.getElementById('addNewBody').clientHeight);
+        // console.log("client width = ", document.getElementById('addNewBody').clientWidth);
         max_pos_y = document.getElementById('addNewBody').clientHeight * .45;
         max_pos_x = document.getElementById('addNewBody').clientWidth * .45;
-        if (posX > max_pos_x / 2) {
-            posX = max_pos_x / 2;
+        // console.log("pos x = ", posX);
+        // console.log("max_pos_x = ", max_pos_x);
+        if (posX > max_pos_x * 0.1) {
+            posX = max_pos_x * 0.1;
         }
-        if (posX < -max_pos_x * 2.5) {
-            posX = -max_pos_x * 2.5;
+        if (posX < -max_pos_x * 2.2) { //left
+            posX = -max_pos_x * 2.2;
         }
-        if (posY > max_pos_y * 1.5) {
-            posY = max_pos_y * 1.5;
+        if (posY > max_pos_y * 1.1) { //bottom
+            posY = max_pos_y * 1.1;
         }
-        if (posY < -max_pos_y * 2) {
-            posY = -max_pos_y * 2;
+        if (posY < -max_pos_y * 1.9) { //top, plus goes up
+            posY = -max_pos_y * 1.9;
         }
 
 
@@ -276,7 +289,9 @@ function submit_outfit(){
     var data = {"items": items,
                 'gender': checkbox.checked,
                 'caption': caption.val(),
-                'tag': tag.val()};
+                'tag': tag.val(),
+                'canvasHeight': document.getElementById("addNewBody").clientHeight,
+                'canvasWidth': document.getElementById("addNewBody").clientWidth};
     $.ajax({
             type: 'POST',
             url: 'user_submit_outfit/',

@@ -83,7 +83,9 @@ function populateSections(){
             load_outfit($("#featured"),
                 json.featured[0].outfit[i],
                 json.featured[0].outfit_pk,
-                "featured");
+                "featured",
+                json.featured[0].canvasHeight,
+                json.featured[0].canvasWidth);
           }
 
           NEW = json.new;
@@ -93,7 +95,9 @@ function populateSections(){
             load_outfit($("#new"),
                 json.new[0].outfit[i],
                 json.new[0].outfit_pk,
-                "new");
+                "new",
+                json.new[0].canvasHeight,
+                json.new[0].canvasWidth);
           }
 
           POPULAR = json.popular;
@@ -103,7 +107,9 @@ function populateSections(){
             load_outfit($("#popular"),
                 json.popular[0].outfit[i],
                 json.popular[0].outfit_pk,
-                "popular");
+                "popular",
+                json.popular[0].canvasHeight,
+                json.popular[0].canvasWidth);
           }
 
         },
@@ -199,9 +205,19 @@ function featuredPrev(){
   }
 }
 
-function load_outfit(whereToAdd, whatToAdd, outfit, trey){
+function load_outfit(whereToAdd, whatToAdd, outfit, trey, originalHeight, originalWidth){
   //remove existing
   // $("#can"+whatToAdd.item_id).remove();
+  console.log("what to add = ", whatToAdd);
+  console.log("original width = ", parseInt(originalWidth));
+  var widthRatio = parseInt(originalWidth) / whatToAdd.transform[4]; //assuming [4] is width
+  var heightRatio = parseInt(originalHeight) / whatToAdd.transform[5]; //assuming [5] is height
+  var newCanvasWidth = document.getElementById("addNewBody").clientWidth;
+  var newCanvasHeight = document.getElementById("addNewBody").clientHeight;
+  var new_x = newCanvasWidth / widthRatio;
+  var new_y = newCanvasHeight / heightRatio;
+  console.log("width ratio = ", widthRatio);
+  console.log("transform = ", whatToAdd.transform);
   //add new
   whereToAdd.append("<img class='outfitCanvasItem' style='position:absolute;' id='fixed"+trey+outfit+"o"+whatToAdd.pk+"' src='"+whatToAdd.large_url+"'>");
   //change transform
@@ -220,6 +236,7 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey){
   // else {
   //   curTransform.e = whatToAdd.transform[4];
   // }
+  curTransform.e = whatToAdd.transform[4];
   curTransform.f = whatToAdd.transform[5];
   curTransform.m11 = whatToAdd.transform[6];
   curTransform.m12 = whatToAdd.transform[7];
@@ -233,15 +250,17 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey){
   curTransform.m32 = whatToAdd.transform[15];
   curTransform.m33 = whatToAdd.transform[16];
   curTransform.m34 = whatToAdd.transform[17];
-  if(Math.abs(whatToAdd.transform[18]) > whereToAdd.width() ){
-    console.log("bang ", trey);
-    curTransform.m41 = whatToAdd.transform[18] + (Math.abs(whatToAdd.transform[4]) - whereToAdd.width());
-  }
-  else {
-    curTransform.m41 = whatToAdd.transform[18];
-  }
-  // curTransform.m41 = whatToAdd.transform[18];
-  curTransform.m42 = whatToAdd.transform[19];
+  // if(Math.abs(whatToAdd.transform[18]) > whereToAdd.width() ){
+  //   console.log("bang ", trey);
+  //   curTransform.m41 = whatToAdd.transform[18] + (Math.abs(whatToAdd.transform[4]) - whereToAdd.width());
+  // }
+  // else {
+  //   curTransform.m41 = whatToAdd.transform[18];
+  // }
+  // curTransform.m41 = whatToAdd.transform[18] + 100; //width, plus goes right
+  // curTransform.m42 = whatToAdd.transform[19] + 100; //height, plus goes down
+  curTransform.m41 = new_x;
+  curTransform.m42 = new_y;
   curTransform.m43 = whatToAdd.transform[20];
   curTransform.m44 = whatToAdd.transform[21];
 

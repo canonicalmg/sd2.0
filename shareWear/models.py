@@ -38,6 +38,8 @@ class outfit(models.Model):
     description = models.CharField(max_length=300, null=True, blank=True)
     tags = models.CharField(max_length=300, null=True, blank=True)
     likes = models.IntegerField(default=0)
+    canvas_height = models.CharField(max_length=50, null=True, blank=True)
+    canvas_width = models.CharField(max_length=50, null=True, blank=True)
 
     def __unicode__(self):
         return self.profile.user.username

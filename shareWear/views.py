@@ -244,7 +244,9 @@ def get_featured_outfits():
         outfits.append({"outfit": inner_outfit,
                         "user": {"username": each_outfit.profile.user.username,
                                  "profile_img": each_outfit.profile.profile_image},
-                        "outfit_pk": each_outfit.pk})
+                        "outfit_pk": each_outfit.pk,
+                        "canvasHeight": each_outfit.canvas_height,
+                        "canvasWidth": each_outfit.canvas_width})
     return outfits
 
 def get_new_outfits():
@@ -260,7 +262,9 @@ def get_new_outfits():
         outfits.append({"outfit": inner_outfit,
                         "user": {"username": each_outfit.profile.user.username,
                                  "profile_img": each_outfit.profile.profile_image},
-                        "outfit_pk": each_outfit.pk})
+                        "outfit_pk": each_outfit.pk,
+                        "canvasHeight": each_outfit.canvas_height,
+                        "canvasWidth": each_outfit.canvas_width})
     return outfits
 
 def get_popular_outfits():
@@ -276,7 +280,9 @@ def get_popular_outfits():
         outfits.append({"outfit": inner_outfit,
                         "user": {"username": each_outfit.profile.user.username,
                                  "profile_img": each_outfit.profile.profile_image},
-                        "outfit_pk": each_outfit.pk})
+                        "outfit_pk": each_outfit.pk,
+                        "canvasHeight": each_outfit.canvas_height,
+                        "canvasWidth": each_outfit.canvas_width})
     return outfits
 
 def get_front_page(request):
@@ -348,7 +354,9 @@ def user_submit_outfit(request):
             new_outfit = outfit(profile=current_profile,
                                gender=items['gender'],
                                description=items['caption'],
-                               tags=items['tag'])
+                               tags=items['tag'],
+                                canvas_height=items['canvasHeight'],
+                                canvas_width=items['canvasWidth'])
             new_outfit.save()
 
             #create outfit items
