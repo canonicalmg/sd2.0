@@ -352,9 +352,9 @@ def user_submit_outfit(request):
             current_profile = profile.objects.get(user=request.user)
             #create outfit
             new_outfit = outfit(profile=current_profile,
-                               gender=items['gender'],
-                               description=items['caption'],
-                               tags=items['tag'],
+                                gender=items['gender'],
+                                description=items['caption'],
+                                tags=items['tag'],
                                 canvas_height=items['canvasHeight'],
                                 canvas_width=items['canvasWidth'])
             new_outfit.save()
