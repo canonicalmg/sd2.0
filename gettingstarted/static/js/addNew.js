@@ -23,13 +23,7 @@ function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
-if('mix-blend-mode' in document.body.style)
-{
-    $(".task-card-title").html("success");
-}
-else{
-    $(".task-card-title").html("error");
-}
+
 var PAGINATION = [];
 var REQUESTS = [];
 var HAMMERS = [];
@@ -358,6 +352,8 @@ function load_outfit(whereToAdd, whatToAdd){
     curTransform.m44 = whatToAdd.transform[21];
 
     document.getElementById("fixed"+whatToAdd.item_id).style.WebkitTransform = curTransform;
+    if (window.getComputedStyle(document.body).mixBlendMode !== undefined)
+        $(".outfitCanvasItem").addClass("curtain");
 }
 
 function back_load_product(){
