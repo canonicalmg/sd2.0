@@ -257,6 +257,7 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey, originalHeight, origin
   // else {
   //   curTransform.m41 = whatToAdd.transform[18];
   // }
+  console.log("looking at ", document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk));
   console.log("shifting by ",(whatToAdd.transform[0] * 0.5 * document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk).clientWidth) );
   curTransform.m41 = whatToAdd.transform[18] + (whatToAdd.transform[0] * 0.5 * document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk).clientWidth); //width, plus goes right
   curTransform.m42 = whatToAdd.transform[19]; //height, plus goes down
