@@ -25,10 +25,10 @@ function csrfSafeMethod(method) {
 }
 if('mix-blend-mode' in document.body.style)
 {
-    alert("success");
+    $(".task-card-title").html("success");
 }
 else{
-    alert("error");
+    $(".task-card-title").html("error");
 }
 var PAGINATION = [];
 var REQUESTS = [];
