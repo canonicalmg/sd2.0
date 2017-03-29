@@ -23,7 +23,13 @@ function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
-
+if('mix-blend-mode' in document.body.style)
+{
+    alert("success");
+}
+else{
+    alert("error");
+}
 var PAGINATION = [];
 var REQUESTS = [];
 var HAMMERS = [];
