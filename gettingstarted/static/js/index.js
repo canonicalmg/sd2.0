@@ -50,7 +50,22 @@ function csrfSafeMethod(method) {
 }
 var FEATURED = [], NEW = [], POPULAR = [];
 var FEATURED_CURRENT = 0, NEW_CURRENT = 0, POPULAR_CURRENT = 0;
-
+(function() {
+  var eventDisplay = new $.Event('displayChanged'),
+      origShow = $.fn.show,
+      origHide = $.fn.hide;
+  //
+  $.fn.show = function() {
+    origShow.apply(this, arguments);
+    $(this).trigger(eventDisplay,['show']);
+  };
+  //
+  $.fn.hide = function() {
+    origHide.apply(this, arguments);
+    $(this).trigger(eventDisplay,['hide']);
+  };
+  //
+})();
 populateSections();
 
 function signOut(){
@@ -130,7 +145,9 @@ function newNext(){
     load_outfit($("#new"),
         NEW[NEW_CURRENT % NEW.length].outfit[i],
         NEW[NEW_CURRENT % NEW.length].outfit_pk,
-        "new");
+        "new",
+        NEW[NEW_CURRENT % NEW.length].canvasHeight,
+        NEW[NEW_CURRENT % NEW.length].canvasWidth);
   }
 }
 
@@ -145,7 +162,9 @@ function newPrev(){
     load_outfit($("#new"),
         NEW[NEW_CURRENT % NEW.length].outfit[i],
         NEW[NEW_CURRENT % NEW.length].outfit_pk,
-        "new");
+        "new",
+        NEW[NEW_CURRENT % NEW.length].canvasHeight,
+        NEW[NEW_CURRENT % NEW.length].canvasWidth);
   }
 }
 
@@ -158,7 +177,9 @@ function popularNext(){
     load_outfit($("#popular"),
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit[i],
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
-        "popular");
+        "popular",
+        POPULAR[POPULAR_CURRENT % POPULAR.length].canvasHeight,
+        POPULAR[POPULAR_CURRENT % POPULAR.length].canvasWidth);
   }
 }
 
@@ -173,7 +194,9 @@ function popularPrev(){
     load_outfit($("#popular"),
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit[i],
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
-        "popular");
+        "popular",
+        POPULAR[POPULAR_CURRENT % POPULAR.length].canvasHeight,
+        POPULAR[POPULAR_CURRENT % POPULAR.length].canvasWidth);
   }
 }
 
@@ -186,7 +209,9 @@ function featuredNext(){
     load_outfit($("#featured"),
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit[i],
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit_pk,
-        "featured");
+        "featured",
+        FEATURED[FEATURED_CURRENT % FEATURED.length].canvasHeight,
+        FEATURED[FEATURED_CURRENT % FEATURED.length].canvasWidth);
   }
 }
 
@@ -201,23 +226,15 @@ function featuredPrev(){
     load_outfit($("#featured"),
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit[i],
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit_pk,
-        "featured");
+        "featured",
+        FEATURED[FEATURED_CURRENT % FEATURED.length].canvasHeight,
+        FEATURED[FEATURED_CURRENT % FEATURED.length].canvasWidth);
   }
 }
 
 function load_outfit(whereToAdd, whatToAdd, outfit, trey, originalHeight, originalWidth){
   //remove existing
-  // $("#can"+whatToAdd.item_id).remove();
-  console.log("what to add = ", whatToAdd);
-  console.log("original width = ", parseInt(originalWidth));
-  var widthRatio = parseInt(originalWidth) / whatToAdd.transform[4]; //assuming [4] is width
-  var heightRatio = parseInt(originalHeight) / whatToAdd.transform[5]; //assuming [5] is height
-  var newCanvasWidth = document.getElementById("addNewBody").clientWidth;
-  var newCanvasHeight = document.getElementById("addNewBody").clientHeight;
-  var new_x = newCanvasWidth / widthRatio;
-  var new_y = newCanvasHeight / heightRatio;
-  console.log("width ratio = ", widthRatio);
-  console.log("transform = ", whatToAdd.transform);
+  $('#fixed'+trey+outfit+"o"+whatToAdd.pk).remove();
   //add new
   whereToAdd.append("<img class='outfitCanvasItem' style='position:absolute;' id='fixed"+trey+outfit+"o"+whatToAdd.pk+"' src='"+whatToAdd.large_url+"'>");
   //change transform
@@ -226,16 +243,6 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey, originalHeight, origin
   curTransform.b = whatToAdd.transform[1];
   curTransform.c = whatToAdd.transform[2];
   curTransform.d = whatToAdd.transform[3];
-  console.log("what to add = ", Math.abs(whatToAdd.transform[4]));
-  console.log("where to add = ", whereToAdd.width());
-  // if(Math.abs(whatToAdd.transform[4]) > whereToAdd.width() ){
-  //   console.log("bang ", trey);
-  //   curTransform.e = whatToAdd.transform[4] + 100;
-  //       // (Math.abs(whatToAdd.transform[4]) - whereToAdd.width());
-  // }
-  // else {
-  //   curTransform.e = whatToAdd.transform[4];
-  // }
   curTransform.e = whatToAdd.transform[4];
   curTransform.f = whatToAdd.transform[5];
   curTransform.m11 = whatToAdd.transform[6];
@@ -250,21 +257,13 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey, originalHeight, origin
   curTransform.m32 = whatToAdd.transform[15];
   curTransform.m33 = whatToAdd.transform[16];
   curTransform.m34 = whatToAdd.transform[17];
-  // if(Math.abs(whatToAdd.transform[18]) > whereToAdd.width() ){
-  //   console.log("bang ", trey);
-  //   curTransform.m41 = whatToAdd.transform[18] + (Math.abs(whatToAdd.transform[4]) - whereToAdd.width());
-  // }
-  // else {
-  //   curTransform.m41 = whatToAdd.transform[18];
-  // }
-  console.log("looking at ", document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk));
-  console.log("shifting by ",(whatToAdd.transform[0] * 0.5 * document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk).clientWidth) );
-  curTransform.m41 = whatToAdd.transform[18] + (whatToAdd.transform[0] * 0.5 * document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk).clientWidth); //width, plus goes right
-  curTransform.m42 = whatToAdd.transform[19]; //height, plus goes down
-  // curTransform.m41 = new_x;
-  // curTransform.m42 = new_y;
+  curTransform.m41 = whatToAdd.transform[18];
+  curTransform.m42 = whatToAdd.transform[19];
   curTransform.m43 = whatToAdd.transform[20];
   curTransform.m44 = whatToAdd.transform[21];
 
   document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk).style.WebkitTransform = curTransform;
+  if (window.getComputedStyle(document.body).mixBlendMode !== undefined)
+    $(".outfitCanvasItem").addClass("curtain");
+
 }
