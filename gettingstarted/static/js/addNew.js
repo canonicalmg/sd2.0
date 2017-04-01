@@ -438,8 +438,8 @@ function remove_requests(){
 function shirtClick(elem){
     console.log("elem = ", elem);
     CLOTH_TYPE = "Shirt";
-    $(".clothType").removeClass("red");
-    $("#"+elem).addClass("red");
+    $(".clothType").removeClass("teal");
+    $("#"+elem).addClass("teal");
     remove_requests();
     populate_product();
 }
@@ -447,8 +447,8 @@ function shirtClick(elem){
 function pantsClick(elem){
     console.log("elem = ", elem);
     CLOTH_TYPE = "Pants";
-    $(".clothType").removeClass("red");
-    $("#"+elem).addClass("red");
+    $(".clothType").removeClass("teal");
+    $("#"+elem).addClass("teal");
     remove_requests();
     populate_product();
 }
@@ -456,8 +456,8 @@ function pantsClick(elem){
 function shoesClick(elem){
     console.log("elem = ", elem);
     CLOTH_TYPE = "Shoes";
-    $(".clothType").removeClass("red");
-    $("#"+elem).addClass("red");
+    $(".clothType").removeClass("teal");
+    $("#"+elem).addClass("teal");
     remove_requests();
     populate_product();
 }
