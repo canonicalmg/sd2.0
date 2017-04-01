@@ -31,15 +31,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/css/swiper.min.css">
     <link href="../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="../static/css/font-awesome.min.css" rel="stylesheet"/>
+
     <style>
         body {
 {#            display: flex;#}
 {#            flex-direction: column;#}
-            background-color: white;
+            background-color: #f0f0f0;
         }
 {#        main {#}
 {#            flex: 1 0 auto;#}
 {#        }#}
+        #logo-container{
+            color:black;
+        }
         .card {
             width:97%;
         }
@@ -83,6 +88,48 @@
             background-color: #616161 !important;
             z-index: 999;
         }
+
+        .mainRow{
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: #f0f0f0;
+        }
+
+        .mainCard{
+            padding:0px !important;
+        }
+
+        .task-card-title{
+            color:black !important;
+        }
+
+        .btn{
+            background-color: #ff6e66;
+        }
+        .btn:hover{
+            background-color: #ff6e66;
+        }
+        .waves-effect.waves-red .waves-ripple {
+            /* The alpha value allows the text and background color
+            of the button to still show through. */
+            background-color: #ff6e66;
+        }
+
+        .likeShare{
+            color: #ff6e66 !important;
+        }
+        [class^="mdi-"], [class*="mdi-"] {
+                            speak: none;
+                            display: inline-block;
+                            font-family: "Material-Design-Icons";
+                            font-style: normal;
+                            font-weight: normal;
+                            font-variant: normal;
+                            text-rendering: auto;
+                            -webkit-font-smoothing: antialiased;
+                            -moz-osx-font-smoothing: grayscale;
+                            transform: translate(0, 0);
+                        }
 
 {#        .outfitCanvasItem {#}
 {#            mix-blend-mode: multiply;#}
@@ -184,7 +231,7 @@
 </head>
 <body>
 <header>
-    <nav class="grey darken-2" role="navigation">
+    <nav class="white" role="navigation">
         <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">Logo</a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="#">Navbar Link</a></li>
@@ -195,7 +242,7 @@
                 <li><a href="#">Navbar Link</a></li>
                 <li><a onClick="signOut()">Sign Out</a></li>
             </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons" style="color:black;">menu</i></a>
         </div>
     </nav>
 </header>
@@ -203,22 +250,21 @@
 <main>
     <div class="section no-pad-bot" id="index-banner">
 
-        <div class="row">
-            <div class="card col s12 l12 center">
-                <div class="collection-header grey z-depth-2">
+        <div class="row mainRow">
+            <div class="card col s12 l12 center mainCard">
+                <div class="collection-header z-depth-2">
                     <h4 class="task-card-title">Featured</h4>
-                    <hr>
                     <div id='userTitle' class="card-action row">
 
                         <div class="col s3" style="float:left; margin-top:-15px;">
                             <img id="featuredProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
                         </div>
                         <div class="col s5">
-                            <h5 class="white-text margin" id="featuredProfileUser"></h5>
+                            <h5 class="margin" id="featuredProfileUser"></h5>
                         </div>
                         <div class="col-s4">
-                            <a href="#">Like</a>
-                            <a href="#">Share</a>
+                            <i class="fa fa-thumbs-up fa-lg">Like</i><br>
+                            <i class="fa fa-share-alt fa-lg">Share</i>
                         </div>
                     </div>
                 </div>
@@ -243,11 +289,8 @@
 
             </div>
 
-
-            <hr>
-
-            <div class="card col s12 l12 center">
-                <div class="collection-header grey z-depth-2">
+            <div class="card col s12 l12 center mainCard">
+                <div class="collection-header z-depth-2">
                     <h4 class="task-card-title">Popular</h4>
                     <hr>
                     <div class="card-action row">
@@ -256,11 +299,11 @@
                             <img id="popularProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
                         </div>
                         <div class="col s5">
-                            <h5 class="white-text margin" id="popularProfileUser"></h5>
+                            <h5 class="margin" id="popularProfileUser"></h5>
                         </div>
                         <div class="col-s4">
-                            <a href="#">Like</a>
-                            <a href="#">Share</a>
+                            <a class="btn-floating waves-effect waves-light red accent-2"><i class="material-icons">thumb_up</i>Like</a>
+                            <a class="btn-floating waves-effect waves-light red accent-2"><i class="material-icons">web</i>Share</a>
                         </div>
                     </div>
                 </div>
@@ -285,10 +328,9 @@
 
             </div>
 
-            <hr>
 
-            <div class="card col s12 l12 center">
-                <div class="collection-header grey z-depth-2">
+            <div class="card col s12 l12 center mainCard">
+                <div class="collection-header z-depth-2">
                     <h4 class="task-card-title">New</h4>
                     <hr>
                     <div class="card-action row">
@@ -297,11 +339,11 @@
                             <img id="newProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
                         </div>
                         <div class="col s5">
-                            <h5 class="white-text margin" id="newProfileUser"></h5>
+                            <h5 class="margin" id="newProfileUser"></h5>
                         </div>
                         <div class="col-s4">
-                            <a href="#">Like</a>
-                            <a href="#">Share</a>
+                            <a class="likeShare" href="#">Like</a>
+                            <a class="likeShare" href="#">Share</a>
                         </div>
                     </div>
                 </div>
@@ -329,13 +371,17 @@
             </div>
         </div>
 
-
+        <div class="fixed-action-btn horizontal" >
+            <a href="/addNew" class="btn-floating btn-large red">
+                <i class="large material-icons" style="background-color:#ff6e66;">add</i>
+            </a>
+        </div>
     </div>
-    <div id="fixedFooter">
-        <a href="/addNew">
-            <img class="brand-logo center" style="padding-left:45%;" src="../static/img/ic_add_circle_outline_white_48px.svg">
-        </a>
-    </div>
+{#    <div id="fixedFooter">#}
+{#        <a href="/addNew">#}
+{#            <img class="brand-logo center" style="padding-left:45%;" src="../static/img/ic_add_circle_outline_white_48px.svg">#}
+{#        </a>#}
+{#    </div>#}
 </main>
 {##}
 {#<footer class="page-footer white">#}

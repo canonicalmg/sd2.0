@@ -311,6 +311,7 @@ function submit_outfit(){
                     load_outfit($("#shirt"), items[i]);
                 }
                 $('#modal1').modal('close');
+                swal("Good job!", "You have created your outfit!", "success")
             },
             error: function (json) {
                 // $("#createRoutine").show();

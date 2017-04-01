@@ -31,11 +31,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/css/swiper.min.css">
     <link href="../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/sweetalert.css">
+
+    <style>
+        #logo-container{
+            color:black;
+        }
+    </style>
+
     <style>
         body {
         {#            display: flex;#}
         {#            flex-direction: column;#}
-            background-color: white;
+            background-color: #f0f0f0;
         }
         {#        main {#}
         {#            flex: 1 0 auto;#}
@@ -239,7 +247,7 @@
 </head>
 <body>
 <header>
-    <nav class="grey darken-2" role="navigation">
+    <nav class="white" role="navigation">
         <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">Logo</a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="#">Navbar Link</a></li>
@@ -250,7 +258,7 @@
                 <li><a href="#">Navbar Link</a></li>
                 <li><a onClick="signOut()">Sign Out</a></li>
             </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i style='color:black;' class="material-icons">menu</i></a>
         </div>
     </nav>
 </header>
@@ -258,18 +266,18 @@
 <main>
     <div class="section no-pad-bot" id="index-banner">
 
-        <div class="row">
-            <div class="card col s12 l4 center">
-                <div class="collection-header grey z-depth-2">
-                    <h4 class="task-card-title">Add New</h4>
-                    <hr>
+        <div class="row" style="background-color:#f0f0f0; padding-left:10px; padding-right: 10px;">
+            <div class="card col s12 l4 center" style="padding:0px !important;">
+                <div class="collection-header z-depth-2" style="margin-bottom: 10px;">
+                    <h4 class="task-card-title" style="color:black;">Add New Outfit</h4>
+
                     <div id='userTitle' class="card-action row" style="display:none;">
 
                         <div class="col s3" style="float:left; margin-top:-15px;">
                             <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
                         </div>
                         <div class="col s5">
-                            <h5 class="white-text margin">{{ request.user.username }}</h5>
+                            <h5 class="margin">{{ request.user.username }}</h5>
                         </div>
                         <div class="col-s4">
                             <a href="#">Like</a>
@@ -409,6 +417,7 @@
 {#<script src="../static/js/interact.js"></script>#}
 <script src="../static/js/materialize.js"></script>
 <script src="../static/js/hammer.js"></script>
+<script src="../static/js/sweetalert.min.js"></script>
 <script src="../static/js/addNew.js"></script>
 
 
