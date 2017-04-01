@@ -118,18 +118,11 @@
         .likeShare{
             color: #ff6e66 !important;
         }
-        [class^="mdi-"], [class*="mdi-"] {
-                            speak: none;
-                            display: inline-block;
-                            font-family: "Material-Design-Icons";
-                            font-style: normal;
-                            font-weight: normal;
-                            font-variant: normal;
-                            text-rendering: auto;
-                            -webkit-font-smoothing: antialiased;
-                            -moz-osx-font-smoothing: grayscale;
-                            transform: translate(0, 0);
-                        }
+
+        ul.card-action-buttons {
+            margin: -26px 10px 0 0;
+            text-align: right;
+        }
 
 {#        .outfitCanvasItem {#}
 {#            mix-blend-mode: multiply;#}
@@ -262,11 +255,19 @@
                         <div class="col s5">
                             <h5 class="margin" id="featuredProfileUser"></h5>
                         </div>
-                        <div class="col-s4">
-                            <i class="fa fa-thumbs-up fa-lg">Like</i><br>
-                            <i class="fa fa-share-alt fa-lg">Share</i>
-                        </div>
+{#                        <div class="col-s4">#}
+{#                            <i class="fa fa-thumbs-up fa-lg">Like</i><br>#}
+{#                            <i class="fa fa-share-alt fa-lg">Share</i>#}
+{#                        </div>#}
+                        <ul class="card-action-buttons">
+                            <li style="float:right;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="fa fa-thumbs-up fa-lg"></i></a>
+                            </li>
+                            <li style="float:right;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="fa fa-share-alt fa-lg"></i></a>
+                            </li>
+
+                        </ul>
                     </div>
+
                 </div>
                 <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="addNewBody">
 {#                    <div class="col s12">#}
