@@ -23,8 +23,9 @@ def populate_db_amazon(request):
                                    )
         cloth_types = ["Shirt", "Pants", "Shoes"]
         gender = [
-            # "Women",
-            "Men"]
+            "Women",
+            # "Men"
+        ]
         pages = [1,2,3,4,5,6,7,8,9,10]
         for each_gender in gender:
             for each_cloth_type in cloth_types:
@@ -402,7 +403,9 @@ def get_product(request):
                                          'cloth_type': cloth_type,
                                          'item_id': str(each_product.carrier_id),
                                          'large_url': each_product.large_url,
-                                         'carrier': each_product.carrier})
+                                         'carrier': each_product.carrier,
+                                         'price': each_product.price,
+                                         'brand': each_product.brand})
             json_stuff = json.dumps({"products": product_list,
                                      "cloth_type": cloth_type,
                                      })

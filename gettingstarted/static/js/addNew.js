@@ -77,10 +77,33 @@ function itemClick(id){
     for(var i=0; i < PAGINATION.length; i++){
         if (PAGINATION[i].item_id == id){
             console.log("found");
-            displayOnCanvas(PAGINATION[i]);
+            openItemModal(PAGINATION[i]);
             break;
         }
     }
+}
+
+function openItemModal(item){
+    return swal({   title: "Add this item?",
+                text: "Price: " + item.price +
+                "<br>Vendor: "+item.carrier+ "" +
+                "<br>Brand: "+item.brand,
+                imageUrl:item.large_url,
+                html:true,
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                cancelButtonText: "No!",
+                confirmButtonText: "Yes!",
+                closeOnConfirm: false,
+                closeOnCancel: true },
+            function(isConfirm){
+                if (isConfirm) {
+                    swal("Added!", "Feel free to move the item around and pinch to resize.", "success");
+                    displayOnCanvas(item);
+                }
+                else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");   }
+            });
 }
 
 function displayOnCanvas(item){
@@ -114,11 +137,15 @@ function displayOnCanvas(item){
     for(var i=0; i < HAMMERS.length; i++){
         if(HAMMERS[i][1] == item.cloth_type){
             //remove this item
-            var element = document.getElementById(HAMMERS[i][0]);
-            element.outerHTML = "";
-            delete element;
-
-            HAMMERS.splice( i, 1 );
+            try {
+                var element = document.getElementById(HAMMERS[i][0]);
+                element.outerHTML = "";
+                delete element;
+            }
+            catch(a){
+                console.log("pass");
+            }
+            HAMMERS.splice(i, 1);
         }
     }
     hammerIt(document.getElementById("can"+item.item_id));
@@ -143,7 +170,7 @@ function displayOnCanvas(item){
 
 }
 
-var top = 1;
+var top_index = 1;
 function hammerIt(elm) {
     hammertime = new Hammer(elm, {});
     hammertime.get('pinch').set({
@@ -161,6 +188,8 @@ function hammerIt(elm) {
         max_pos_y = 0,
         transform = "",
         el = elm;
+    top_index = top_index + 1;
+    el.style.zIndex = top_index;
     // var static_height = 368;
     // var static_width = 394;
     // var client_height;
@@ -168,6 +197,8 @@ function hammerIt(elm) {
 
     hammertime.on('doubletap pan pinch panend pinchend', function(ev) {
         if (ev.type == "doubletap") {
+            Hammer(el,{prevent_default: true});
+            el.remove();
             transform =
                 "translate3d(0, 0, 0) " +
                 "scale3d(0.5, 0.5, 1) ";
@@ -186,6 +217,10 @@ function hammerIt(elm) {
             transform = "";
         }
 
+        console.log("top = ", top_index);
+        top_index = top_index + 1;
+        el.style.zIndex = top_index;
+        console.log("top = ", top_index);
         //pan
         // client_height = document.getElementById('addNewBody').clientHeight;
         // client_width = document.getElementById('addNewBody').clientWidth;
