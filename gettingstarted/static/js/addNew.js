@@ -143,6 +143,7 @@ function displayOnCanvas(item){
 
 }
 
+var top = 1;
 function hammerIt(elm) {
     hammertime = new Hammer(elm, {});
     hammertime.get('pinch').set({
