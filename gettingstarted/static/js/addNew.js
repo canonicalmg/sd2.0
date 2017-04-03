@@ -275,6 +275,7 @@ function hammerIt(elm) {
 function submit_outfit(){
     var items = [];
     var transformList = [];
+    var zIndex;
     for(var i=0; i < HAMMERS.length; i++){
         var currentItem = $("#"+HAMMERS[i][0])[0];
         var curTransform = new WebKitCSSMatrix(window.getComputedStyle(currentItem).webkitTransform);
@@ -305,10 +306,11 @@ function submit_outfit(){
         transformList.push(curTransform.m43);
         transformList.push(curTransform.m44);
 
-
+        zIndex = currentItem.style.zIndex;
 
         items.push({"item_id": currentItem.id.split("can")[1],
                     "transform": transformList,
+                    "zIndex": zIndex,
                     "type": HAMMERS[i][1],
                     "large_url": HAMMERS[i][2],
                     "carrier": HAMMERS[i][3]});
@@ -388,6 +390,7 @@ function load_outfit(whereToAdd, whatToAdd){
     curTransform.m43 = whatToAdd.transform[20];
     curTransform.m44 = whatToAdd.transform[21];
 
+    document.getElementById("fixed"+whatToAdd.item_id).style.zIndex = whatToAdd.zIndex;
     document.getElementById("fixed"+whatToAdd.item_id).style.WebkitTransform = curTransform;
     if (window.getComputedStyle(document.body).mixBlendMode !== undefined)
         $(".outfitCanvasItem").addClass("curtain");

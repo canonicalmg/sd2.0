@@ -127,13 +127,25 @@
             color: #ff6e66;
         }
 
-{#        .outfitCanvasItem {#}
-{#            mix-blend-mode: multiply;#}
-{#        }#}
+        .profile-post-uer-image{
+            margin-top:-10px;
+        }
 
-{#        .curtain {#}
-{#            mix-blend-mode: multiply;#}
-{#        }#}
+        .profileSocialBody{
+            padding-top:5px !important;
+        }
+
+        .side-nav{
+{#            background: -webkit-linear-gradient(90deg, #ff6e66 10%, #ff6e66 90%); /* Chrome 10+, Saf5.1+ */#}
+{#            background:    -moz-linear-gradient(90deg, #ff6e66 10%, #3A6073 90%); /* FF3.6+ */#}
+{#            background:     -ms-linear-gradient(90deg, #ff6e66 10%, #3A6073 90%); /* IE10 */#}
+{#            background:      -o-linear-gradient(90deg, #ff6e66 10%, #3A6073 90%); /* Opera 11.10+ */#}
+{#            background:         linear-gradient(90deg, #ff6e66 10%, #3A6073 90%); /* W3C */#}
+            background-image: url("../static/img/menu.jpg");
+        }
+        .side-nav > li > a, .side-nav > li > a > i.material-icons{
+            color:white;
+        }
     </style>
 
     <style>
@@ -237,8 +249,19 @@
             </ul>
 
             <ul id="nav-mobile" class="side-nav">
-                <li><a href="#">Navbar Link</a></li>
-                <li><a onClick="signOut()">Sign Out</a></li>
+                <li>
+                    <div class="col s12 center" style="margin-right:10px; margin-top:25px;">
+                        <div class="col s3">
+                            <img id="featuredProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
+                        </div>
+                        <div class="col s5">
+                            <h5 id="featuredProfileUser" class="white-text margin" style="margin-bottom:0;">{{ current_profile.username }}</h5>
+                            <span id="featuredProfileLoc" class="white-text ultra-small">{{ current_profile.location }}</span>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
+                <li><a onClick="signOut()"><i class="material-icons left">power_settings_new</i>Sign Out</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons" style="color:#ff6e66;">menu</i></a>
         </div>
@@ -279,16 +302,12 @@
                     </div>
                 </div>
 
-                <div id='userTitle' class="card-action row" style="padding-bottom:5px;">
+                <div class="card-action row" style="padding-bottom:5px;">
                     <div class="col s12">
 
                         <div class="col s3" style="float:left; margin-top:-15px; margin-left:-25px;">
                             <img id="featuredProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
                         </div>
-                        {#                        <div class="col s5 left" style="margin-left: -20px;">#}
-                        {#                            <p class="margin" style="float:left;" id="featuredProfileUser"></p>#}
-                        {#                            <span class="grey-text text-darken-1 ultra-small">Tracy Ca</span>#}
-                        {#                        </div>#}
                         <div class="col s5" style="margin-top:-20px; margin-left:-20px;">
                             <h5 id="featuredProfileUser" class="grey-text text-darken-4 margin" style="margin-bottom:0;"></h5>
                             <span id="featuredProfileLoc" class="grey-text text-darken-1 ultra-small">Fresno, Ca</span>
@@ -297,7 +316,7 @@
                             <a class="waves-effect waves-dark btn" style="margin-left:60%; border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
                         </div>
                     </div>
-                    <div class="col s12">
+                    <div class="col s12 profileSocialBody">
                         <div class="col s10">
                             <div class="col s12 " style="padding-top:5px;">
                                 <i class="material-icons left socialIcons featuredProfileSocial">shopping_cart</i>
@@ -319,27 +338,12 @@
             </div>
 
             <div class="card col s12 l12 center mainCard">
-                <div class="collection-header z-depth-2">
+                <div class="collection-header z-depth-2" style="margin-bottom:5px;">
                     <img src="../static/img/image2.jpg" alt="" class="responsive-img valign profile-post-uer-image">
                     <a href="" class="waves-effect waves-light btn" style="float:left; margin-top:-70px; margin-left:15px;">
                         <i class="large material-icons" style="background-color:#ff6e66;"></i>
                         Discover More
                     </a>
-                    <div class="card-action row">
-
-                        <div class="col s3" style="float:left; margin-top:-15px; margin-left:-25px;">
-                            <img id="popularProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
-                        </div>
-                        <div class="col s5" style="margin-left: -20px;">
-                            <h5 class="margin" style="float:left;" id="popularProfileUser"></h5>
-                        </div>
-                        <ul class="card-action-buttons">
-                            <li style="float:right; margin-right:-25px; margin-left:5px;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="large material-icons">plus_one</i></a>
-                            </li>
-                            <li style="float:right;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="large material-icons">share</i></a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
                 <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="popularBody">
 {#                    <div class="col s12">#}
@@ -359,32 +363,53 @@
                             <i class="material-icons right">keyboard_arrow_right</i>Next</a>
                     </div>
                 </div>
+                <div class="card-action row" style="padding-bottom:5px;">
+                    <div class="col s12">
+
+                        <div class="col s3" style="float:left; margin-top:-15px; margin-left:-25px;">
+                            <img id="popularProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
+                        </div>
+                        {#                        <div class="col s5 left" style="margin-left: -20px;">#}
+                        {#                            <p class="margin" style="float:left;" id="featuredProfileUser"></p>#}
+                        {#                            <span class="grey-text text-darken-1 ultra-small">Tracy Ca</span>#}
+                        {#                        </div>#}
+                        <div class="col s5" style="margin-top:-20px; margin-left:-20px;">
+                            <h5 id="popularProfileUser" class="grey-text text-darken-4 margin" style="margin-bottom:0;"></h5>
+                            <span id="popularProfileLoc" class="grey-text text-darken-1 ultra-small">Fresno, Ca</span>
+                        </div>
+                        <div class="col s4">
+                            <a class="waves-effect waves-dark btn" style="margin-left:60%; border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
+                        </div>
+                    </div>
+                    <div class="col s12 profileSocialBody">
+                        <div class="col s10">
+                            <div class="col s12 " style="padding-top:5px;">
+                                <i class="material-icons left socialIcons popularProfileSocial">shopping_cart</i>
+                                <i class="material-icons left socialIcons popularProfileSocial">favorite_border</i>
+                                <i class="material-icons left socialIcons popularProfileSocial">share</i>
+                                <i class="material-icons left socialIcons popularProfileSocial">comment</i>
+                            </div>
+                            <div class="col s12 popularProfileSocial" style="padding-top:5px;">
+                                <span class="left grey-text text-darken-2 ultra-small">Likes 2324 Comments 324</span>
+                            </div>
+                        </div>
+                        <div class="col s2">
+                            <i onClick="popularVert()" class="material-icons left socialIcons right">more_vert</i>
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
 
 
             <div class="card col s12 l12 center mainCard">
-                <div class="collection-header z-depth-2">
+                <div class="collection-header z-depth-2" style="margin-bottom:5px;">
                     <img src="../static/img/image3.jpg" alt="" class="responsive-img valign profile-post-uer-image">
                     <a href="" class="waves-effect waves-light btn" style="float:left; margin-top:-70px; margin-left:15px;">
                         <i class="large material-icons" style="background-color:#ff6e66;"></i>
                         Discover More
                     </a>
-                    <div class="card-action row">
-
-                        <div class="col s3" style="float:left; margin-top:-15px; margin-left:-25px;">
-                            <img id="newProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
-                        </div>
-                        <div class="col s5"  style="margin-left: -20px;">
-                            <h5 class="margin" style="float:left;" id="newProfileUser"></h5>
-                        </div>
-                        <ul class="card-action-buttons">
-                            <li style="float:right; margin-right:-25px; margin-left:5px;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="large material-icons">plus_one</i></a>
-                            </li>
-                            <li style="float:right;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="large material-icons">share</i></a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
                 <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="newBody">
 {#                    <div class="col s12">#}
@@ -406,6 +431,43 @@
                             <i class="material-icons right">keyboard_arrow_right</i>Next</a>
                     </div>
                 </div>
+
+                <div class="card-action row" style="padding-bottom:5px;">
+                    <div class="col s12">
+
+                        <div class="col s3" style="float:left; margin-top:-15px; margin-left:-25px;">
+                            <img id="newProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
+                        </div>
+                        {#                        <div class="col s5 left" style="margin-left: -20px;">#}
+                        {#                            <p class="margin" style="float:left;" id="newProfileUser"></p>#}
+                        {#                            <span class="grey-text text-darken-1 ultra-small">Tracy Ca</span>#}
+                        {#                        </div>#}
+                        <div class="col s5" style="margin-top:-20px; margin-left:-20px;">
+                            <h5 id="newProfileUser" class="grey-text text-darken-4 margin" style="margin-bottom:0;"></h5>
+                            <span id="newProfileLoc" class="grey-text text-darken-1 ultra-small">Fresno, Ca</span>
+                        </div>
+                        <div class="col s4">
+                            <a class="waves-effect waves-dark btn" style="margin-left:60%; border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
+                        </div>
+                    </div>
+                    <div class="col s12 profileSocialBody">
+                        <div class="col s10">
+                            <div class="col s12 " style="padding-top:5px;">
+                                <i class="material-icons left socialIcons newProfileSocial">shopping_cart</i>
+                                <i class="material-icons left socialIcons newProfileSocial">favorite_border</i>
+                                <i class="material-icons left socialIcons newProfileSocial">share</i>
+                                <i class="material-icons left socialIcons newProfileSocial">comment</i>
+                            </div>
+                            <div class="col s12 newProfileSocial" style="padding-top:5px;">
+                                <span class="left grey-text text-darken-2 ultra-small">Likes 2324 Comments 324</span>
+                            </div>
+                        </div>
+                        <div class="col s2">
+                            <i onClick="newVert()" class="material-icons left socialIcons right">more_vert</i>
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
         </div>

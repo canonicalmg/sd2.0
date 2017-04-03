@@ -241,10 +241,12 @@ def get_featured_outfits():
         for each_outfit_item in outfit_items:
             inner_outfit.append({"pk": each_outfit_item.pk,
                                  "transform": ast.literal_eval(each_outfit_item.transform_matrix,),
-                                 "large_url": each_outfit_item.clothing.large_url})
+                                 "large_url": each_outfit_item.clothing.large_url,
+                                 "zIndex": each_outfit_item.zIndex})
         outfits.append({"outfit": inner_outfit,
                         "user": {"username": each_outfit.profile.user.username,
-                                 "profile_img": each_outfit.profile.profile_image},
+                                 "profile_img": each_outfit.profile.profile_image,
+                                 "location": each_outfit.profile.location},
                         "outfit_pk": each_outfit.pk,
                         "canvasHeight": each_outfit.canvas_height,
                         "canvasWidth": each_outfit.canvas_width})
@@ -259,10 +261,12 @@ def get_new_outfits():
         for each_outfit_item in outfit_items:
             inner_outfit.append({"pk": each_outfit_item.pk,
                                  "transform": ast.literal_eval(each_outfit_item.transform_matrix,),
-                                 "large_url": each_outfit_item.clothing.large_url})
+                                 "large_url": each_outfit_item.clothing.large_url,
+                                 "zIndex": each_outfit_item.zIndex})
         outfits.append({"outfit": inner_outfit,
                         "user": {"username": each_outfit.profile.user.username,
-                                 "profile_img": each_outfit.profile.profile_image},
+                                 "profile_img": each_outfit.profile.profile_image,
+                                 "location": each_outfit.profile.location},
                         "outfit_pk": each_outfit.pk,
                         "canvasHeight": each_outfit.canvas_height,
                         "canvasWidth": each_outfit.canvas_width})
@@ -277,10 +281,12 @@ def get_popular_outfits():
         for each_outfit_item in outfit_items:
             inner_outfit.append({"pk": each_outfit_item.pk,
                                  "transform": ast.literal_eval(each_outfit_item.transform_matrix,),
-                                 "large_url": each_outfit_item.clothing.large_url})
+                                 "large_url": each_outfit_item.clothing.large_url,
+                                 "zIndex": each_outfit_item.zIndex})
         outfits.append({"outfit": inner_outfit,
                         "user": {"username": each_outfit.profile.user.username,
-                                 "profile_img": each_outfit.profile.profile_image},
+                                 "profile_img": each_outfit.profile.profile_image,
+                                 "location": each_outfit.profile.location},
                         "outfit_pk": each_outfit.pk,
                         "canvasHeight": each_outfit.canvas_height,
                         "canvasWidth": each_outfit.canvas_width})
@@ -299,7 +305,7 @@ def get_front_page(request):
                 print "index = ", index
                 json_stuff = json.dumps({"featured": featured_outfits,
                                          "new": new_outfits,
-                                         "popular": popular_outfits})
+                                         "popular": popular_outfits,})
                 return HttpResponse(json_stuff, content_type="application/json")
     return HttpResponse("Error")
 
@@ -307,19 +313,20 @@ def signUpLogIn(request):
     if request.user.is_authenticated():
         #send them to /home
         template = loader.get_template('index.html')
-        outfits = []
-        outfit_objs = outfit.objects.filter()
-        for each_outfit in outfit_objs:
-            # print "each outfit = ", each_outfit
-            outfit_items = outfit_item.objects.filter(outfit=each_outfit)
-            outfit_inner = []
-            for each_outfit_item in outfit_items:
-                # print "each outfit = ", each_outfit_item
-                outfit_inner.append(each_outfit_item)
-            outfits.append(outfit_inner)
-        print outfits
+        current_profile = profile.objects.get(user=request.user)
+        # outfits = []
+        # outfit_objs = outfit.objects.filter()
+        # for each_outfit in outfit_objs:
+        #     # print "each outfit = ", each_outfit
+        #     outfit_items = outfit_item.objects.filter(outfit=each_outfit)
+        #     outfit_inner = []
+        #     for each_outfit_item in outfit_items:
+        #         # print "each outfit = ", each_outfit_item
+        #         outfit_inner.append(each_outfit_item)
+        #     outfits.append(outfit_inner)
+        # print outfits
         context = {
-            "outfits": outfits
+            "current_profile": current_profile
         }
     else:
         template = loader.get_template('headerLogin.html')
@@ -366,7 +373,8 @@ def user_submit_outfit(request):
                                                         carrier=each_item['carrier'])
                 new_item = outfit_item(clothing=current_clothing,
                                        outfit=new_outfit,
-                                       transform_matrix=each_item['transform'])
+                                       transform_matrix=each_item['transform'],
+                                       zIndex=each_item['zIndex'])
                 new_item.save()
 
 

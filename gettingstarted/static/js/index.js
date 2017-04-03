@@ -92,39 +92,36 @@ function populateSections(){
         success: function (json) {
           console.log("json = ", json);
           FEATURED = json.featured;
-          $("#featuredProfileImg").attr("src", json.featured[0].user.profile_img);
-          $("#featuredProfileUser").html(json.featured[0].user.username);
+          // $("#featuredProfileImg").attr("src", json.featured[0].user.profile_img);
+          // $("#featuredProfileUser").html(json.featured[0].user.username);
+          load_user("featured", json.popular[0].user);
           for(var i=0; i < json.featured[0].outfit.length; i++){
             load_outfit($("#featured"),
                 json.featured[0].outfit[i],
                 json.featured[0].outfit_pk,
-                "featured",
-                json.featured[0].canvasHeight,
-                json.featured[0].canvasWidth);
+                "featured");
           }
 
           NEW = json.new;
-          $("#newProfileImg").attr("src", json.new[0].user.profile_img);
-          $("#newProfileUser").html(json.new[0].user.username);
+          // $("#newProfileImg").attr("src", json.new[0].user.profile_img);
+          // $("#newProfileUser").html(json.new[0].user.username);
+          load_user("new", json.popular[0].user);
           for(var i=0; i < json.new[0].outfit.length; i++){
             load_outfit($("#new"),
                 json.new[0].outfit[i],
                 json.new[0].outfit_pk,
-                "new",
-                json.new[0].canvasHeight,
-                json.new[0].canvasWidth);
+                "new");
           }
 
           POPULAR = json.popular;
-          $("#popularProfileImg").attr("src", json.popular[0].user.profile_img);
-          $("#popularProfileUser").html(json.popular[0].user.username);
+          // $("#popularProfileImg").attr("src", json.popular[0].user.profile_img);
+          // $("#popularProfileUser").html(json.popular[0].user.username);
+          load_user("popular", json.popular[0].user);
           for(var i=0; i < json.popular[0].outfit.length; i++){
             load_outfit($("#popular"),
                 json.popular[0].outfit[i],
                 json.popular[0].outfit_pk,
-                "popular",
-                json.popular[0].canvasHeight,
-                json.popular[0].canvasWidth);
+                "popular");
           }
 
         },
@@ -139,15 +136,12 @@ function populateSections(){
 function newNext(){
   NEW_CURRENT += 1;
   $("#new").empty();
-  $("#newProfileImg").attr("src", NEW[NEW_CURRENT % NEW.length].user.profile_img);
-  $("#newProfileUser").html(NEW[NEW_CURRENT % NEW.length].user.username);
+  load_user("new", FEATURED[FEATURED_CURRENT % FEATURED.length].user);
   for(var i=0; i < NEW[NEW_CURRENT % NEW.length].outfit.length; i++ ){
     load_outfit($("#new"),
         NEW[NEW_CURRENT % NEW.length].outfit[i],
         NEW[NEW_CURRENT % NEW.length].outfit_pk,
-        "new",
-        NEW[NEW_CURRENT % NEW.length].canvasHeight,
-        NEW[NEW_CURRENT % NEW.length].canvasWidth);
+        "new");
   }
 }
 
@@ -156,30 +150,24 @@ function newPrev(){
     NEW_CURRENT -= 1;
   }
   $("#new").empty();
-  $("#newProfileImg").attr("src", NEW[NEW_CURRENT % NEW.length].user.profile_img);
-  $("#newProfileUser").html(NEW[NEW_CURRENT % NEW.length].user.username);
+  load_user("new", FEATURED[FEATURED_CURRENT % FEATURED.length].user);
   for(var i=0; i < NEW[NEW_CURRENT % NEW.length].outfit.length; i++ ){
     load_outfit($("#new"),
         NEW[NEW_CURRENT % NEW.length].outfit[i],
         NEW[NEW_CURRENT % NEW.length].outfit_pk,
-        "new",
-        NEW[NEW_CURRENT % NEW.length].canvasHeight,
-        NEW[NEW_CURRENT % NEW.length].canvasWidth);
+        "new");
   }
 }
 
 function popularNext(){
   POPULAR_CURRENT += 1;
   $("#popular").empty();
-  $("#popularProfileImg").attr("src", POPULAR[POPULAR_CURRENT % POPULAR.length].user.profile_img);
-  $("#popularProfileUser").html(POPULAR[POPULAR_CURRENT % POPULAR.length].user.username);
+  load_user("popular", FEATURED[FEATURED_CURRENT % FEATURED.length].user);
   for(var i=0; i < POPULAR[POPULAR_CURRENT % POPULAR.length].outfit.length; i++ ){
     load_outfit($("#popular"),
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit[i],
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
-        "popular",
-        POPULAR[POPULAR_CURRENT % POPULAR.length].canvasHeight,
-        POPULAR[POPULAR_CURRENT % POPULAR.length].canvasWidth);
+        "popular");
   }
 }
 
@@ -188,30 +176,24 @@ function popularPrev(){
     POPULAR_CURRENT -= 1;
   }
   $("#popular").empty();
-  $("#popularProfileImg").attr("src", POPULAR[POPULAR_CURRENT % POPULAR.length].user.profile_img);
-  $("#popularProfileUser").html(POPULAR[POPULAR_CURRENT % POPULAR.length].user.username);
+  load_user("popular", FEATURED[FEATURED_CURRENT % FEATURED.length].user);
   for(var i=0; i < POPULAR[POPULAR_CURRENT % POPULAR.length].outfit.length; i++ ){
     load_outfit($("#popular"),
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit[i],
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
-        "popular",
-        POPULAR[POPULAR_CURRENT % POPULAR.length].canvasHeight,
-        POPULAR[POPULAR_CURRENT % POPULAR.length].canvasWidth);
+        "popular");
   }
 }
 
 function featuredNext(){
   FEATURED_CURRENT += 1;
   $("#featured").empty();
-  $("#featuredProfileImg").attr("src", FEATURED[FEATURED_CURRENT % FEATURED.length].user.profile_img);
-  $("#featuredProfileUser").html(FEATURED[FEATURED_CURRENT % FEATURED.length].user.username);
+  load_user("featured", FEATURED[FEATURED_CURRENT % FEATURED.length].user);
   for(var i=0; i < FEATURED[FEATURED_CURRENT % FEATURED.length].outfit.length; i++ ){
     load_outfit($("#featured"),
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit[i],
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit_pk,
-        "featured",
-        FEATURED[FEATURED_CURRENT % FEATURED.length].canvasHeight,
-        FEATURED[FEATURED_CURRENT % FEATURED.length].canvasWidth);
+        "featured");
   }
 }
 
@@ -220,23 +202,34 @@ function featuredPrev(){
     FEATURED_CURRENT -= 1;
   }
   $("#featured").empty();
-  $("#featuredProfileImg").attr("src", FEATURED[FEATURED_CURRENT % FEATURED.length].user.profile_img);
-  $("#featuredProfileUser").html(FEATURED[FEATURED_CURRENT % FEATURED.length].user.username);
+  load_user("featured", FEATURED[FEATURED_CURRENT % FEATURED.length].user);
   for(var i=0; i < FEATURED[FEATURED_CURRENT % FEATURED.length].outfit.length; i++ ){
     load_outfit($("#featured"),
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit[i],
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit_pk,
-        "featured",
-        FEATURED[FEATURED_CURRENT % FEATURED.length].canvasHeight,
-        FEATURED[FEATURED_CURRENT % FEATURED.length].canvasWidth);
+        "featured");
   }
+}
+
+function load_user(trey, item){
+  $("#"+trey+"profileLoc").html(item.location);
+  $("#"+trey+"ProfileImg").attr("src", item.profile_img);
+  $("#"+trey+"ProfileUser").html(item.username);
 }
 
 function featuredVert(){
   $(".featuredProfileSocial").toggle();
 }
 
-function load_outfit(whereToAdd, whatToAdd, outfit, trey, originalHeight, originalWidth){
+function popularVert(){
+  $(".popularProfileSocial").toggle();
+}
+
+function newVert(){
+  $(".newProfileSocial").toggle();
+}
+
+function load_outfit(whereToAdd, whatToAdd, outfit, trey){
   //remove existing
   $('#fixed'+trey+outfit+"o"+whatToAdd.pk).remove();
   //add new
@@ -266,6 +259,8 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey, originalHeight, origin
   curTransform.m43 = whatToAdd.transform[20];
   curTransform.m44 = whatToAdd.transform[21];
 
+
+  document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk).style.zIndex = whatToAdd.zIndex;
   document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk).style.WebkitTransform = curTransform;
   if (window.getComputedStyle(document.body).mixBlendMode !== undefined)
     $(".outfitCanvasItem").addClass("curtain");
