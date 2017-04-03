@@ -279,16 +279,22 @@
 
                     <div id='userTitle' class="card-action row" style="display:none;">
 
-                        <div class="col s3" style="float:left; margin-top:-15px;">
+                        <div class="col s3" style="float:left; margin-top:-15px; margin-left:-25px;">
                             <img src="../static/img/avatar.jpg" alt="" class="circle responsive-img valign profile-post-uer-image">
                         </div>
-                        <div class="col s5">
-                            <h5 class="margin">{{ request.user.username }}</h5>
+                        <div class="col s5 left" style="margin-left: -20px;">
+                            <h5 class="margin" style="float:left;">{{ request.user.username }}</h5>
                         </div>
-                        <div class="col-s4">
-                            <a href="#">Like</a>
-                            <a href="#">Share</a>
-                        </div>
+{#                        <div class="col-s4">#}
+{#                            <a href="#">Like</a>#}
+{#                            <a href="#">Share</a>#}
+{#                        </div>#}
+                        <ul class="card-action-buttons">
+                            <li style="float:right; margin-right:-25px; margin-left:5px;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="large material-icons">plus_one</i></a>
+                            </li>
+                            <li style="float:right;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="large material-icons">share</i></a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div style="height:50%; position:relative; overflow-x:hidden; overflow-y: hidden;" id="addNewBody">

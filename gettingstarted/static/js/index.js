@@ -232,6 +232,10 @@ function featuredPrev(){
   }
 }
 
+function featuredVert(){
+  $(".featuredProfileSocial").toggle();
+}
+
 function load_outfit(whereToAdd, whatToAdd, outfit, trey, originalHeight, originalWidth){
   //remove existing
   $('#fixed'+trey+outfit+"o"+whatToAdd.pk).remove();
