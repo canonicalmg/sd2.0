@@ -314,17 +314,7 @@ def signUpLogIn(request):
         #send them to /home
         template = loader.get_template('index.html')
         current_profile = profile.objects.get(user=request.user)
-        # outfits = []
-        # outfit_objs = outfit.objects.filter()
-        # for each_outfit in outfit_objs:
-        #     # print "each outfit = ", each_outfit
-        #     outfit_items = outfit_item.objects.filter(outfit=each_outfit)
-        #     outfit_inner = []
-        #     for each_outfit_item in outfit_items:
-        #         # print "each outfit = ", each_outfit_item
-        #         outfit_inner.append(each_outfit_item)
-        #     outfits.append(outfit_inner)
-        # print outfits
+
         context = {
             "current_profile": current_profile
         }
@@ -447,27 +437,30 @@ def get_product_full(request):
     return HttpResponse("Error")
 
 def addNew(request):
-    # amazon = AmazonAPI('AKIAJOR5NTXK2ERTU6AQ',
-    #                    'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
-    #                    'can037-20',
-    #                    region="US")
-    # products = amazon.search_n(10, Keywords="Women's Shirts", SearchIndex="Apparel")
-    # print "product 1 = ", dir(products[1])
-    # print "products = ", products
-    # for i, product in enumerate(products):
-    #     print "{0}. '{1}'".format(i, product.title)
-    #     print "small img url = ", product.small_image_url
-    # for each_product in products:
-    #     print each_product.small_image_url
-    #     if each_product.small_image_url == None:
-    #         products.remove(each_product)
-    #         print "REMOVED PRODUCT"
-    #
-    # for each_product in products:
-    #     print type(each_product.small_image_url)
-    #     print each_product.small_image_url
-    template = loader.get_template('addNew.html')
-    context = {}
+    if request.user.is_authenticated():
+        template = loader.get_template('addNew.html')
+        current_profile = profile.objects.get(user=request.user)
+        context = {
+        }
+    else:
+        template = loader.get_template('headerLogin.html')
+        context = {
+        }
+    return HttpResponse(template.render(context, request))
+
+def myCart(request):
+    if request.user.is_authenticated():
+        template = loader.get_template('myCart.html')
+        current_profile = profile.objects.get(user=request.user)
+        is_empty = True
+        context = {
+            "current_profile": current_profile,
+            "is_empty": is_empty
+        }
+    else:
+        template = loader.get_template('headerLogin.html')
+        context = {
+        }
     return HttpResponse(template.render(context, request))
 
 

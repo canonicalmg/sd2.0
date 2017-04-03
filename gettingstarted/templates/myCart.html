@@ -1,0 +1,317 @@
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <!--Import Google Icon Font-->#}
+{#    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">#}
+{#    <!--Import materialize.css-->#}
+{#    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>#}
+{##}
+{#    <!--Let browser know website is optimized for mobile-->#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>#}
+{#</head>#}
+
+<body>
+<!--Import jQuery before materialize.js-->
+{#<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>#}
+{#<script type="text/javascript" src="../static/js/materialize.min.js"></script>#}
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Home</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/css/swiper.min.css">
+    <link href="../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <style>
+        body {
+        {#            display: flex;#}
+        {#            flex-direction: column;#}
+            background-color: #f0f0f0;
+        }
+        {#        main {#}
+        {#            flex: 1 0 auto;#}
+        {#        }#}
+        #logo-container{
+            color:black;
+        }
+        .card {
+            width:97%;
+        }
+        .card-content span{
+            text-align:center;
+        }
+        .card .card-content{
+            padding:12px;
+        }
+        .card-image img{
+            height: 60%;
+        }
+        .card-image{
+            margin-top:-10px;
+        }
+        .card-action .row{
+            margin-bottom:0px;
+        }
+
+        nav .brand-logo{
+            left:90%;
+        }
+
+        .task-card-title {
+            padding:20px;
+            margin: 0;
+            color: #fff;
+            font-weight: 300;
+        }
+
+        #fixedbutton {
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+        }
+
+        #fixedFooter {
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            background-color: #616161 !important;
+            z-index: 999;
+        }
+
+        .mainRow{
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: #f0f0f0;
+        }
+
+        .mainCard{
+            padding:0px !important;
+        }
+
+        .task-card-title{
+            color:black !important;
+        }
+
+        .btn{
+            background-color: #ff6e66;
+        }
+        .btn:hover{
+            background-color: #ff6e66;
+        }
+        .waves-effect.waves-red .waves-ripple {
+            /* The alpha value allows the text and background color
+            of the button to still show through. */
+            background-color: #ff6e66;
+        }
+
+        .likeShare{
+            color: #ff6e66 !important;
+        }
+
+        ul.card-action-buttons {
+            margin: -26px 10px 0 0;
+            text-align: right;
+        }
+
+        .socialIcons{
+            color: #ff6e66;
+        }
+
+        .profile-post-uer-image{
+            margin-top:-10px;
+        }
+
+        .profileSocialBody{
+            padding-top:5px !important;
+        }
+
+        .side-nav{
+            background-image: url("../static/img/menu.jpg");
+        }
+        .side-nav > li > a, .side-nav > li > a > i.material-icons{
+            color:white;
+        }
+    </style>
+
+    <style>
+        .snip1336 {
+            font-family: 'Roboto', Arial, sans-serif;
+            overflow: hidden;
+            width: 100%;
+            color: #ffffff;
+            text-align: left;
+            line-height: 1.4em;
+            background-color: #141414;
+            margin-left: 0%;
+        }
+        .snip1336 * {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition: all 0.25s ease;
+            transition: all 0.25s ease;
+        }
+        .snip1336 img {
+            max-width: 100%;
+            vertical-align: top;
+            opacity: 0.85;
+        }
+        .snip1336 figcaption {
+            width: 100%;
+            background-color: #141414;
+            padding: 25px;
+            position: relative;
+        }
+        .snip1336 figcaption:before {
+            position: absolute;
+            content: '';
+            bottom: 100%;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 55px 0 0 400px;
+            border-color: transparent transparent transparent #141414;
+        }
+        .snip1336 figcaption a {
+        {#            padding: 5px;#}
+        {#            border: 1px solid #ffffff;#}
+        {#            color: #ffffff;#}
+        {#            font-size: 0.7em;#}
+        {#            text-transform: uppercase;#}
+        {#            margin: 10px 0;#}
+        {#            display: inline-block;#}
+        {#            opacity: 0.65;#}
+        {#            width: 47%;#}
+        {#            text-align: center;#}
+        {#            text-decoration: none;#}
+        {#            font-weight: 600;#}
+        {#            letter-spacing: 1px;#}
+        }
+        .snip1336 figcaption a:hover {
+            opacity: 1;
+        }
+        .snip1336 .profile {
+            border-radius: 50%;
+            position: absolute;
+            bottom: 100%;
+            left: 25px;
+            z-index: 1;
+            max-width: 90px;
+            opacity: 1;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        .snip1336 .follow {
+            margin-right: 4%;
+            border-color: #2980b9;
+            color: #2980b9;
+        }
+        .snip1336 h5 {
+            margin: 0 0 5px;
+            font-weight: 300;
+        }
+        .snip1336 h5 span {
+            display: block;
+            font-size: 0.5em;
+            color: #2980b9;
+        }
+        .snip1336 p {
+            margin: 0 0 10px;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="white" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="/" class="brand-logo center">My Outfit</a>
+            <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#">Navbar Link</a></li>
+                <li><a onClick="signOut()">Sign Out</a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="side-nav">
+                <li>
+                    <div class="col s12 center" style="margin-right:10px; margin-top:25px;">
+                        <div class="col s3">
+                            <img id="featuredProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
+                        </div>
+                        <div class="col s5">
+                            <h5 id="featuredProfileUser" class="white-text margin" style="margin-bottom:0;">{{ current_profile.username }}</h5>
+                            <span id="featuredProfileLoc" class="white-text ultra-small">{{ current_profile.location }}</span>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
+                <li><a href="/addNew"><i class="material-icons left">note_add</i>Create Outfit</a></li>
+                <li><a href="/myCart"><i class="material-icons left">shopping_cart</i>My Cart</a></li>
+                <li><a onClick="signOut()"><i class="material-icons left">power_settings_new</i>Sign Out</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons" style="color:#ff6e66;">menu</i></a>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div class="section no-pad-bot" id="index-banner">
+
+        {% if is_empty %}
+            <div class="card-panel teal center">
+                <h4 class="white-text">Your cart is empty!</h4>
+                <a href="" class="waves-effect waves-light btn">
+                    <i class="large material-icons" style="background-color:#ff6e66;"></i>
+                    Discover Some Outfits
+                </a>
+            </div>
+        {% endif %}
+        {% for each_outfit in cart_outfits %}
+            <h2>{{ each_outfit.profile.user.username }}</h2>
+            <h4>{{ each_outfit.description }}</h4>
+            {% for each_item in each_outfit.items %}
+                <div class="row mainRow">
+                    <div class="card horizontal">
+                        <div class="card-image">
+                            <img src={{ each_item.clothing.large_url }}>
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.</p>
+                            </div>
+                            <div class="card-action">
+                                <a href="#">This is a link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+    </div>
+
+</main>
+
+<!--  Scripts-->
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/js/swiper.jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-touch-events/1.0.5/jquery.mobile-events.js"></script>
+
+<script src="../static/js/materialize.js"></script>
+<script src="../static/js/myCart.js"></script>
+
+
+</body>
+</html>
