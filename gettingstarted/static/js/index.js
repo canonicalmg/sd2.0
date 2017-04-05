@@ -242,7 +242,9 @@ function featuredPrev(){
 }
 
 function load_user(trey, item, liked, total_likes){
-  $("#"+trey+"profileLoc").html(item.location);
+  console.log("item location = ", item.location);
+  console.log("trey = ", trey);
+  $("#"+trey+"ProfileLoc").text(item.location);
   $("#"+trey+"ProfileImg").attr("src", item.profile_img);
   $("#"+trey+"ProfileUser").html(item.username);
   if(liked == true){
@@ -269,6 +271,25 @@ function load_user(trey, item, liked, total_likes){
     else{
       $("#" + trey + "LikeComment").html(total_likes + " people like this.");
     }
+  }
+  var domObject = $("#"+trey+"Follow");
+  if(item.is_self){
+    domObject.hide();
+  }
+  else{
+    domObject.show();
+  }
+  if(item.is_following == true){
+    domObject.text("Following");
+    domObject.css('color', 'white');
+    domObject.css('background-color', '#2bbbad');
+    domObject.css('border', '1px solid #2bbbad');
+  }
+  else if(item.is_following == false){
+    domObject.text("Follow");
+    domObject.css('color', '#ff6e66');
+    domObject.css('background-color', 'white');
+    domObject.css('border', '1px solid #ff6e66');
   }
 }
 
@@ -365,6 +386,28 @@ function setOutfitLikeUnlike(outfitKey, likeVal){
   }
 }
 
+function setUserFollowUnfollow(userKey, followVal){
+  //Finds all occurences of the user in the outfit arrays and sets their 'is_following' property accordingly
+  //featured
+  for(var i=0; i < FEATURED.length; i++){
+    if(FEATURED[i].user.user_id == userKey){
+      FEATURED[i].user.is_following = followVal;
+    }
+  }
+  //popular
+  for(var i=0; i < POPULAR.length; i++){
+    if(POPULAR[i].user.user_id == userKey){
+      POPULAR[i].user.is_following = followVal;
+    }
+  }
+  //new
+  for(var i=0; i < NEW.length; i++){
+    if(NEW[i].user.user_id == userKey){
+      NEW[i].user.is_following = followVal;
+    }
+  }
+}
+
 function likeOutfit(id){
   console.log("id = ", id);
   var mainArr;
@@ -433,4 +476,98 @@ function likeOutfit(id){
         }
       }
   )
+}
+
+function followClick(dom_id){
+  var mainArr;
+  var counterArr;
+  var trey = dom_id.split("Follow")[0];
+  if(dom_id == "featuredFollow"){
+    mainArr = FEATURED;
+    counterArr = FEATURED_CURRENT;
+  }
+  else if(dom_id == "popularFollow"){
+    mainArr = POPULAR;
+    counterArr = POPULAR_CURRENT;
+  }
+  else if(dom_id == "newFollow"){
+    mainArr = NEW;
+    counterArr = NEW_CURRENT;
+  }
+  var currentUser = mainArr[counterArr % mainArr.length].user;
+  var domObject = $("#"+dom_id);
+  $.ajax({
+        type: 'POST',
+        url: 'follow_user/',
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken")
+        },
+        data: {'user':currentUser.user_id},
+        success: function (json) {
+          console.log("json = ", json);
+          if(json == "Follow"){
+            //add is_follow=True to all outfits of this user
+            setUserFollowUnfollow(currentUser.user_id, true);
+            //re-initialize any outfits whose user is the user we are following
+            reloadOutfitIfFollowing(currentUser.user_id);
+            
+          }
+          else if(json == "Unfollow"){
+            setUserFollowUnfollow(currentUser.user_id, false);
+            reloadOutfitIfFollowing(currentUser.user_id);
+
+          }
+
+        },
+        error: function (json) {
+          // $("#createRoutine").show();
+          console.log("ERROR", json);
+        }
+      }
+  )
+}
+
+function reloadOutfitIfFollowing(user_id){
+  //featured
+  if(FEATURED[FEATURED_CURRENT % FEATURED.length].user.user_id == user_id){
+    $("#featured").empty();
+    load_user("featured",
+        FEATURED[FEATURED_CURRENT % FEATURED.length].user,
+        FEATURED[FEATURED_CURRENT % FEATURED.length].liked,
+        FEATURED[FEATURED_CURRENT % FEATURED.length].total_likes);
+    for(var i=0; i < FEATURED[FEATURED_CURRENT % FEATURED.length].outfit.length; i++ ){
+      load_outfit($("#featured"),
+          FEATURED[FEATURED_CURRENT % FEATURED.length].outfit[i],
+          FEATURED[FEATURED_CURRENT % FEATURED.length].outfit_pk,
+          "featured");
+    }
+  }
+  //popular
+  if(POPULAR[POPULAR_CURRENT % POPULAR.length].user.user_id == user_id){
+    $("#popular").empty();
+    load_user("popular",
+        POPULAR[POPULAR_CURRENT % POPULAR.length].user,
+        POPULAR[POPULAR_CURRENT % POPULAR.length].liked,
+        POPULAR[POPULAR_CURRENT % POPULAR.length].total_likes);
+    for(var i=0; i < POPULAR[POPULAR_CURRENT % POPULAR.length].outfit.length; i++ ){
+      load_outfit($("#popular"),
+          POPULAR[POPULAR_CURRENT % POPULAR.length].outfit[i],
+          POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
+          "popular");
+    }
+  }
+  //new
+  if(NEW[NEW_CURRENT % NEW.length].user.user_id == user_id){
+    $("#new").empty();
+    load_user("new",
+        NEW[NEW_CURRENT % NEW.length].user,
+        NEW[NEW_CURRENT % NEW.length].liked,
+        NEW[NEW_CURRENT % NEW.length].total_likes);
+    for(var i=0; i < NEW[NEW_CURRENT % NEW.length].outfit.length; i++ ){
+      load_outfit($("#new"),
+          NEW[NEW_CURRENT % NEW.length].outfit[i],
+          NEW[NEW_CURRENT % NEW.length].outfit_pk,
+          "new");
+    }
+  }
 }

@@ -257,10 +257,14 @@ def get_outfit_items(outfits, current_profile):
                                  "transform": ast.literal_eval(each_outfit_item.transform_matrix,),
                                  "large_url": each_outfit_item.clothing.large_url,
                                  "zIndex": each_outfit_item.zIndex})
+        is_following = each_outfit.profile.is_following(current_profile)
         outfits_arr.append({"outfit": inner_outfit,
                         "user": {"username": each_outfit.profile.user.username,
                                  "profile_img": each_outfit.profile.profile_image,
-                                 "location": each_outfit.profile.location},
+                                 "location": each_outfit.profile.location,
+                                 "user_id": each_outfit.profile.pk,
+                                 "is_following": is_following,
+                                 "is_self": each_outfit.profile == current_profile},
                         "outfit_pk": each_outfit.pk,
                         "canvasHeight": each_outfit.canvas_height,
                         "canvasWidth": each_outfit.canvas_width,
@@ -458,6 +462,29 @@ def like_outfit(request):
                                                                 outfit=current_outfit)
                         current_like_obj.save()
                         return HttpResponse("Like")
+                except Exception as e:
+                    print "Error ", e
+    return HttpResponse("Error")
+
+@csrf_exempt
+def follow_user(request):
+    if request.user.is_authenticated():
+        if request.is_ajax():
+            if request.method == 'POST':
+                try:
+                    profile_key = request.POST.get('user')
+                    current_profile = profile.objects.get(user=request.user)
+                    selected_profile = profile.objects.get(pk=profile_key)
+                    try:
+                        current_follow_obj = profile_follows.objects.get(profile_main=current_profile,
+                                                                         profile_following=selected_profile)
+                        current_follow_obj.delete()
+                        return HttpResponse("Unfollow")
+                    except Exception as e:
+                        current_follow_obj = profile_follows(profile_main=current_profile,
+                                                             profile_following=selected_profile)
+                        current_follow_obj.save()
+                        return HttpResponse("Follow")
                 except Exception as e:
                     print "Error ", e
     return HttpResponse("Error")

@@ -12,6 +12,14 @@ class profile(models.Model):
     def __unicode__(self):
         return self.user.username
 
+    def is_following(self, current_profile):
+        try:
+            current_follow_obj = profile_follows.objects.get(profile_main=current_profile,
+                                                             profile_following=self)
+            return True
+        except:
+            return False
+
 class clothing(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     carrier = models.CharField(max_length=100, null=True, blank=True)
@@ -86,5 +94,13 @@ class profile_likes_outfit(models.Model):
         self.outfit.remove_like()
         self.outfit.save()
         super(profile_likes_outfit, self).delete()
+
+class profile_follows(models.Model):
+    profile_main = models.ForeignKey(profile, related_name='profile_main')
+    profile_following = models.ForeignKey(profile, related_name='profile_following')
+
+    def __unicode__(self):
+        return self.profile_main.user.username + " -> " + self.profile_following.user.username
+
 
 

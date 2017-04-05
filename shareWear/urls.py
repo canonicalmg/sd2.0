@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^headerSignIn/$', views.headerSignIn, name='headerSignIn'),
     url(r'^populate_db/$', views.populate_db_amazon, name='populate_db'),
     url(r'^like_outfit/$', views.like_outfit, name='like_outfit'),
+    url(r'^follow_user/$', views.follow_user, name='follow_user'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^headerSignUp/$', views.headerSignUp, name='headerSignUp'),
     url(r'^about$', views.about, name='about'),

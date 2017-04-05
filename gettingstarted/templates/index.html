@@ -255,8 +255,8 @@
                             <img id="featuredProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
                         </div>
                         <div class="col s5">
-                            <h5 id="featuredProfileUser" class="white-text margin" style="margin-bottom:0;">{{ current_profile.username }}</h5>
-                            <span id="featuredProfileLoc" class="white-text ultra-small">{{ current_profile.location }}</span>
+                            <h5 class="white-text margin" style="margin-bottom:0;">{{ current_profile.username }}</h5>
+                            <span class="white-text ultra-small">{{ current_profile.location }}</span>
                         </div>
                     </div>
                 </li>
@@ -312,10 +312,10 @@
                         </div>
                         <div class="col s5" style="margin-top:-20px; margin-left:-20px;">
                             <h5 id="featuredProfileUser" class="grey-text text-darken-4 margin" style="margin-bottom:0;"></h5>
-                            <span id="featuredProfileLoc" class="grey-text text-darken-1 ultra-small">Fresno, Ca</span>
+                            <span id="featuredProfileLoc" class="grey-text text-darken-1 ultra-small"></span>
                         </div>
                         <div class="col s4">
-                            <a class="waves-effect waves-dark btn" style="margin-left:60%; border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
+                            <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="featuredFollow" style="border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
                         </div>
                     </div>
                     <div class="col s12 profileSocialBody">
@@ -377,10 +377,10 @@
                         {#                        </div>#}
                         <div class="col s5" style="margin-top:-20px; margin-left:-20px;">
                             <h5 id="popularProfileUser" class="grey-text text-darken-4 margin" style="margin-bottom:0;"></h5>
-                            <span id="popularProfileLoc" class="grey-text text-darken-1 ultra-small">Fresno, Ca</span>
+                            <span id="popularProfileLoc" class="grey-text text-darken-1 ultra-small"></span>
                         </div>
                         <div class="col s4">
-                            <a class="waves-effect waves-dark btn" style="margin-left:60%; border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
+                            <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="popularFollow" style="border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
                         </div>
                     </div>
                     <div class="col s12 profileSocialBody">
@@ -446,10 +446,10 @@
                         {#                        </div>#}
                         <div class="col s5" style="margin-top:-20px; margin-left:-20px;">
                             <h5 id="newProfileUser" class="grey-text text-darken-4 margin" style="margin-bottom:0;"></h5>
-                            <span id="newProfileLoc" class="grey-text text-darken-1 ultra-small">Fresno, Ca</span>
+                            <span id="newProfileLoc" class="grey-text text-darken-1 ultra-small"></span>
                         </div>
                         <div class="col s4">
-                            <a class="waves-effect waves-dark btn" style="margin-left:60%; border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
+                            <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="newFollow" style="border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
                         </div>
                     </div>
                     <div class="col s12 profileSocialBody">
