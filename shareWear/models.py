@@ -43,7 +43,21 @@ class outfit(models.Model):
     canvas_width = models.CharField(max_length=50, null=True, blank=True)
 
     def __unicode__(self):
-        return self.profile.user.username
+        return self.profile.user.username + " - " + str(self.pk)
+
+    def add_like(self):
+        self.likes = self.likes + 1
+
+    def remove_like(self):
+        self.likes = self.likes - 1
+
+    def does_user_like(self, given_profile):
+        try:
+            current_like_obj = profile_likes_outfit.objects.get(profile=given_profile,
+                                                                outfit=self)
+            return True
+        except:
+            return False
 
 class outfit_item(models.Model):
     clothing = models.ForeignKey(clothing)
@@ -53,4 +67,24 @@ class outfit_item(models.Model):
 
     def __unicode__(self):
         return self.outfit.profile.user.username + " - " + self.clothing.name
+
+class profile_likes_outfit(models.Model):
+    profile = models.ForeignKey(profile)
+    outfit = models.ForeignKey(outfit)
+
+    def __unicode__(self):
+        return self.profile.user.username + " - " + self.outfit.description
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            print "inside save"
+            self.outfit.add_like()
+            self.outfit.save()
+        super(profile_likes_outfit, self).save(*args, **kwargs)
+
+    def delete(self):
+        self.outfit.remove_like()
+        self.outfit.save()
+        super(profile_likes_outfit, self).delete()
+
 

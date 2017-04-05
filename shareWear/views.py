@@ -232,50 +232,24 @@ def headerSignUp(request):
             else:
                 return HttpResponse("Does not match")
 
-def get_featured_outfits():
-    outfits = []
+def get_featured_outfits(current_profile):
     outfit_objs = outfit.objects.filter()
-    for each_outfit in outfit_objs:
-        outfit_items = outfit_item.objects.filter(outfit=each_outfit)
-        inner_outfit = []
-        for each_outfit_item in outfit_items:
-            inner_outfit.append({"pk": each_outfit_item.pk,
-                                 "transform": ast.literal_eval(each_outfit_item.transform_matrix,),
-                                 "large_url": each_outfit_item.clothing.large_url,
-                                 "zIndex": each_outfit_item.zIndex})
-        outfits.append({"outfit": inner_outfit,
-                        "user": {"username": each_outfit.profile.user.username,
-                                 "profile_img": each_outfit.profile.profile_image,
-                                 "location": each_outfit.profile.location},
-                        "outfit_pk": each_outfit.pk,
-                        "canvasHeight": each_outfit.canvas_height,
-                        "canvasWidth": each_outfit.canvas_width})
+    outfits = get_outfit_items(outfit_objs, current_profile)
     return outfits
 
-def get_new_outfits():
-    outfits = []
+def get_new_outfits(current_profile):
     outfit_objs = outfit.objects.filter().order_by('-id')[:10]
-    for each_outfit in outfit_objs:
-        outfit_items = outfit_item.objects.filter(outfit=each_outfit)
-        inner_outfit = []
-        for each_outfit_item in outfit_items:
-            inner_outfit.append({"pk": each_outfit_item.pk,
-                                 "transform": ast.literal_eval(each_outfit_item.transform_matrix,),
-                                 "large_url": each_outfit_item.clothing.large_url,
-                                 "zIndex": each_outfit_item.zIndex})
-        outfits.append({"outfit": inner_outfit,
-                        "user": {"username": each_outfit.profile.user.username,
-                                 "profile_img": each_outfit.profile.profile_image,
-                                 "location": each_outfit.profile.location},
-                        "outfit_pk": each_outfit.pk,
-                        "canvasHeight": each_outfit.canvas_height,
-                        "canvasWidth": each_outfit.canvas_width})
+    outfits = get_outfit_items(outfit_objs, current_profile)
     return outfits
 
-def get_popular_outfits():
-    outfits = []
-    outfit_objs = outfit.objects.filter().order_by('likes')[:10]
-    for each_outfit in outfit_objs:
+def get_popular_outfits(current_profile):
+    outfit_objs = outfit.objects.filter().order_by('-likes')[:10]
+    outfits = get_outfit_items(outfit_objs, current_profile)
+    return outfits
+
+def get_outfit_items(outfits, current_profile):
+    outfits_arr = []
+    for each_outfit in outfits:
         outfit_items = outfit_item.objects.filter(outfit=each_outfit)
         inner_outfit = []
         for each_outfit_item in outfit_items:
@@ -283,24 +257,26 @@ def get_popular_outfits():
                                  "transform": ast.literal_eval(each_outfit_item.transform_matrix,),
                                  "large_url": each_outfit_item.clothing.large_url,
                                  "zIndex": each_outfit_item.zIndex})
-        outfits.append({"outfit": inner_outfit,
+        outfits_arr.append({"outfit": inner_outfit,
                         "user": {"username": each_outfit.profile.user.username,
                                  "profile_img": each_outfit.profile.profile_image,
                                  "location": each_outfit.profile.location},
                         "outfit_pk": each_outfit.pk,
                         "canvasHeight": each_outfit.canvas_height,
-                        "canvasWidth": each_outfit.canvas_width})
-    return outfits
+                        "canvasWidth": each_outfit.canvas_width,
+                        "total_likes": each_outfit.likes,
+                        "liked": each_outfit.does_user_like(current_profile),})
+    return outfits_arr
 
 def get_front_page(request):
     if request.user.is_authenticated():
         if request.method == "POST":
             if request.is_ajax():
                 index = request.POST.get("index")
-
-                featured_outfits = get_featured_outfits()
-                popular_outfits = get_popular_outfits()
-                new_outfits = get_new_outfits()
+                current_profile = profile.objects.get(user=request.user)
+                featured_outfits = get_featured_outfits(current_profile)
+                popular_outfits = get_popular_outfits(current_profile)
+                new_outfits = get_new_outfits(current_profile)
 
                 print "index = ", index
                 json_stuff = json.dumps({"featured": featured_outfits,
@@ -462,5 +438,28 @@ def myCart(request):
         context = {
         }
     return HttpResponse(template.render(context, request))
+
+@csrf_exempt
+def like_outfit(request):
+    if request.user.is_authenticated():
+        if request.is_ajax():
+            if request.method == 'POST':
+                try:
+                    outfit_key = request.POST.get('outfit')
+                    current_outfit = outfit.objects.get(pk=outfit_key)
+                    current_profile = profile.objects.get(user=request.user)
+                    try:
+                        current_like_obj = profile_likes_outfit.objects.get(profile=current_profile,
+                                                                            outfit=current_outfit)
+                        current_like_obj.delete()
+                        return HttpResponse("Unlike")
+                    except Exception as e:
+                        current_like_obj = profile_likes_outfit(profile=current_profile,
+                                                                outfit=current_outfit)
+                        current_like_obj.save()
+                        return HttpResponse("Like")
+                except Exception as e:
+                    print "Error ", e
+    return HttpResponse("Error")
 
 
