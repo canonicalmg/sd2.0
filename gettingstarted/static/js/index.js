@@ -246,7 +246,7 @@ function load_user(trey, item, liked, total_likes){
   console.log("trey = ", trey);
   $("#"+trey+"ProfileLoc").text(item.location);
   $("#"+trey+"ProfileImg").attr("src", item.profile_img);
-  $("#"+trey+"ProfileUser").html(item.username);
+  $("#"+trey+"ProfileUser").html("<a href='/user/"+item.user_id+"'>"+item.username+"</a>");
   if(liked == true){
     $("#"+trey+"Like").html('favorite');
     console.log("total likes = ", typeof(total_likes));
@@ -293,16 +293,34 @@ function load_user(trey, item, liked, total_likes){
   }
 }
 
-function featuredVert(){
+function featuredVert(id){
   $(".featuredProfileSocial").toggle();
+  if ($(".featuredProfileSocial").is(':hidden')) {
+    $("#"+id).html('keyboard_arrow_up');
+  }
+  else{
+    $("#"+id).html('keyboard_arrow_down');
+  }
 }
 
-function popularVert(){
+function popularVert(id){
   $(".popularProfileSocial").toggle();
+  if ($(".popularProfileSocial").is(':hidden')) {
+    $("#"+id).html('keyboard_arrow_up');
+  }
+  else{
+    $("#"+id).html('keyboard_arrow_down');
+  }
 }
 
-function newVert(){
+function newVert(id){
   $(".newProfileSocial").toggle();
+  if ($(".newProfileSocial").is(':hidden')) {
+    $("#"+id).html('keyboard_arrow_up');
+  }
+  else{
+    $("#"+id).html('keyboard_arrow_down');
+  }
 }
 
 function load_outfit(whereToAdd, whatToAdd, outfit, trey){
