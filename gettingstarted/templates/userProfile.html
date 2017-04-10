@@ -1,0 +1,490 @@
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <!--Import Google Icon Font-->#}
+{#    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">#}
+{#    <!--Import materialize.css-->#}
+{#    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>#}
+{##}
+{#    <!--Let browser know website is optimized for mobile-->#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>#}
+{#</head>#}
+
+<body>
+<!--Import jQuery before materialize.js-->
+{#<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>#}
+{#<script type="text/javascript" src="../static/js/materialize.min.js"></script>#}
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Home</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/css/swiper.min.css">
+    <link href="../../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="../../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <style>
+        body {
+        {#            display: flex;#}
+        {#            flex-direction: column;#}
+            background-color: #f0f0f0;
+        }
+        {#        main {#}
+        {#            flex: 1 0 auto;#}
+        {#        }#}
+        #logo-container{
+            color:black;
+        }
+        .card {
+            width:97%;
+        }
+        .card-content span{
+            text-align:center;
+        }
+        .card .card-content{
+            padding:12px;
+        }
+        .card-image img{
+            height: 60%;
+        }
+        .card-image{
+            margin-top:-10px;
+        }
+        .card-action .row{
+            margin-bottom:0px;
+        }
+
+        nav .brand-logo{
+            left:90%;
+        }
+
+        .task-card-title {
+            padding:20px;
+            margin: 0;
+            color: #fff;
+            font-weight: 300;
+        }
+
+        #fixedbutton {
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+        }
+
+        #fixedFooter {
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            background-color: #616161 !important;
+            z-index: 999;
+        }
+
+        .mainRow{
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: #f0f0f0;
+        }
+
+        .mainCard{
+            padding:0px !important;
+        }
+
+        .task-card-title{
+            color:black !important;
+        }
+
+        .btn{
+            background-color: #ff6e66;
+        }
+        .btn:hover{
+            background-color: #ff6e66;
+        }
+        .waves-effect.waves-red .waves-ripple {
+            /* The alpha value allows the text and background color
+            of the button to still show through. */
+            background-color: #ff6e66;
+        }
+
+        .likeShare{
+            color: #ff6e66 !important;
+        }
+
+        ul.card-action-buttons {
+            margin: -26px 10px 0 0;
+            text-align: right;
+        }
+
+        .socialIcons{
+            color: #ff6e66;
+        }
+
+        .profile-post-uer-image{
+            margin-top:-10px;
+        }
+
+        .profileSocialBody{
+            padding-top:5px !important;
+        }
+
+        .side-nav{
+            background-image: url("../../static/img/menu.jpg");
+        }
+        .side-nav > li > a, .side-nav > li > a > i.material-icons{
+            color:white;
+        }
+
+        .profileSetting{
+            padding:2% !important;
+        }
+    </style>
+
+    <style>
+        .snip1336 {
+            font-family: 'Roboto', Arial, sans-serif;
+            overflow: hidden;
+            width: 100%;
+            color: #ffffff;
+            text-align: left;
+            line-height: 1.4em;
+            background-color: #141414;
+            margin-left: 0%;
+        }
+        .snip1336 * {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition: all 0.25s ease;
+            transition: all 0.25s ease;
+        }
+        .snip1336 img {
+            max-width: 100%;
+            vertical-align: top;
+            opacity: 0.85;
+        }
+        .snip1336 figcaption {
+            width: 100%;
+            background-color: #141414;
+            padding: 25px;
+            position: relative;
+        }
+        .snip1336 figcaption:before {
+            position: absolute;
+            content: '';
+            bottom: 100%;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 55px 0 0 400px;
+            border-color: transparent transparent transparent #141414;
+        }
+        .snip1336 figcaption a {
+        {#            padding: 5px;#}
+        {#            border: 1px solid #ffffff;#}
+        {#            color: #ffffff;#}
+        {#            font-size: 0.7em;#}
+        {#            text-transform: uppercase;#}
+        {#            margin: 10px 0;#}
+        {#            display: inline-block;#}
+        {#            opacity: 0.65;#}
+        {#            width: 47%;#}
+        {#            text-align: center;#}
+        {#            text-decoration: none;#}
+        {#            font-weight: 600;#}
+        {#            letter-spacing: 1px;#}
+        }
+        .snip1336 figcaption a:hover {
+            opacity: 1;
+        }
+        .snip1336 .profile {
+            border-radius: 50%;
+            position: absolute;
+            bottom: 100%;
+            left: 25px;
+            z-index: 1;
+            max-width: 90px;
+            opacity: 1;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        .snip1336 .follow {
+            margin-right: 4%;
+            border-color: #2980b9;
+            color: #2980b9;
+        }
+        .snip1336 h5 {
+            margin: 0 0 5px;
+            font-weight: 300;
+        }
+        .snip1336 h5 span {
+            display: block;
+            font-size: 0.5em;
+            color: #2980b9;
+        }
+        .snip1336 p {
+            margin: 0 0 10px;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+<script>
+    var POPULAR = JSON.parse("{{outfits | escapejs}}");
+</script>
+<header>
+    <nav class="white" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="/" class="brand-logo center">My Outfit</a>
+            <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#">Navbar Link</a></li>
+                <li><a onClick="signOut()">Sign Out</a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="side-nav">
+                <li>
+                    <div class="col s12 center" style="margin-right:10px; margin-top:25px;">
+                        <div class="col s3">
+                            <img id="featuredProfileImg" src="../../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
+                        </div>
+                        <div class="col s5">
+                            <h5 id="featuredProfileUser" class="white-text margin" style="margin-bottom:0;">{{ current_profile.username }}</h5>
+                            <span id="featuredProfileLoc" class="white-text ultra-small">{{ current_profile.location }}</span>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
+                <li><a href="/addNew"><i class="material-icons left">note_add</i>Create Outfit</a></li>
+                <li><a href="/myCart"><i class="material-icons left">shopping_cart</i>My Cart</a></li>
+                <li><a onClick="signOut()"><i class="material-icons left">power_settings_new</i>Sign Out</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons" style="color:#ff6e66;">menu</i></a>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section>
+        <div class="container">
+            <div class="section no-pad-bot" id="index-banner">
+                <div class="row">
+
+                    <div id="profile-page-header" class="card">
+                        <div class="row" style="margin-bottom:0px !important;">
+                            <div class="col s6">
+                                <figure class="card-profile-image">
+                                    <img src="../../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
+                                </figure>
+                            </div>
+                            <div class="col s3">
+                                <h4 class="card-title grey-text text-darken-4">{{ current_profile.user.username }}</h4>
+                                <p class="medium-small grey-text">{{ current_profile.location }}</p>
+                                {% if not is_self %}
+                                    <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="follow{{ current_profile.pk }}" style="border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col s4 offset-s1">
+                                    <h4 class="card-title grey-text text-darken-4">{{ outfit_number }}</h4>
+                                    <p class="medium-small grey-text">Outfits Created</p>
+                                </div>
+                                <div class="col s3 center-align">
+                                    <h4 class="card-title grey-text text-darken-4">6</h4>
+                                    <p class="medium-small grey-text">Followers</p>
+                                </div>
+                                <div class="col s3 center-align">
+                                    <h4 class="card-title grey-text text-darken-4">6</h4>
+                                    <p class="medium-small grey-text">Following</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="profile-page-sidebar" class="col s12 m4">
+                        <!-- Profile About  -->
+
+                        {% if is_self %}
+                            <div class="card">
+                                <div class="card-content black-text center">
+                                    <button data-target="modal1" class="btn">Profile Settings</button>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="card light-blue">
+                            <div class="card-content white-text">
+                                <span class="card-title">About Me!</span>
+                                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                            </div>
+                        </div>
+                        <!-- Profile About  -->
+
+                        <!-- Profile About Details  -->
+                        <ul id="profile-page-about-details" class="collection z-depth-1">
+                            <li class="collection-item">
+                                <div class="row">
+                                    <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Name</div>
+                                    <div class="col s7 grey-text text-darken-4 right-align">Marcus Graves</div>
+                                </div>
+                            </li>
+                            <li class="collection-item">
+                                <div class="row">
+                                    <div class="col s5 grey-text darken-1"><i class="mdi-social-poll"></i> Gender</div>
+                                    <div class="col s7 grey-text text-darken-4 right-align">Male</div>
+                                </div>
+                            </li>
+                            <li class="collection-item">
+                                <div class="row">
+                                    <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Joined on</div>
+                                    <div class="col s7 grey-text text-darken-4 right-align">4/9/2017</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <!--/ Profile About Details  -->
+
+                        <!-- Profile About  -->
+
+                        <!-- Profile About  -->
+
+                        <div class="card col s12 l12 center mainCard" style='overflow-x:hidden;'>
+                            <div class="collection-header z-depth-2" style="margin-bottom:5px;">
+                                <div class="card amber darken-2" style="width:100%; margin-top:-1%;">
+                                    <div class="card-content white-text center-align">
+                                        <p class="card-title"><i class="mdi-social-group-add"></i> {{ outfit_number  }}</p>
+                                        <p>Outfits</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="popularBody">
+                                <div id="popular" style="overflow-y:hidden;" class="col s12">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-left:auto; margin-right:auto; margin-bottom:20px;">
+                                <div class="col s12">
+                                    <a style="float:left; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="popularPrev()" class="waves-effect waves-light btn">
+                                        <i class="material-icons left">keyboard_arrow_left</i>Previous</a>
+                                    <a style="float:right; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="popularNext()" class="waves-effect waves-light btn">
+                                        <i class="material-icons right">keyboard_arrow_right</i>Next</a>
+                                </div>
+                            </div>
+                            <div class="card-action row" style="padding-bottom:5px;">
+                                <div class="col s12 profileSocialBody">
+                                    <div class="col s10">
+                                        <div class="col s12 " style="padding-top:5px;">
+                                            <i class="material-icons left socialIcons popularProfileSocial">shopping_cart</i>
+                                            <i onClick='likeOutfit(this.id)' id='popularLike' class="material-icons left socialIcons popularProfileSocial">favorite_border</i>
+                                            <i class="material-icons left socialIcons popularProfileSocial">share</i>
+                                            <i class="material-icons left socialIcons popularProfileSocial">comment</i>
+                                        </div>
+                                        <div class="col s12 popularProfileSocial" style="padding-top:5px;">
+                                            <span class="left grey-text text-darken-2 ultra-small" id="popularLikeComment"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col s2">
+                                        <i onClick="popularVert(this.id)" id="popularSocialShow" class="material-icons left socialIcons right">keyboard_arrow_down</i>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+            </div>
+        </div>
+            <div id="modal1" class="modal bottom-sheet">
+                <div class="modal-content">
+                    <h4>Profile Settings</h4>
+                    <div class="row">
+                        <div class="col s12 profileSetting">
+                            <div class="col s6">Display Full Name</div>
+                            <div class="col s6"><div class="switch">
+                                <label style="padding:5%;">
+                                    Off
+                                    <input type="checkbox">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div></div>
+                        </div>
+                        <div class="col s12 profileSetting">
+                            <div class="col s6">Display Gender</div>
+                            <div class="col s6"><div class="switch">
+                                <label style="padding:5%;">
+                                    Off
+                                    <input type="checkbox">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div></div>
+                        </div>
+                        <div class="col s12 profileSetting">
+                            <div class="col s6">Display Joined Date</div>
+                            <div class="col s6"><div class="switch">
+                                <label style="padding:5%;">
+                                    Off
+                                    <input type="checkbox">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div></div>
+                        </div>
+                        <div class="col s12 profileSetting">
+                            <div class="col s6">Display Email</div>
+                            <div class="col s6"><div class="switch">
+                                <label style="padding:5%;">
+                                    Off
+                                    <input type="checkbox">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div></div>
+                        </div>
+                        <div class="col s12 profileSetting">
+                            <div class="col s6">Display Website</div>
+                            <div class="col s6"><div class="switch">
+                                <label style="padding:5%;">
+                                    Off
+                                    <input type="checkbox">
+                                    <span class="lever"></span>
+                                    On
+                                </label>
+                            </div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+            </div>
+    </div>
+    </section>
+</main>
+
+<!--  Scripts-->
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/js/swiper.jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-touch-events/1.0.5/jquery.mobile-events.js"></script>
+
+<script src="../../static/js/materialize.js"></script>
+<script src="../../static/js/userProfile.js"></script>
+
+
+</body>
+</html>
