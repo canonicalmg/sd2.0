@@ -245,18 +245,25 @@ function showPaymentOptions(){
 }
 
 function loadProfileOptions() {
-    $("#fullName").val('Marcus Graves');
-    $("#fullNameLabel").addClass('active');
-    $("#email").val('donowhy11@gmail.com');
-    $("#emailLabel").addClass('active');
-    $("#location").val('Fresno, Ca');
-    $("#locationLabel").addClass('active');
-    $("#description").val("Test desc");
-    $("#descriptionLabel").addClass('active');
+    if(CURRENT_PROFILE_JSON.fullName != null){
+        $("#fullName").val(CURRENT_PROFILE_JSON.fullName);
+        $("#fullNameLabel").addClass('active');
+    }
+    if(CURRENT_PROFILE_JSON.email != null){
+        $("#email").val(CURRENT_PROFILE_JSON.email);
+        $("#emailLabel").addClass('active');
+    }
+    if(CURRENT_PROFILE_JSON.location != null){
+        $("#location").val(CURRENT_PROFILE_JSON.location);
+        $("#locationLabel").addClass('active');
+    }
+    if(CURRENT_PROFILE_JSON.description != null){
+        $("#description").val(CURRENT_PROFILE_JSON.description);
+        $("#descriptionLabel").addClass('active');
+    }
 }
 
-function applySettings(){
-    //gather info
+function getProfileSave(){
     var fullName = $("#fullName").val();
     var email = $("#email").val();
     var location = $("#location").val();
@@ -268,8 +275,68 @@ function applySettings(){
     var displayWebsite = $("#displayWebsite").is(":checked");
     var displayLocation = $("#displayLocation").is(":checked");
     var displayDescription = $("#displayDescription").is(":checked");
-    
-    //if info is different from received info, add it to list
-    
-    //send to server
+
+    var dataToSend = {};
+
+    if(fullName != CURRENT_PROFILE_JSON.fullName){
+        dataToSend['fullName'] = fullName;
+    }
+    if(email != CURRENT_PROFILE_JSON.email){
+        dataToSend['email'] = email;
+    }
+    if(location != CURRENT_PROFILE_JSON.location){
+        dataToSend['location'] = location;
+    }
+    if(description != CURRENT_PROFILE_JSON.description){
+        dataToSend['description'] = description;
+    }
+    if(displayFullName != CURRENT_PROFILE_JSON.displayFullName){
+        dataToSend['displayFullName'] = displayFullName;
+    }
+    if(displayGender != CURRENT_PROFILE_JSON.displayGender){
+        dataToSend['displayGender'] = displayGender;
+    }
+    if(displayFullName != CURRENT_PROFILE_JSON.displayFullName){
+        dataToSend['displayFullName'] = displayFullName;
+    }
+    if(displayJoinedDate != CURRENT_PROFILE_JSON.displayJoinedDate){
+        dataToSend['displayJoinedDate'] = displayJoinedDate;
+    }
+    if(displayEmail != CURRENT_PROFILE_JSON.displayEmail){
+        dataToSend['displayEmail'] = displayEmail;
+    }
+    if(displayWebsite != CURRENT_PROFILE_JSON.displayWebsite){
+        dataToSend['displayWebsite'] = displayWebsite;
+    }
+    if(displayLocation != CURRENT_PROFILE_JSON.displayLocation){
+        dataToSend['displayLocation'] = displayLocation;
+    }
+    if(displayDescription != CURRENT_PROFILE_JSON.displayDescription){
+        dataToSend['displayDescription'] = displayDescription;
+    }
+
+    return dataToSend;
+}
+
+function applySettings(){
+    console.log("CURRENT PROFILE = ", CURRENT_PROFILE_JSON);
+    var dataToSend = getProfileSave();
+    console.log("sending data = ", dataToSend);
+    $.ajax({
+            type: 'POST',
+            url: '/change_profile_settings/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'data': JSON.stringify(dataToSend)},
+            success: function (json) {
+                console.log("json = ", json);
+                location.reload();
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
+            }
+        }
+    );
 }

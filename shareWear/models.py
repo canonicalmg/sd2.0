@@ -10,6 +10,8 @@ class profile(models.Model):
     location = models.CharField(max_length=100, null=True, blank=True)
     full_name = models.CharField(max_length=100, null=True, blank=True)
     joined_date = models.DateTimeField(auto_now_add=True)
+    website = models.CharField(max_length=100, null=True, blank=True)
+    description = models.CharField(max_length=300, null=True, blank=True)
 
     display_fullName = models.BooleanField(default=True)
     display_gender = models.BooleanField(default=True)
@@ -29,6 +31,12 @@ class profile(models.Model):
             return True
         except:
             return False
+
+    def gender_verbose(self):
+        if self.gender:
+            return "Female"
+        else:
+            return "Male"
 
 class clothing(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)

@@ -239,6 +239,7 @@
 <body>
 <script>
     var POPULAR = JSON.parse("{{outfits | escapejs}}");
+    var CURRENT_PROFILE_JSON = JSON.parse("{{ current_profile_json | escapejs }}");
 </script>
 <header>
     <nav class="white" role="navigation">
@@ -322,34 +323,69 @@
                             </div>
                         {% endif %}
 
-                        <div class="card light-blue">
-                            <div class="card-content white-text">
-                                <span class="card-title">About Me!</span>
-                                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-                            </div>
-                        </div>
-                        <!-- Profile About  -->
+                        {% if current_profile.display_description %}
+                            {% if current_profile.description %}
+                                <div class="card light-blue">
+                                    <div class="card-content white-text">
+                                        <span class="card-title">Description</span>
+                                        <p>{{ current_profile.description }}</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
 
                         <!-- Profile About Details  -->
                         <ul id="profile-page-about-details" class="collection z-depth-1">
-                            <li class="collection-item">
-                                <div class="row">
-                                    <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Name</div>
-                                    <div class="col s7 grey-text text-darken-4 right-align">Marcus Graves</div>
-                                </div>
-                            </li>
-                            <li class="collection-item">
-                                <div class="row">
-                                    <div class="col s5 grey-text darken-1"><i class="mdi-social-poll"></i> Gender</div>
-                                    <div class="col s7 grey-text text-darken-4 right-align">Male</div>
-                                </div>
-                            </li>
-                            <li class="collection-item">
-                                <div class="row">
-                                    <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Joined on</div>
-                                    <div class="col s7 grey-text text-darken-4 right-align">4/9/2017</div>
-                                </div>
-                            </li>
+                            {% if current_profile.display_fullName %}
+                                {% if current_profile.display_fullName %}
+                                    <li class="collection-item">
+                                        <div class="row">
+                                            <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Name</div>
+                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile.full_name }}</div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                            {% if current_profile.display_gender %}
+                                {% if current_profile.gender_verbose %}
+                                    <li class="collection-item">
+                                        <div class="row">
+                                            <div class="col s5 grey-text darken-1"><i class="mdi-social-poll"></i> Gender</div>
+                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile.gender_verbose }}</div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                            {% if current_profile.display_joined_date %}
+                                {% if current_profile.joined_date %}
+                                    <li class="collection-item">
+                                        <div class="row">
+                                            <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Joined on</div>
+                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile.joined_date.date }}</div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                            {% if current_profile.display_email %}
+                                {% if current_profile.user.email %}
+                                    <li class="collection-item">
+                                        <div class="row">
+                                            <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Email</div>
+                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile.user.email }}</div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                            {% if current_profile.display_website %}
+                                {% if current_profile.website %}
+                                    <li class="collection-item">
+                                        <div class="row">
+                                            <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Website</div>
+                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile.website }}</div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
                         </ul>
                         <!--/ Profile About Details  -->
 

@@ -502,7 +502,17 @@ def userProfile(request, pk):
                 'fullName': current_profile.full_name,
                 'gender': current_profile.gender,
                 'joinedDate': str(current_profile.joined_date),
-
+                'email': current_profile.user.email,
+                'website': current_profile.website,
+                'location': current_profile.location,
+                'description': current_profile.description,
+                'displayFullName': current_profile.display_fullName,
+                'displayGender': current_profile.display_gender,
+                'displayJoinedDate': current_profile.display_joined_date,
+                'displayEmail': current_profile.display_email,
+                'displayWebsite': current_profile.display_website,
+                'displayLocation': current_profile.display_location,
+                'displayDescription': current_profile.display_description
             }
         context = {
             "current_profile": current_profile,
@@ -516,5 +526,54 @@ def userProfile(request, pk):
         context = {
         }
     return HttpResponse(template.render(context, request))
+
+@csrf_exempt
+def change_profile_settings(request):
+    if request.user.is_authenticated():
+        if request.is_ajax():
+            if request.method == 'POST':
+                try:
+                    data = json.loads(request.POST.get('data'))
+                    print "data = ", data
+                    current_profile = profile.objects.get(user=request.user)
+                    for key in data:
+                        print "%s, %s" % (key, data[key])
+                        if key == "fullName":
+                            current_profile.full_name = data[key]
+                        if key == "gender":
+                            current_profile.gender = data[key]
+                        if key == "joinedDate":
+                            current_profile.joined_date = data[key]
+                        if key == "email":
+                            current_profile.user.email = data[key]
+                        if key == "website":
+                            current_profile.website = data[key]
+                        if key == "location":
+                            current_profile.location = data[key]
+                        if key == "description":
+                            current_profile.description = data[key]
+                        if key == "displayFullName":
+                            current_profile.display_fullName = data[key]
+                        if key == "displayGender":
+                            current_profile.display_gender = data[key]
+                        if key == "displayJoinedDate":
+                            current_profile.display_joined_date = data[key]
+                        if key == "displayEmail":
+                            current_profile.display_email = data[key]
+                        if key == "displayWebsite":
+                            current_profile.display_website = data[key]
+                        if key == "displayLocation":
+                            current_profile.display_location = data[key]
+                        if key == "displayDescription":
+                            current_profile.display_description = data[key]
+
+                        current_profile.save()
+
+                    return HttpResponse("Success")
+
+                except Exception as e:
+                    print "Error ", e
+                    return HttpResponse("Error")
+    return HttpResponse("Error")
 
 
