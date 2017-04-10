@@ -22,8 +22,17 @@ function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
+$(document).ready(function(){
+    $('ul.tabs').tabs({'swipeable': true});
+    $('.modal-trigger').leanModal({
+        ready: function () {
+            $('ul.tabs').tabs();
+        }
+    });
+});
 var POPULAR_CURRENT = 0;
 populateSections();
+loadProfileOptions();
 
 function followClick(dom_id){
     var domObject = $("#"+dom_id);
@@ -220,4 +229,32 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey){
     if (window.getComputedStyle(document.body).mixBlendMode !== undefined)
         $(".outfitCanvasItem").addClass("curtain");
 
+}
+
+function showViewableOptions(){
+    $(".viewableTab").fadeIn();
+    $(".settingsTab").hide();
+    $(".paymentTab").hide();
+}
+
+function showSettingsOptions(){
+    $(".viewableTab").hide();
+    $(".paymentTab").hide();
+    $(".settingsTab").fadeIn();
+}
+
+function showPaymentOptions(){
+    $(".viewableTab").hide();
+    $(".settingsTab").hide();
+    $(".paymentTab").fadeIn();
+}
+
+function loadProfileOptions() {
+    $("#fullName").val('Marcus Graves');
+    $("#fullNameLabel").addClass('active');
+    $("#email").val('donowhy11@gmail.com');
+    $("#emailLabel").addClass('active');
+    $("#location").val('Fresno, Ca');
+    $("#locationLabel").addClass('active');
+    Materialize.updateTextFields();
 }

@@ -9,6 +9,14 @@ class profile(models.Model):
     profile_image = models.CharField(max_length=200, null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
 
+    display_fullName = models.BooleanField(default=True)
+    display_gender = models.BooleanField(default=True)
+    display_joined_date = models.BooleanField(default=True)
+    display_email = models.BooleanField(default=True)
+    display_website = models.BooleanField(default=True)
+    display_location = models.BooleanField(default=True)
+    display_description = models.BooleanField(default=True)
+    
     def __unicode__(self):
         return self.user.username
 

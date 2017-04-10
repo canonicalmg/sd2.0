@@ -407,71 +407,147 @@
 
             </div>
         </div>
-            <div id="modal1" class="modal bottom-sheet">
-                <div class="modal-content">
-                    <h4>Profile Settings</h4>
-                    <div class="row">
-                        <div class="col s12 profileSetting">
-                            <div class="col s6">Display Full Name</div>
-                            <div class="col s6"><div class="switch">
-                                <label style="padding:5%;">
-                                    Off
-                                    <input type="checkbox">
-                                    <span class="lever"></span>
-                                    On
-                                </label>
-                            </div></div>
+        {% if is_self %}
+            <div id="modal1" class="modal bottom-sheet modal-fixed-footer">
+                <div class="modal-content" style="padding: 0px !important;">
+                    <div class="row" style="margin-right:0px !important; margin-left: 0px !important">
+                        <div class="col s12" style="margin-bottom:5%; padding: 0px !important;">
+                            <ul class="tabs">
+                                <li class="tab col s4"><a  onClick="showSettingsOptions()" class="active"> Account</a></li>
+                                <li class="tab col s4"><a onClick="showViewableOptions()">Viewable</a></li>
+                                <li class="tab col s4"><a onClick="showPaymentOptions()">Payment</a></li>
+                                <div class="indicator" style="left: 0%; right: 60%;"></div>
+                            </ul>
                         </div>
-                        <div class="col s12 profileSetting">
-                            <div class="col s6">Display Gender</div>
-                            <div class="col s6"><div class="switch">
-                                <label style="padding:5%;">
-                                    Off
-                                    <input type="checkbox">
-                                    <span class="lever"></span>
-                                    On
-                                </label>
-                            </div></div>
+                        <div class="col s12 settingsTab">
+                            <div class="col s12 profileSetting">
+                                <div class="input-field col s12">
+                                    <textarea id="fullName" style='padding:0px !important;' class="materialize-textarea"></textarea>
+                                    <label id='fullNameLabel' for="textarea1" >Full Name</label>
+                                </div>
+
+                                <div class="input-field col s12">
+                                    <textarea id="email" style='padding:0px !important;' class="materialize-textarea"></textarea>
+                                    <label id="emailLabel" for="textarea1">Email</label>
+                                </div>
+
+                                <div class="input-field col s12">
+                                    <textarea id="location" style='padding:0px !important;' class="materialize-textarea"></textarea>
+                                    <label id='locationLabel' for="textarea1">Location</label>
+                                </div>
+
+                                <div class="col s12">
+                                    <div class="col s6">Gender</div>
+                                    <div class="col s6"><div class="switch">
+                                        <label style="padding:5%;">
+                                            Male
+                                            <input type="checkbox"
+                                            {% if current_profile.gender %}
+                                                checked
+                                            {% endif %}>
+                                            <span class="lever"></span>
+                                            Female
+                                        </label>
+                                    </div></div>
+                                </div>
+
+
+                            </div>
                         </div>
-                        <div class="col s12 profileSetting">
-                            <div class="col s6">Display Joined Date</div>
-                            <div class="col s6"><div class="switch">
-                                <label style="padding:5%;">
-                                    Off
-                                    <input type="checkbox">
-                                    <span class="lever"></span>
-                                    On
-                                </label>
-                            </div></div>
+
+                        <div class="col s12 paymentTab" style="display:none;">
+
                         </div>
-                        <div class="col s12 profileSetting">
-                            <div class="col s6">Display Email</div>
-                            <div class="col s6"><div class="switch">
-                                <label style="padding:5%;">
-                                    Off
-                                    <input type="checkbox">
-                                    <span class="lever"></span>
-                                    On
-                                </label>
-                            </div></div>
-                        </div>
-                        <div class="col s12 profileSetting">
-                            <div class="col s6">Display Website</div>
-                            <div class="col s6"><div class="switch">
-                                <label style="padding:5%;">
-                                    Off
-                                    <input type="checkbox">
-                                    <span class="lever"></span>
-                                    On
-                                </label>
-                            </div></div>
+
+                        <div class="col s12 viewableTab" style="display:none;">
+                            <div class="col s12 profileSetting">
+                                <div class="col s6">Display Full Name</div>
+                                <div class="col s6"><div class="switch">
+                                    <label style="padding:5%;">
+                                        Off
+                                        <input type="checkbox">
+                                        <span class="lever"></span>
+                                        On
+                                    </label>
+                                </div></div>
+                            </div>
+                            <div class="col s12 profileSetting">
+                                <div class="col s6">Display Gender</div>
+                                <div class="col s6"><div class="switch">
+                                    <label style="padding:5%;">
+                                        Off
+                                        <input type="checkbox">
+                                        <span class="lever"></span>
+                                        On
+                                    </label>
+                                </div></div>
+                            </div>
+                            <div class="col s12 profileSetting">
+                                <div class="col s6">Display Joined Date</div>
+                                <div class="col s6"><div class="switch">
+                                    <label style="padding:5%;">
+                                        Off
+                                        <input type="checkbox">
+                                        <span class="lever"></span>
+                                        On
+                                    </label>
+                                </div></div>
+                            </div>
+                            <div class="col s12 profileSetting">
+                                <div class="col s6">Display Email</div>
+                                <div class="col s6"><div class="switch">
+                                    <label style="padding:5%;">
+                                        Off
+                                        <input type="checkbox">
+                                        <span class="lever"></span>
+                                        On
+                                    </label>
+                                </div></div>
+                            </div>
+                            <div class="col s12 profileSetting">
+                                <div class="col s6">Display Website</div>
+                                <div class="col s6"><div class="switch">
+                                    <label style="padding:5%;">
+                                        Off
+                                        <input type="checkbox">
+                                        <span class="lever"></span>
+                                        On
+                                    </label>
+                                </div></div>
+                            </div>
+                            <div class="col s12 profileSetting">
+                                <div class="col s6">Display Location</div>
+                                <div class="col s6"><div class="switch">
+                                    <label style="padding:5%;">
+                                        Off
+                                        <input type="checkbox">
+                                        <span class="lever"></span>
+                                        On
+                                    </label>
+                                </div></div>
+                            </div>
+                            <div class="col s12 profileSetting">
+                                <div class="col s6">Display Profile Description</div>
+                                <div class="col s6"><div class="switch">
+                                    <label style="padding:5%;">
+                                        Off
+                                        <input type="checkbox">
+                                        <span class="lever"></span>
+                                        On
+                                    </label>
+                                </div></div>
+                            </div>
+                            <div class="col s12 profileSetting">
+
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Apply</a>
                 </div>
             </div>
+        {% endif %}
     </div>
     </section>
 </main>
