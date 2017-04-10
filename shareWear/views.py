@@ -496,11 +496,20 @@ def userProfile(request, pk):
         all_outfits = outfit.objects.filter(profile=current_profile)
         outfit_number = len(all_outfits)
         current_profile_outfits = get_outfit_items(all_outfits, current_profile)
+        current_profile_json = {}
+        if current_profile.user == request.user:
+            current_profile_json = {
+                'fullName': current_profile.full_name,
+                'gender': current_profile.gender,
+                'joinedDate': str(current_profile.joined_date),
+
+            }
         context = {
             "current_profile": current_profile,
             "outfit_number": outfit_number,
             "is_self": current_profile.user == request.user,
-            "outfits": json.dumps(current_profile_outfits)
+            "outfits": json.dumps(current_profile_outfits),
+            "current_profile_json": json.dumps(current_profile_json)
         }
     else:
         template = loader.get_template('headerLogin.html')

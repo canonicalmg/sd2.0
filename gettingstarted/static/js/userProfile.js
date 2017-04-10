@@ -24,15 +24,10 @@ function csrfSafeMethod(method) {
 }
 $(document).ready(function(){
     $('ul.tabs').tabs({'swipeable': true});
-    $('.modal-trigger').leanModal({
-        ready: function () {
-            $('ul.tabs').tabs();
-        }
-    });
 });
 var POPULAR_CURRENT = 0;
 populateSections();
-loadProfileOptions();
+// loadProfileOptions();
 
 function followClick(dom_id){
     var domObject = $("#"+dom_id);
@@ -256,5 +251,25 @@ function loadProfileOptions() {
     $("#emailLabel").addClass('active');
     $("#location").val('Fresno, Ca');
     $("#locationLabel").addClass('active');
-    Materialize.updateTextFields();
+    $("#description").val("Test desc");
+    $("#descriptionLabel").addClass('active');
+}
+
+function applySettings(){
+    //gather info
+    var fullName = $("#fullName").val();
+    var email = $("#email").val();
+    var location = $("#location").val();
+    var description = $("#description").val();
+    var displayFullName = $("#displayFullName").is(":checked");
+    var displayGender = $("#displayGender").is(":checked");
+    var displayJoinedDate = $("#displayJoinedDate").is(":checked");
+    var displayEmail = $("#displayEmail").is(":checked");
+    var displayWebsite = $("#displayWebsite").is(":checked");
+    var displayLocation = $("#displayLocation").is(":checked");
+    var displayDescription = $("#displayDescription").is(":checked");
+    
+    //if info is different from received info, add it to list
+    
+    //send to server
 }

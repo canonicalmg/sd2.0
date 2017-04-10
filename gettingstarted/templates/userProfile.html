@@ -436,6 +436,11 @@
                                     <label id='locationLabel' for="textarea1">Location</label>
                                 </div>
 
+                                <div class="input-field col s12">
+                                    <textarea id="description" style='padding:0px !important;' class="materialize-textarea"></textarea>
+                                    <label id='descriptionLabel' for="textarea1">Description</label>
+                                </div>
+
                                 <div class="col s12">
                                     <div class="col s6">Gender</div>
                                     <div class="col s6"><div class="switch">
@@ -465,7 +470,11 @@
                                 <div class="col s6"><div class="switch">
                                     <label style="padding:5%;">
                                         Off
-                                        <input type="checkbox">
+                                        <input id="displayFullName" type="checkbox"
+                                               {% if current_profile.display_fullName %}
+                                                   checked
+                                               {% endif %}
+                                        >
                                         <span class="lever"></span>
                                         On
                                     </label>
@@ -476,7 +485,11 @@
                                 <div class="col s6"><div class="switch">
                                     <label style="padding:5%;">
                                         Off
-                                        <input type="checkbox">
+                                        <input id="displayGender" type="checkbox"
+                                                {% if current_profile.display_gender %}
+                                               checked
+                                                {% endif %}
+                                        >
                                         <span class="lever"></span>
                                         On
                                     </label>
@@ -487,7 +500,11 @@
                                 <div class="col s6"><div class="switch">
                                     <label style="padding:5%;">
                                         Off
-                                        <input type="checkbox">
+                                        <input id="displayJoinedDate" type="checkbox"
+                                                {% if current_profile.display_joined_date %}
+                                               checked
+                                                {% endif %}
+                                        >
                                         <span class="lever"></span>
                                         On
                                     </label>
@@ -498,7 +515,11 @@
                                 <div class="col s6"><div class="switch">
                                     <label style="padding:5%;">
                                         Off
-                                        <input type="checkbox">
+                                        <input id="displayEmail" type="checkbox"
+                                                {% if current_profile.display_email %}
+                                               checked
+                                                {% endif %}
+                                        >
                                         <span class="lever"></span>
                                         On
                                     </label>
@@ -509,7 +530,11 @@
                                 <div class="col s6"><div class="switch">
                                     <label style="padding:5%;">
                                         Off
-                                        <input type="checkbox">
+                                        <input id="displayWebsite" type="checkbox"
+                                                {% if current_profile.display_website %}
+                                               checked
+                                                {% endif %}
+                                        >
                                         <span class="lever"></span>
                                         On
                                     </label>
@@ -520,7 +545,11 @@
                                 <div class="col s6"><div class="switch">
                                     <label style="padding:5%;">
                                         Off
-                                        <input type="checkbox">
+                                        <input id="displayLocation" type="checkbox"
+                                                {% if current_profile.display_location %}
+                                               checked
+                                                {% endif %}
+                                        >
                                         <span class="lever"></span>
                                         On
                                     </label>
@@ -531,7 +560,11 @@
                                 <div class="col s6"><div class="switch">
                                     <label style="padding:5%;">
                                         Off
-                                        <input type="checkbox">
+                                        <input id="displayDescription" type="checkbox"
+                                                {% if current_profile.display_description %}
+                                               checked
+                                                {% endif %}
+                                        >
                                         <span class="lever"></span>
                                         On
                                     </label>
@@ -544,7 +577,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Apply</a>
+                    <a onClick="applySettings()" class="modal-action modal-close waves-effect waves-green btn-flat">Apply</a>
                 </div>
             </div>
         {% endif %}
@@ -560,6 +593,11 @@
 
 <script src="../../static/js/materialize.js"></script>
 <script src="../../static/js/userProfile.js"></script>
+{% if is_self %}
+    <script>
+        loadProfileOptions();
+    </script>
+{% endif %}
 
 
 </body>

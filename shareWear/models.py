@@ -8,6 +8,8 @@ class profile(models.Model):
     gender = models.BooleanField(default=True)
     profile_image = models.CharField(max_length=200, null=True, blank=True)
     location = models.CharField(max_length=100, null=True, blank=True)
+    full_name = models.CharField(max_length=100, null=True, blank=True)
+    joined_date = models.DateTimeField(auto_now_add=True)
 
     display_fullName = models.BooleanField(default=True)
     display_gender = models.BooleanField(default=True)
@@ -16,7 +18,7 @@ class profile(models.Model):
     display_website = models.BooleanField(default=True)
     display_location = models.BooleanField(default=True)
     display_description = models.BooleanField(default=True)
-    
+
     def __unicode__(self):
         return self.user.username
 
