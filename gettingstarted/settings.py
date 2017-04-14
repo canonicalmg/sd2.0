@@ -38,15 +38,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shareWear',
-    'social.apps.django_app.default',
+    # 'social.apps.django_app.default',
 )
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.facebook.FacebookOAuth2',
-    'social_core.backends.google.GoogleOpenId',
-    'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.google.GoogleOAuth',
-    'social_core.backends.twitter.TwitterOAuth',
+    # 'social_core.backends.facebook.FacebookOAuth2',
+    # 'social_core.backends.google.GoogleOpenId',
+    # 'social_core.backends.google.GoogleOAuth2',
+    # 'social_core.backends.google.GoogleOAuth',
+    # 'social_core.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -75,8 +75,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
+                # 'social_django.context_processors.backends',
+                # 'social_django.context_processors.login_redirect',
             ],
         },
     },
