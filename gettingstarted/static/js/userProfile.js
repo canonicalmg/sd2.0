@@ -268,6 +268,7 @@ function getProfileSave(){
     var email = $("#email").val();
     var location = $("#location").val();
     var description = $("#description").val();
+    var gender = $("#gender").is(":checked");
     var displayFullName = $("#displayFullName").is(":checked");
     var displayGender = $("#displayGender").is(":checked");
     var displayJoinedDate = $("#displayJoinedDate").is(":checked");
@@ -289,6 +290,9 @@ function getProfileSave(){
     }
     if(description != CURRENT_PROFILE_JSON.description){
         dataToSend['description'] = description;
+    }
+    if(description != CURRENT_PROFILE_JSON.gender){
+        dataToSend['gender'] = gender;
     }
     if(displayFullName != CURRENT_PROFILE_JSON.displayFullName){
         dataToSend['displayFullName'] = displayFullName;
