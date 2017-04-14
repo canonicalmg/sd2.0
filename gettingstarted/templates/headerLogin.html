@@ -31,6 +31,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/css/swiper.min.css">
     <link href="../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/css/bootstrap-social.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
 
     <style>
         body {
@@ -225,10 +228,19 @@
 {#                </div>#}
                 <div class="row">
                     <div class="input-field col s12">
-                        <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a>
-                        <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>
-                        <a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Login with Twitter</a>
-                        <a onClick="login()" id='loginBtn' class="btn waves-effect waves-light col s12">Login</a>
+                        <a onClick="login()" style="margin-bottom:15px !important;" id='loginBtn' class="btn waves-effect waves-light col s12">Login</a>
+                        <div class="center-align">or</div>
+
+                        <br>
+{#                        <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with facebook</a>#}
+                        <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn-block btn-social btn-facebook">
+                            <span class="fa fa-facebook"></span> Sign in with Facebook
+                        </a>
+                        {#                        <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>#}
+{#                        <a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Login with Twitter</a>#}
+                        <a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}" class="btn btn-block btn-social btn-twitter">
+                            <span class="fa fa-twitter"></span> Sign in with Twitter
+                        </a>
                     </div>
                     <div id="routineLoader" class="col s12" style="display:none;">
                         <div id='routineBeforeL' class='loading-container'>
