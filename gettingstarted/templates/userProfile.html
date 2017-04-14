@@ -265,6 +265,7 @@
                 </li>
                 <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
                 <li><a href="/addNew"><i class="material-icons left">note_add</i>Create Outfit</a></li>
+                <li><a href="/user/{{ current_profile_self.pk }}"><i class="material-icons left">account_circle</i>My Account</a></li>
                 <li><a href="/myCart"><i class="material-icons left">shopping_cart</i>My Cart</a></li>
                 <li><a onClick="signOut()"><i class="material-icons left">power_settings_new</i>Sign Out</a></li>
             </ul>
@@ -286,11 +287,17 @@
                                     <img src="../../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
                                 </figure>
                             </div>
-                            <div class="col s3">
+                            <div class="col s6" style="word-wrap: break-word;">
                                 <h4 class="card-title grey-text text-darken-4">{{ current_profile.user.username }}</h4>
                                 <p class="medium-small grey-text">{{ current_profile.location }}</p>
                                 {% if not is_self %}
-                                    <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="follow{{ current_profile.pk }}" style="border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
+                                    {% if is_following %}
+{#                                        <h1>YES FOLLOWING</h1>#}
+                                        <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="follow{{ current_profile.pk }}" style="border:1px solid #2bbbad; background-color:#2bbbad; color:white;">Following</a>
+                                    {% else %}
+{#                                        <h1>not following</h1>#}
+                                        <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="follow{{ current_profile.pk }}" style="border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
@@ -301,11 +308,11 @@
                                     <p class="medium-small grey-text">Outfits Created</p>
                                 </div>
                                 <div class="col s3 center-align">
-                                    <h4 class="card-title grey-text text-darken-4">6</h4>
+                                    <h4 id='profileFollowers' class="card-title grey-text text-darken-4">{{ current_profile.num_followers }}</h4>
                                     <p class="medium-small grey-text">Followers</p>
                                 </div>
                                 <div class="col s3 center-align">
-                                    <h4 class="card-title grey-text text-darken-4">6</h4>
+                                    <h4 id='profileFollowing' class="card-title grey-text text-darken-4">{{ current_profile.num_following }}</h4>
                                     <p class="medium-small grey-text">Following</p>
                                 </div>
                             </div>

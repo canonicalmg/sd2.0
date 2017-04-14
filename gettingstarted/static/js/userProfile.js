@@ -47,6 +47,7 @@ function followClick(dom_id){
                     domObject.css('color', 'white');
                     domObject.css('background-color', '#2bbbad');
                     domObject.css('border', '1px solid #2bbbad');
+                    $("#profileFollowers").html(parseInt($("#profileFollowers").html()) + 1);
 
                 }
                 else if(json == "Unfollow"){
@@ -55,6 +56,7 @@ function followClick(dom_id){
                     domObject.css('color', '#ff6e66');
                     domObject.css('background-color', 'white');
                     domObject.css('border', '1px solid #ff6e66');
+                    $("#profileFollowers").html(parseInt($("#profileFollowers").html()) - 1);
                 }
 
             },

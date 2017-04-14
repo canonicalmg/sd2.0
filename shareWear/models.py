@@ -25,12 +25,21 @@ class profile(models.Model):
     def __unicode__(self):
         return self.user.username
 
+    def num_following(self):
+        following = profile_follows.objects.filter(profile_main=self)
+        return len(following)
+
+    def num_followers(self):
+        followers = profile_follows.objects.filter(profile_following=self)
+        return len(followers)
+
     def is_following(self, current_profile):
         try:
             current_follow_obj = profile_follows.objects.get(profile_main=current_profile,
                                                              profile_following=self)
             return True
-        except:
+        except Exception as e:
+            print "error ", e
             return False
 
     def gender_verbose(self):
@@ -115,6 +124,7 @@ class profile_likes_outfit(models.Model):
         super(profile_likes_outfit, self).delete()
 
 class profile_follows(models.Model):
+    #Model indicates that profile_main is following profile_following.
     profile_main = models.ForeignKey(profile, related_name='profile_main')
     profile_following = models.ForeignKey(profile, related_name='profile_following')
 

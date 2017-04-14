@@ -430,6 +430,7 @@ def addNew(request):
         template = loader.get_template('addNew.html')
         current_profile = profile.objects.get(user=request.user)
         context = {
+            "current_profile": current_profile
         }
     else:
         template = loader.get_template('headerLogin.html')
@@ -502,10 +503,12 @@ def userProfile(request, pk):
     if request.user.is_authenticated():
         template = loader.get_template('userProfile.html')
         current_profile = profile.objects.get(pk=pk)
+        current_profile_self = profile.objects.get(user=request.user)
         all_outfits = outfit.objects.filter(profile=current_profile)
         outfit_number = len(all_outfits)
         current_profile_outfits = get_outfit_items(all_outfits, current_profile)
         current_profile_json = {}
+        print "IS FOLLOWING = ", current_profile.is_following(current_profile_self)
         if current_profile.user == request.user:
             current_profile_json = {
                 'fullName': current_profile.full_name,
@@ -525,6 +528,8 @@ def userProfile(request, pk):
             }
         context = {
             "current_profile": current_profile,
+            "current_profile_self": current_profile_self,
+            "is_following": current_profile.is_following(current_profile_self),
             "outfit_number": outfit_number,
             "is_self": current_profile.user == request.user,
             "outfits": json.dumps(current_profile_outfits),

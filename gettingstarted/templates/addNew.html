@@ -250,6 +250,27 @@
         .entry-social .delicious a:hover {background-color: rgb(38, 90, 168);}
     </style>
 
+    <style>
+        .profile-post-uer-image{
+            margin-top:-10px;
+        }
+
+        .profileSocialBody{
+            padding-top:5px !important;
+        }
+
+        .side-nav{
+            background-image: url("../../static/img/menu.jpg");
+        }
+        .side-nav > li > a, .side-nav > li > a > i.material-icons{
+            color:white;
+        }
+
+        .profileSetting{
+            padding:2% !important;
+        }
+    </style>
+
 </head>
 <body>
 <header>
@@ -263,8 +284,22 @@
             </ul>
 
             <ul id="nav-mobile" class="side-nav">
-                <li><a href="#">Navbar Link</a></li>
-                <li><a onClick="signOut()">Sign Out</a></li>
+                <li>
+                    <div class="col s12 center" style="margin-right:10px; margin-top:25px;">
+                        <div class="col s3">
+                            <img id="featuredProfileImg" src="../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
+                        </div>
+                        <div class="col s5">
+                            <h5 id="featuredProfileUser" class="white-text margin" style="margin-bottom:0;">{{ current_profile.username }}</h5>
+                            <span id="featuredProfileLoc" class="white-text ultra-small">{{ current_profile.location }}</span>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
+                <li><a href="/addNew"><i class="material-icons left">note_add</i>Create Outfit</a></li>
+                <li><a href="/user/{{ current_profile.pk }}"><i class="material-icons left">account_circle</i>My Account</a></li>
+                <li><a href="/myCart"><i class="material-icons left">shopping_cart</i>My Cart</a></li>
+                <li><a onClick="signOut()"><i class="material-icons left">power_settings_new</i>Sign Out</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons" style="color:#ff6e66;">menu</i></a>
         </div>
