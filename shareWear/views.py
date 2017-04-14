@@ -589,7 +589,7 @@ def save_profile(backend, user, response, *args, **kwargs):
     if backend.name == 'twitter':
         print "user = ", user
         # profile = user.get_profile()
-        social_media_profile_obj = UserSocialAuth.objects.get(user=user)
+        social_media_profile_obj = UserSocialAuth.objects.filter(user=user)[0]
         print "profile obj = ", social_media_profile_obj
         try:
             current_profile = social_media_profile.objects.get(social_media=social_media_profile_obj)
