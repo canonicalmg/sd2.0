@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shareWear',
-    'social_django',
+    'social.apps.django_app.default',
 )
 
 AUTHENTICATION_BACKENDS = (
