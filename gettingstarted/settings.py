@@ -148,7 +148,8 @@ STATICFILES_DIRS = (
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 SOCIAL_AUTH_FACEBOOK_KEY = '1385275688183042'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'e521564e48073b62679a7def6c2002ef'
-
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '92609870777-3kb8113joc8am0pje6qi76sro8fgfror.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '7gC-8MbkeIDxKjBASC8KoQGN'
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
