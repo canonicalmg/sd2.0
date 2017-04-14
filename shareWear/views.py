@@ -295,11 +295,18 @@ def signUpLogIn(request):
     if request.user.is_authenticated():
         #send them to /home
         template = loader.get_template('index.html')
-        current_profile = profile.objects.get(user=request.user)
+        try:
+            current_profile = profile.objects.get(user=request.user)
 
-        context = {
-            "current_profile": current_profile
-        }
+            context = {
+                "current_profile": current_profile
+            }
+        except Exception as e:
+            print "error ", e
+            template = loader.get_template('headerLogin.html')
+            context = {
+                "asd": "asd"
+            }
     else:
         template = loader.get_template('headerLogin.html')
         context = {
