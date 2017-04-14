@@ -226,6 +226,8 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with Facebook</a>
+                        <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>
+                        <a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Login with Twitter</a>
                         <a onClick="login()" id='loginBtn' class="btn waves-effect waves-light col s12">Login</a>
                     </div>
                     <div id="routineLoader" class="col s12" style="display:none;">
