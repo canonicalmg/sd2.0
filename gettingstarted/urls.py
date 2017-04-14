@@ -12,7 +12,7 @@ import shareWear.views
 urlpatterns = [
     url(r'^', include('shareWear.urls')),
     url(r'^admin/', admin.site.urls),
-    # url('', include('social_django.urls', namespace='social'))
+    url('', include('social_django.urls', namespace='social'))
 ]
 
 
