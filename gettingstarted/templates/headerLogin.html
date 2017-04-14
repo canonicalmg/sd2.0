@@ -233,6 +233,9 @@
 
                         <br>
 {#                        <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Login with facebook</a>#}
+                        <a href="{% url 'social:begin' 'pinterest' %}?next={{ request.path }}" class="btn btn-block btn-social btn-pinterest">
+                            <span class="fa fa-pinterest"></span> Sign in with Pinterest
+                        </a>
                         <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn-block btn-social btn-facebook">
                             <span class="fa fa-facebook"></span> Sign in with Facebook
                         </a>
@@ -290,7 +293,7 @@
                     <div class="input-field col s12" style="width:100%; margin-left:0;">
                         <i class="material-icons prefix">lock</i>
                         <input id="register-password" type="password">
-                        <label for="password">Password</label>
+                        <label for="register-password">Password</label>
                     </div>
                 </div>
                 <div class="row margin">

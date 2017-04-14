@@ -48,6 +48,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.google.GoogleOAuth',
     'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.pinterest.PinterestOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -152,6 +153,15 @@ SOCIAL_AUTH_FACEBOOK_SECRET = 'e521564e48073b62679a7def6c2002ef'
 # SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '7gC-8MbkeIDxKjBASC8KoQGN'
 SOCIAL_AUTH_TWITTER_KEY = 'AKNaCTqQCJBwcnfD7OGenTMo9'
 SOCIAL_AUTH_TWITTER_SECRET = 'TCCcH8b8GKRAiWrw4xojrCK0grqWtRgFuxV4ImLtWcI7gSBMhN'
+
+SOCIAL_AUTH_PINTEREST_KEY = '4895122739274204216'
+SOCIAL_AUTH_PINTEREST_SECRET = '8f8cc848815890a60fa1582d5578c59dbb0229d45389547f7b2a28b76fb8956a'
+SOCIAL_AUTH_PINTEREST_SCOPE = [
+    'read_public',
+    'write_public',
+    'read_relationships',
+    'write_relationships'
+]
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
