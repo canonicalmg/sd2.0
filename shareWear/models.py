@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from social_django.models import *
 
 # Create your models here.
 
@@ -119,6 +120,11 @@ class profile_follows(models.Model):
 
     def __unicode__(self):
         return self.profile_main.user.username + " -> " + self.profile_following.user.username
+
+class social_media_profile(models.Model):
+    profile = models.ForeignKey(profile, related_name='profile')
+    social_media = models.ForeignKey(UserSocialAuth, related_name='social_media')
+
 
 
 
