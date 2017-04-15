@@ -116,15 +116,17 @@ function signOut(){
 
 function populateSections(){
     console.log("popular = ", POPULAR);
-    load_user("popular",
-        POPULAR[0].user,
-        POPULAR[0].liked,
-        POPULAR[0].total_likes);
-    for(var i=0; i < POPULAR[0].outfit.length; i++){
-        load_outfit($("#popular"),
-            POPULAR[0].outfit[i],
-            POPULAR[0].outfit_pk,
-            "popular");
+    if(POPULAR.length > 0) {
+        load_user("popular",
+            POPULAR[0].user,
+            POPULAR[0].liked,
+            POPULAR[0].total_likes);
+        for (var i = 0; i < POPULAR[0].outfit.length; i++) {
+            load_outfit($("#popular"),
+                POPULAR[0].outfit[i],
+                POPULAR[0].outfit_pk,
+                "popular");
+        }
     }
 }
 

@@ -255,11 +255,15 @@
                 <li>
                     <div class="col s12 center" style="margin-right:10px; margin-top:25px;">
                         <div class="col s3">
-                            <img id="featuredProfileImg" src="../../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
+                            <img id="featuredProfileImg" style='height:150px; width:150px;' src="{{ current_profile_self.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
                         </div>
-                        <div class="col s5">
-                            <h5 id="featuredProfileUser" class="white-text margin" style="margin-bottom:0;">{{ current_profile.username }}</h5>
-                            <span id="featuredProfileLoc" class="white-text ultra-small">{{ current_profile.location }}</span>
+                        <div class="col s5" style="word-wrap: break-word;">
+                            {% if current_profile_self.user.username %}
+                                <h5 id="featuredProfileUser" class="white-text margin" style="margin-bottom:0;">{{ current_profile_self.user.username }}</h5>
+                            {% endif %}
+                            {% if current_profile_self.location %}
+                                <span id="featuredProfileLoc" class="white-text ultra-small">{{ current_profile_self.location }}</span>
+                            {% endif %}
                         </div>
                     </div>
                 </li>
@@ -284,7 +288,7 @@
                         <div class="row" style="margin-bottom:0px !important;">
                             <div class="col s6">
                                 <figure class="card-profile-image">
-                                    <img src="../../static/img/avatar.jpg" alt="" class="circle responsive-img profile-post-uer-image">
+                                    <img src="{{ current_profile.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
                                 </figure>
                             </div>
                             <div class="col s6" style="word-wrap: break-word;">

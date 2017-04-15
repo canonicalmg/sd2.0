@@ -633,4 +633,22 @@ def social_user(backend, uid, user=None, *args, **kwargs):
             'is_new': user is None,
             'new_association': False}
 
+def get_avatar(backend, strategy, details, response,
+               user=None, *args, **kwargs):
+    url = None
+    if backend.name == 'facebook':
+        url = "http://graph.facebook.com/%s/picture?type=large"%response['id']
+    if backend.name == 'twitter':
+        url = response.get('profile_image_url', '').replace('_normal','')
+        print "url = ", url
+    if backend.name == 'pinterest':
+        print response
+    if url:
+        current_profile = profile.objects.get(user=user)
+        current_profile.profile_image = url
+        current_profile.save()
+        # user.avatar = url
+        # user.save()
+    print "end of get avatar"
+
 

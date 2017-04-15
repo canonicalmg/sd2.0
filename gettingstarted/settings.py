@@ -176,7 +176,10 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
     'shareWear.views.save_profile',  # <--- set the path to the function
+    'shareWear.views.get_avatar', # This is a path of your pipeline.py
 )
+
+
 LOGIN_URL          = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL    = '/'
