@@ -176,6 +176,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
     'shareWear.views.save_profile',  # <--- set the path to the function
 )
+LOGIN_URL          = '/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL    = '/'
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
