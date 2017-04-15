@@ -227,7 +227,7 @@
 {#                    </div>#}
 {#                </div>#}
                 <div class="row">
-                    <div class="input-field col s12">
+                    <div id='loginButtons' class="input-field col s12">
                         <a onClick="login()" style="margin-bottom:15px !important;" id='loginBtn' class="btn waves-effect waves-light col s12">Login</a>
                         <div class="center-align">or</div>
 
@@ -245,10 +245,20 @@
                             <span class="fa fa-twitter"></span> Sign in with Twitter
                         </a>
                     </div>
-                    <div id="routineLoader" class="col s12" style="display:none;">
-                        <div id='routineBeforeL' class='loading-container'>
-                            <div class='loading'></div>
-                            <div class='loading-text'>loading</div>
+                    <div id="routineLoader" class="col s12 center-align" style="display:none;">
+{#                        <div id='routineBeforeL' class='loading-container'>#}
+{#                            <div class='loading'></div>#}
+{#                            <div class='loading-text'>loading</div>#}
+{#                        </div>#}
+                        <div class="preloader-wrapper big active">
+                            <div class="spinner-layer spinner-blue">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

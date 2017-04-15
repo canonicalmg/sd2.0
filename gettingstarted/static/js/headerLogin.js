@@ -112,3 +112,8 @@ function register(){
 function forgotPassword(){
     console.log("reset pass");
 }
+
+$(".btn-social").click(function(e){
+    $("#routineLoader").show();
+    $("#loginButtons").hide();
+});
