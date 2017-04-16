@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^contact$', views.contact, name='contact'),
     url(r'^addNew$', views.addNew, name='addNew'),
     url(r'user/(?P<pk>\d+)/?$', views.userProfile, name='userProfile'),
+    url(r'outfit/(?P<pk>\d+)/?$', views.outfit_page, name='outfit_page'),
     url(r'^myCart$', views.myCart, name='myCart'),
     url(r'^get_product/', views.get_product, name='get_product'),
     url(r'^get_front_page/', views.get_front_page, name='get_front_page'),

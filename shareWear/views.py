@@ -560,6 +560,27 @@ def userProfile(request, pk):
         }
     return HttpResponse(template.render(context, request))
 
+def outfit_page(request, pk):
+    if request.user.is_authenticated():
+        template = loader.get_template('outfitPage.html')
+        current_outfit = outfit.objects.get(pk=pk)
+        current_profile = current_outfit.profile
+        current_profile_self = profile.objects.get(user=request.user)
+        current_profile_outfits = get_outfit_items([current_outfit], current_profile_self)
+        print "current profile outfits = ", current_profile_outfits
+        context = {
+            "current_outfit": current_outfit,
+            "current_profile": current_profile,
+            "current_profile_self": current_profile_self,
+            "outfits": json.dumps(current_profile_outfits),
+            "outfit_clothes": current_outfit.get_outfit_items()
+        }
+    else:
+        template = loader.get_template('headerLogin.html')
+        context = {
+        }
+    return HttpResponse(template.render(context, request))
+
 @csrf_exempt
 def change_profile_settings(request):
     if request.user.is_authenticated():

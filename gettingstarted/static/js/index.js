@@ -611,3 +611,24 @@ function reloadOutfitIfFollowing(user_id){
     }
   }
 }
+
+function outfitPage(trey){
+  console.log("loading outfit page");
+  var mainArr;
+  var counterArr;
+  if(trey == "featured"){
+    mainArr = FEATURED;
+    counterArr = FEATURED_CURRENT;
+  }
+  else if(trey == "popular"){
+    mainArr = POPULAR;
+    counterArr = POPULAR_CURRENT;
+  }
+  else if(trey == "new"){
+    mainArr = NEW;
+    counterArr = NEW_CURRENT;
+  }
+  var selectedObject = mainArr[counterArr % mainArr.length];
+  console.log("loading ", selectedObject);
+  window.location.href = "/outfit/"+selectedObject.outfit_pk;
+}

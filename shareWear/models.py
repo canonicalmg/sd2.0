@@ -101,6 +101,10 @@ class outfit(models.Model):
         except:
             return False
 
+    def get_outfit_items(self):
+        outfit_items = outfit_item.objects.filter(outfit=self)
+        return outfit_items
+
 class outfit_item(models.Model):
     clothing = models.ForeignKey(clothing)
     outfit = models.ForeignKey(outfit)

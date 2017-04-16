@@ -294,12 +294,12 @@
                     </a>
 
                 </div>
-                <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="addNewBody">
+                <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="addNewBody" onClick="outfitPage('featured')">
 {#                    <div class="col s12">#}
 {#                        <div id="accessory_left" class="col s3">#}
 {##}
 {#                        </div>#}
-                        <div id="featured" style="overflow-y:hidden;" class="col s12">
+                        <div id="featured" style="overflow-y:hidden;" class="col s12" >
 
                         </div>
 {#                    </div>#}
@@ -310,13 +310,20 @@
                         <div id="featuredTags" class="col s12">
 
                         </div>
-                        Click here to see outfit page
                     </div>
-                    <div class="col s12">
-                        <a style="float:left; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="featuredPrev()" class="waves-effect waves-dark btn">
-                            <i class="material-icons left">keyboard_arrow_left</i>Previous</a>
-                        <a style="float:right; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="featuredNext()" class="waves-effect waves-dark btn">
-                            <i class="material-icons right">keyboard_arrow_right</i>Next</a>
+                    <div class="col s12" style="padding: 0px !important;">
+                        <div class="col s4" style="padding-left: 5px; ">
+                            <a style="width:100%; margin-top:10px; padding: 0; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="featuredPrev()" class="waves-effect waves-dark btn">
+                                <i class="material-icons left">keyboard_arrow_left</i>Previous</a>
+                        </div>
+                        <div class="col s4" style="padding-left:5px; padding-right:5px;">
+                            <a style="width: 100%; margin-top:10px; padding: 0; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="outfitPage('featured')" class="waves-effect waves-dark btn">
+                                Outfit Page</a>
+                        </div>
+                        <div class="col s4" style="padding-right: 5px;">
+                            <a style="width: 100%; margin-top:10px; padding: 0; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="featuredNext()" class="waves-effect waves-dark btn">
+                                <i class="material-icons right">keyboard_arrow_right</i>Next</a>
+                        </div>
                     </div>
                 </div>
 
@@ -363,12 +370,12 @@
                         Discover More
                     </a>
                 </div>
-                <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="popularBody">
+                <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="popularBody" onClick="outfitPage('popular')">
 {#                    <div class="col s12">#}
 {#                        <div class="col s3">#}
 {##}
 {#                        </div>#}
-                        <div id="popular" style="overflow-y:hidden;" class="col s12">
+                        <div id="popular" style="overflow-y:hidden;" class="col s12" >
 
                         </div>
 {#                    </div>#}
@@ -378,13 +385,20 @@
                         <div id="popularTags" class="col s12">
 
                         </div>
-                        Click here to see outfit page
                     </div>
-                    <div class="col s12">
-                        <a style="float:left; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="popularPrev()" class="waves-effect waves-dark btn">
-                            <i class="material-icons left">keyboard_arrow_left</i>Previous</a>
-                        <a style="float:right; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="popularNext()" class="waves-effect waves-dark btn">
-                            <i class="material-icons right">keyboard_arrow_right</i>Next</a>
+                    <div class="col s12" style="padding: 0px !important;">
+                        <div class="col s4" style="padding-left: 5px; ">
+                            <a style="width:100%; margin-top:10px; padding: 0; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="popularPrev()" class="waves-effect waves-dark btn">
+                                <i class="material-icons left">keyboard_arrow_left</i>Previous</a>
+                        </div>
+                        <div class="col s4" style="padding-left:5px; padding-right:5px;">
+                            <a style="width: 100%; margin-top:10px; padding: 0; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="outfitPage('popular')" class="waves-effect waves-dark btn">
+                                Outfit Page</a>
+                        </div>
+                        <div class="col s4" style="padding-right: 5px;">
+                            <a style="width: 100%; margin-top:10px; padding: 0; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="popularNext()" class="waves-effect waves-dark btn">
+                                <i class="material-icons right">keyboard_arrow_right</i>Next</a>
+                        </div>
                     </div>
                 </div>
                 <div class="card-action row" style="padding-bottom:5px;">
@@ -435,7 +449,7 @@
                         Discover More
                     </a>
                 </div>
-                <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="newBody">
+                <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="newBody" onClick="outfitPage('new')">
 {#                    <div class="col s12">#}
 {#                        <div class="col s3">#}
 {##}
@@ -443,7 +457,7 @@
 {#                        <div id="new" style="overflow-y:hidden;" class="col s6">#}
 {##}
 {#                        </div>#}
-                        <div id="new" style="overflow-y:hidden;" class="col s12">
+                        <div id="new" style="overflow-y:hidden;" class="col s12" >
                         </div>
 {#                    </div>#}
                 </div>
@@ -452,13 +466,26 @@
                         <div id="newTags" class="col s12">
 
                         </div>
-                        Click here to see outfit page
                     </div>
-                    <div class="col s12">
-                        <a style="float:left; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="newPrev()" class="waves-effect waves-dark btn">
-                            <i class="material-icons left">keyboard_arrow_left</i>Previous</a>
-                        <a style="float:right; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="newNext()" class="waves-effect waves-dark btn">
-                            <i class="material-icons right">keyboard_arrow_right</i>Next</a>
+{#                    <div class="col s12">#}
+{#                        <a style="float:left; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="newPrev()" class="waves-effect waves-dark btn">#}
+{#                            <i class="material-icons left">keyboard_arrow_left</i>Previous</a>#}
+{#                        <a style="float:right; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="newNext()" class="waves-effect waves-dark btn">#}
+{#                            <i class="material-icons right">keyboard_arrow_right</i>Next</a>#}
+{#                    </div>#}
+                    <div class="col s12" style="padding: 0px !important;">
+                        <div class="col s4" style="padding-left: 5px; ">
+                            <a style="width:100%; margin-top:10px; padding: 0; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="newPrev()" class="waves-effect waves-dark btn">
+                                <i class="material-icons left">keyboard_arrow_left</i>Previous</a>
+                        </div>
+                        <div class="col s4" style="padding-left:5px; padding-right:5px;">
+                            <a style="width: 100%; margin-top:10px; padding: 0; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="outfitPage('new')" class="waves-effect waves-dark btn">
+                                Outfit Page</a>
+                        </div>
+                        <div class="col s4" style="padding-right: 5px;">
+                            <a style="width: 100%; margin-top:10px; padding: 0; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="newNext()" class="waves-effect waves-dark btn">
+                                <i class="material-icons right">keyboard_arrow_right</i>Next</a>
+                        </div>
                     </div>
                 </div>
 
