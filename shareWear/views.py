@@ -15,7 +15,8 @@ from bs4 import BeautifulSoup
 import xmltodict
 import ast
 from social_django.models import *
-
+import urllib
+import urllib2
 
 def populate_db_amazon(request):
     try:
@@ -644,6 +645,10 @@ def get_avatar(backend, strategy, details, response,
     if backend.name == 'pinterest':
         print response
         print response.get('image')
+        req = urllib2.urlopen('https://api.pinterest.com/v1/me?access_token=%s' % response.get('access_token'))
+        print req.read()
+        print " "
+        print req
     if url:
         current_profile = profile.objects.get(user=user)
         current_profile.profile_image = url
