@@ -638,17 +638,16 @@ def get_avatar(backend, strategy, details, response,
                user=None, *args, **kwargs):
     url = None
     if backend.name == 'facebook':
+        print "response = ", response
         url = "http://graph.facebook.com/%s/picture?type=large"%response['id']
     if backend.name == 'twitter':
+        print "response = ", response
         url = response.get('profile_image_url', '').replace('_normal','')
         print "url = ", url
     if backend.name == 'pinterest':
         print response
-        print response.get('image')
-        req = urllib2.urlopen('https://api.pinterest.com/v1/me?access_token=%s' % response.get('access_token'))
-        print req.read()
-        print " "
-        print req
+        if response.get('image'):
+            url = response.get('image')
     if url:
         current_profile = profile.objects.get(user=user)
         current_profile.profile_image = url
