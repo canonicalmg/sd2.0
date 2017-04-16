@@ -102,7 +102,9 @@ function populateSections(){
             load_outfit($("#featured"),
                 json.featured[0].outfit[i],
                 json.featured[0].outfit_pk,
-                "featured");
+                "featured",
+                json.featured[0].tags
+            );
           }
 
           NEW = json.new;
@@ -116,7 +118,9 @@ function populateSections(){
             load_outfit($("#new"),
                 json.new[0].outfit[i],
                 json.new[0].outfit_pk,
-                "new");
+                "new",
+                json.new[0].tags
+            );
           }
 
           POPULAR = json.popular;
@@ -130,7 +134,9 @@ function populateSections(){
             load_outfit($("#popular"),
                 json.popular[0].outfit[i],
                 json.popular[0].outfit_pk,
-                "popular");
+                "popular",
+                json.popular[0].tags
+            );
           }
 
         },
@@ -154,7 +160,8 @@ function newNext(){
     load_outfit($("#new"),
         NEW[NEW_CURRENT % NEW.length].outfit[i],
         NEW[NEW_CURRENT % NEW.length].outfit_pk,
-        "new");
+        "new",
+        NEW[NEW_CURRENT % NEW.length].tags);
   }
 }
 
@@ -172,7 +179,8 @@ function newPrev(){
     load_outfit($("#new"),
         NEW[NEW_CURRENT % NEW.length].outfit[i],
         NEW[NEW_CURRENT % NEW.length].outfit_pk,
-        "new");
+        "new",
+        NEW[NEW_CURRENT % NEW.length].tags);
   }
 }
 
@@ -188,7 +196,8 @@ function popularNext(){
     load_outfit($("#popular"),
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit[i],
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
-        "popular");
+        "popular",
+        POPULAR[POPULAR_CURRENT % POPULAR.length].tags);
   }
 }
 
@@ -205,7 +214,8 @@ function popularPrev(){
     load_outfit($("#popular"),
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit[i],
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
-        "popular");
+        "popular",
+        POPULAR[POPULAR_CURRENT % POPULAR.length].tags);
   }
 }
 
@@ -220,7 +230,8 @@ function featuredNext(){
     load_outfit($("#featured"),
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit[i],
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit_pk,
-        "featured");
+        "featured",
+        FEATURED[FEATURED_CURRENT % FEATURED.length].tags);
   }
 }
 
@@ -237,7 +248,8 @@ function featuredPrev(){
     load_outfit($("#featured"),
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit[i],
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit_pk,
-        "featured");
+        "featured",
+        NEW[FEATURED_CURRENT % FEATURED.length].tags);
   }
 }
 
@@ -323,7 +335,7 @@ function newVert(id){
   }
 }
 
-function load_outfit(whereToAdd, whatToAdd, outfit, trey){
+function load_outfit(whereToAdd, whatToAdd, outfit, trey, tags){
   //remove existing
   $('#fixed'+trey+outfit+"o"+whatToAdd.pk).remove();
   //add new
@@ -356,6 +368,13 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey){
 
   document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk).style.zIndex = whatToAdd.zIndex;
   document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk).style.WebkitTransform = curTransform;
+
+  //load tags
+  var tagList = "";
+  for(var i=0; i < tags.length; i++){
+    tagList += "<div class='chip'>"+tags[i]+"</div>";
+  }
+  $("#"+trey+"Tags").html(tagList);
   if (window.getComputedStyle(document.body).mixBlendMode !== undefined)
     $(".outfitCanvasItem").addClass("curtain");
 
@@ -557,7 +576,8 @@ function reloadOutfitIfFollowing(user_id){
       load_outfit($("#featured"),
           FEATURED[FEATURED_CURRENT % FEATURED.length].outfit[i],
           FEATURED[FEATURED_CURRENT % FEATURED.length].outfit_pk,
-          "featured");
+          "featured",
+          FEATURED[FEATURED_CURRENT % FEATURED.length].tags);
     }
   }
   //popular
@@ -571,7 +591,8 @@ function reloadOutfitIfFollowing(user_id){
       load_outfit($("#popular"),
           POPULAR[POPULAR_CURRENT % POPULAR.length].outfit[i],
           POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
-          "popular");
+          "popular",
+          POPULAR[POPULAR_CURRENT % POPULAR.length].tags);
     }
   }
   //new
@@ -585,7 +606,8 @@ function reloadOutfitIfFollowing(user_id){
       load_outfit($("#new"),
           NEW[NEW_CURRENT % NEW.length].outfit[i],
           NEW[NEW_CURRENT % NEW.length].outfit_pk,
-          "new");
+          "new",
+          NEW[NEW_CURRENT % NEW.length].tags);
     }
   }
 }

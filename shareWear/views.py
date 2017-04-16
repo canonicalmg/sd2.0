@@ -250,6 +250,12 @@ def get_popular_outfits(current_profile):
     outfits = get_outfit_items(outfit_objs, current_profile)
     return outfits
 
+def get_tag_list(outfit):
+    tag_arr = []
+    for each_tag in outfit.tag_list.all():
+        tag_arr.append(each_tag.word)
+    return tag_arr
+
 def get_outfit_items(outfits, current_profile):
     outfits_arr = []
     for each_outfit in outfits:
@@ -272,6 +278,7 @@ def get_outfit_items(outfits, current_profile):
                         "canvasHeight": each_outfit.canvas_height,
                         "canvasWidth": each_outfit.canvas_width,
                         "total_likes": each_outfit.likes,
+                        "tags": get_tag_list(each_outfit),
                         "liked": each_outfit.does_user_like(current_profile),})
     return outfits_arr
 
