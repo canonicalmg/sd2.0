@@ -236,7 +236,7 @@
                         <a href="{% url 'social:begin' 'pinterest' %}?next={{ request.path }}" class="btn btn-block btn-social btn-pinterest">
                             <span class="fa fa-pinterest"></span> Sign in with Pinterest
                         </a>
-                        <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn-block btn-social btn-facebook">
+                        <a id='facebookLink' href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn-block btn-social btn-facebook">
                             <span class="fa fa-facebook"></span> Sign in with Facebook
                         </a>
                         {#                        <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>#}

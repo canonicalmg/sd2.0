@@ -117,3 +117,7 @@ $(".btn-social").click(function(e){
     $("#routineLoader").show();
     $("#loginButtons").hide();
 });
+
+$("#facebookLink").click(function(e){
+    document.location.href="/";
+});
