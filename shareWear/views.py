@@ -592,28 +592,31 @@ def change_profile_settings(request):
     return HttpResponse("Error")
 
 def save_profile(backend, user, response, *args, **kwargs):
-    if backend.name == 'twitter':
-        print "user = ", user
-        # profile = user.get_profile()
-        social_media_profile_obj = UserSocialAuth.objects.filter(user=user)[0]
-        print "profile obj = ", social_media_profile_obj
-        try:
-            current_profile = social_media_profile.objects.get(social_media=social_media_profile_obj)
-            print "found current profile"
-        except Exception as e:
-            print "error: ", e
-            profile_obj = profile(user=user)
-            profile_obj.save()
-            new_social_media = social_media_profile(profile=profile_obj, social_media=social_media_profile_obj)
-            new_social_media.save()
-        print "profile = ", profile
-        # if profile is None:
-            # profile = profile(user_id=user.id)
-            # print "profile does not exist"
-        # profile.gender = response.get('gender')
-        # profile.link = response.get('link')
-        # profile.timezone = response.get('timezone')
-        # profile.save()
+    # if backend.name == 'twitter':
+    print "user = ", user
+    # profile = user.get_profile()
+    social_media_profile_obj = UserSocialAuth.objects.filter(user=user)[0]
+    print "profile obj = ", social_media_profile_obj
+    try:
+        current_profile = social_media_profile.objects.get(social_media=social_media_profile_obj)
+        print "found current profile"
+    except Exception as e:
+        print "error: ", e
+        profile_obj = profile(user=user)
+        if backend == 'facebook':
+            profile_obj.user.email = response.get('email')
+        profile_obj.save()
+
+        new_social_media = social_media_profile(profile=profile_obj, social_media=social_media_profile_obj)
+        new_social_media.save()
+    print "profile = ", profile
+    # if profile is None:
+        # profile = profile(user_id=user.id)
+        # print "profile does not exist"
+    # profile.gender = response.get('gender')
+    # profile.link = response.get('link')
+    # profile.timezone = response.get('timezone')
+    # profile.save()
     print "bang"
 
 def social_user(backend, uid, user=None, *args, **kwargs):
