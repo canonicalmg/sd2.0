@@ -643,6 +643,7 @@ def get_avatar(backend, strategy, details, response,
         print "url = ", url
     if backend.name == 'pinterest':
         print response
+        print response.get('image')
     if url:
         current_profile = profile.objects.get(user=user)
         current_profile.profile_image = url
