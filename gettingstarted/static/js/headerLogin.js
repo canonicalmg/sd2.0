@@ -119,5 +119,7 @@ $(".btn-social").click(function(e){
 });
 
 $("#facebookLink").click(function(e){
-    document.location.href="/";
+    setTimeout(function () {
+        document.location.href="/";
+    }, 5000);
 });
