@@ -269,6 +269,10 @@
         .profileSetting{
             padding:2% !important;
         }
+
+        .n-tag{
+            color:black !important;
+        }
     </style>
 
 </head>
@@ -430,7 +434,7 @@
             </div>
 
         </div>
-        <div id="modal1" class="modal bottom-sheet modal-fixed-footer">
+        <div id="modal1" style='max-height:60%;' class="modal bottom-sheet modal-fixed-footer">
             <div class="modal-content">
                 <div class="row">
                     <div class="col s12">
@@ -446,7 +450,8 @@
                         <p><i style="margin-right:5px;" class="material-icons">chat</i></p>
                     </div>
                     <div class="col s11">
-                        <input style="color:black;" placeholder="Add a Tag" id="tag_field" class="autocomplete">
+{#                        <input style="color:black;" placeholder="Add a Tag" id="tag_field" class="autocomplete">#}
+                        <input id='tag_list' style="color:black !important;" type="text" placeholder="Add a Tag (Comma Separated)" data-role="materialtags" />
                     </div>
                 </div>
 
@@ -472,6 +477,8 @@
 <script src="../static/js/hammer.js"></script>
 <script src="../static/js/sweetalert.min.js"></script>
 <script src="../static/js/addNew.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.4/typeahead.bundle.min.js"></script>
+<script src="../static/js/materialize-tags.js"></script>
 
 
 </body>

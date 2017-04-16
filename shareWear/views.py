@@ -338,13 +338,24 @@ def user_submit_outfit(request):
                 print "error: user needs to sign up"
                 return HttpResponse("SignUp")
             current_profile = profile.objects.get(user=request.user)
+            #create tags
+            tag_list = []
+            for each_tag in items['tag']:
+                try:
+                    new_tag = tag.objects.get(word=each_tag)
+                except:
+                    new_tag = tag(word=each_tag)
+                    new_tag.save()
+                tag_list.append(new_tag)
             #create outfit
             new_outfit = outfit(profile=current_profile,
                                 gender=items['gender'],
                                 description=items['caption'],
-                                tags=items['tag'],
                                 canvas_height=items['canvasHeight'],
                                 canvas_width=items['canvasWidth'])
+            new_outfit.save()
+            for each_tag in tag_list:
+                new_outfit.tag_list.add(each_tag)
             new_outfit.save()
 
             #create outfit items

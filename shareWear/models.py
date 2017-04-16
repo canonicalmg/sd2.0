@@ -68,15 +68,21 @@ class clothing(models.Model):
             gender_verbose = "Male"
         return "%s %s - %s(%s, %s)" % (gender_verbose, self.cloth_type, self.name, self.carrier, self.price)
 
+class tag(models.Model):
+    word = models.CharField(max_length=35)
+
+    def __unicode__(self):
+        return self.word
 
 class outfit(models.Model):
     profile = models.ForeignKey(profile)
     gender = models.BooleanField(default=True)
     description = models.CharField(max_length=300, null=True, blank=True)
-    tags = models.CharField(max_length=300, null=True, blank=True)
+    # tags = models.CharField(max_length=300, null=True, blank=True)
     likes = models.IntegerField(default=0)
     canvas_height = models.CharField(max_length=50, null=True, blank=True)
     canvas_width = models.CharField(max_length=50, null=True, blank=True)
+    tag_list = models.ManyToManyField(tag)
 
     def __unicode__(self):
         return self.profile.user.username + " - " + str(self.pk)

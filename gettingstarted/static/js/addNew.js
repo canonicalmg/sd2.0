@@ -30,6 +30,7 @@ var HAMMERS = [];
 var CURRENT_PAGE = 1;
 var CLOTH_TYPE = "Shirt";
 var GENDER = document.getElementById('gender_check').checked;
+var TAG_LIST = [];
 populate_product();
 
 function populate_product(){
@@ -320,14 +321,23 @@ function submit_outfit(){
     //gather outfit name(?), items, gender, etc
     var checkbox = document.getElementById('gender_check');
     var caption = $("#caption_field");
-    var tag = $("#tag_field");
+    var tags = $(".chip");
+    var tagList = [];
+    console.log("tags = ", $(".materialize-tags").materialtags('items'));
+    if($(".materialize-tags").length > 0) {
+        tagList = $(".materialize-tags").materialtags('items')[1];
+    }
+    // for(var i=0; i < tags.length; i++){
+    //     console.log(tags[i]);
+    //     tagList.push(tags[i].innerHtml());
+    // }
     console.log("caption = ", caption.val());
-    console.log("tag = ", tag.val());
+    console.log("tag = ", tagList);
     //ajax post
     var data = {"items": items,
                 'gender': checkbox.checked,
                 'caption': caption.val(),
-                'tag': tag.val(),
+                'tag': TAG_LIST.split(","),
                 'canvasHeight': document.getElementById("addNewBody").clientHeight,
                 'canvasWidth': document.getElementById("addNewBody").clientWidth};
     $.ajax({
@@ -505,4 +515,28 @@ $("#gender_check").change(function() {
     GENDER = this.checked;
     populate_product();
 });
+
+$('#tag_list').on('change', function (event)
+{
+    var $element   = $(event.target),
+        $container = $element.closest('.example');
+
+    if (!$element.data('materialtags'))
+    {
+        return;
+    }
+
+    var val = $element.val();
+    if (val === null)
+    {
+        val = "null";
+    }
+    console.log("val = ", val);
+    TAG_LIST = val;
+    // $('code', $('pre.val', $container)).html(($.isArray(val) ? JSON.stringify(val) : "\"" + val.replace('"', '\\"') + "\""));
+    // $('code', $('pre.items', $container)).html(JSON.stringify($element.materialtags('items')));
+
+}).trigger('change');
+
+
 
