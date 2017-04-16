@@ -605,6 +605,9 @@ def save_profile(backend, user, response, *args, **kwargs):
         profile_obj = profile(user=user)
         if backend == 'facebook':
             profile_obj.user.email = response.get('email')
+        if backend == 'twitter':
+            print "response = ", response
+            profile_obj.user.email = response.get('email')
         profile_obj.save()
 
         new_social_media = social_media_profile(profile=profile_obj, social_media=social_media_profile_obj)
