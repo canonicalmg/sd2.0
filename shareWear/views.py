@@ -526,7 +526,11 @@ def add_to_cart_single(request):
                 try:
                     outfit_key = request.POST.get('outfit')
                     clothing_key = request.POST.get('clothing')
+                    outfit_obj = outfit.objects.get(pk=outfit_key)
+                    clothing_obj = clothing.objects.get(pk=clothing_key)
                     current_profile = profile.objects.get(user=request.user)
+
+                    new_item = cartItems(clothing=clothing_obj, outfit=outfit_obj)
 
                     return HttpResponse("Success")
                 except Exception as e:

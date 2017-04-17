@@ -13,7 +13,9 @@ class profile(models.Model):
     joined_date = models.DateTimeField(auto_now_add=True)
     website = models.CharField(max_length=100, null=True, blank=True)
     description = models.CharField(max_length=300, null=True, blank=True)
+    cart_items = models.ManyToManyField('cartItems')
 
+    #profile settings
     display_fullName = models.BooleanField(default=True)
     display_gender = models.BooleanField(default=True)
     display_joined_date = models.BooleanField(default=True)
