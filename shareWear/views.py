@@ -581,6 +581,21 @@ def outfit_page(request, pk):
         }
     return HttpResponse(template.render(context, request))
 
+def clothing_page(request, pk):
+    if request.user.is_authenticated():
+        template = loader.get_template('clothingPage.html')
+        current_clothing = clothing.objects.get(pk=pk)
+        current_profile_self = profile.objects.get(user=request.user)
+        context = {
+            "current_profile_self": current_profile_self,
+            "current_clothing": current_clothing
+        }
+    else:
+        template = loader.get_template('headerLogin.html')
+        context = {
+        }
+    return HttpResponse(template.render(context, request))
+
 @csrf_exempt
 def change_profile_settings(request):
     if request.user.is_authenticated():

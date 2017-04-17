@@ -237,9 +237,7 @@
     </style>
 </head>
 <body>
-<script>
-    var POPULAR = JSON.parse("{{outfits | escapejs}}");
-</script>
+
 <header>
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
@@ -286,106 +284,34 @@
                     <div id="profile-page-sidebar" class="col s12 m4">
                         <!-- Profile About Details  -->
 
-                        <div class="card col s12 l12 center mainCard" style='overflow-x:hidden;'>
+                        <div class="card col s12 l12 mainCard">
 
-                            <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="popularBody">
-                                <div id="popular" style="overflow-y:hidden;" class="col s12">
-
+                            <div class="card-content">
+                                <div class="col s12">
+                                    <h5>{{ current_clothing.name }}</h5>
+                                </div>
+                                <div class="card-image">
+                                    <img src="{{ current_clothing.large_url }}">
                                 </div>
                             </div>
-                            <div class="card-action row" style="padding-bottom:5px;">
-                                <div class="col s12" style="padding-bottom:10px;">
-                                    <div id="popularTags" class="col s12">
+                            <div class="card-action">
 
-                                    </div>
+                                <div class="col s12">
+                                    <span class="card-title">Brand: {{ current_clothing.brand }}</span>
                                 </div>
                                 <div class="col s12">
-
-                                    <div class="col s3" style="float:left; margin-top:-15px; margin-left:-25px;">
-                                        <img id="popularProfileImg" src="{{ current_profile.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
-                                    </div>
-                                    <div class="col s5" style="margin-top:-20px; margin-left:-20px;">
-                                        <h5 id="popularProfileUser" class="grey-text text-darken-4 margin profileUser" style="margin-bottom:0;"></h5>
-                                        <span id="popularProfileLoc" class="grey-text text-darken-1 ultra-small"></span>
-                                    </div>
-                                    <div class="col s4">
-                                        <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="popularFollow" style="border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
-                                    </div>
+                                    <span class="card-title">Price: {{ current_clothing.price }}</span>
                                 </div>
-                                <div class="col s12 profileSocialBody">
-                                    <div class="col s10">
-                                        <div class="col s12 " style="padding-top:5px;">
-                                            <i class="material-icons left socialIcons popularProfileSocial">shopping_cart</i>
-                                            <i onClick='likeOutfit(this.id)' id='popularLike' class="material-icons left socialIcons popularProfileSocial">favorite_border</i>
-                                            <i class="material-icons left socialIcons popularProfileSocial">share</i>
-                                            <i class="material-icons left socialIcons popularProfileSocial">comment</i>
-                                        </div>
-                                        <div class="col s12 popularProfileSocial" style="padding-top:5px;">
-                                            <span class="left grey-text text-darken-2 ultra-small" id="popularLikeComment"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col s2">
-                                        <i onClick="popularVert(this.id)" id="popularSocialShow" class="material-icons left socialIcons right">keyboard_arrow_down</i>
-                                    </div>
+                                <div class="col s12 center" style="padding: 25px;">
+                                    <a href="{{ current_clothing.aff_url }}">
+                                        <button class="btn waves-effect waves-light btn">View on {{ current_clothing.carrier }}</button>
+                                    </a>
                                 </div>
                             </div>
 
 
                         </div>
 
-                        <div class="card col s12 center">
-                            <div class="card-content black-text center">
-                                <button class="btn waves-effect waves-light btn">Add Whole Outfit to Cart</button>
-                            </div>
-                        </div>
-
-                        {% for each_clothing in outfit_clothes %}
-                            <br>
-                            <hr>
-                            <div class="card col s12 horizontal">
-                                <div class="valign-wrapper">
-                                    <img src="{{ each_clothing.clothing.small_url }}">
-                                </div>
-                                <div class="card-stacked">
-                                    <div class="card-content" style="word-wrap: break-word;">
-                                        <h5>{{ each_clothing.clothing.name }}</h5>
-
-                                        <div class="col s8">
-                                            {% if each_clothing.clothing.carrier %}
-                                                <p>Vendor: {{ each_clothing.clothing.carrier }}</p>
-                                            {% endif %}
-                                            {% if each_clothing.clothing.brand %}
-                                                <p>Brand: {{ each_clothing.clothing.brand }}</p>
-                                            {% endif %}
-                                        </div>
-                                        <div class="col s4">
-                                            <h5 style="float:right;">Price: {{ each_clothing.clothing.price }}</h5>
-                                        </div>
-
-
-                                    </div>
-                                    <div class="card-action">
-                                        <div class="col s12" style="margin-left:-35%; width:130%;">
-                                            <div class="col s5">
-                                                <a href="../clothing/{{ each_clothing.clothing.pk }}">
-                                                    <button class="btn waves-effect waves-light btn" href="/clothing/5">
-                                                        More
-                                                    </button>
-                                                </a>
-                                            </div>
-                                            <div class="col s7">
-                                                <a href="">
-                                                    <button class="btn waves-effect waves-light btn" style="width:125%;">
-                                                        Add to Cart
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
 
                     </div>
 
@@ -405,7 +331,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-touch-events/1.0.5/jquery.mobile-events.js"></script>
 
 <script src="../../static/js/materialize.js"></script>
-<script src="../../static/js/outfitPage.js"></script>
+{#<script src="../../static/js/outfitPage.js"></script>#}
 
 
 </body>
