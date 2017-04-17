@@ -342,11 +342,11 @@
                         {% for each_clothing in outfit_clothes %}
                             <br>
                             <hr>
-                            <div class="card col s12 horizontal">
-                                <div class="valign-wrapper">
-                                    <img style='height: auto; width: 100px;' src="{{ each_clothing.clothing.small_url }}">
+                            <div class="card col s12">
+                                <div class="col s12 center-align" style="padding-top:25px;">
+                                    <img style='height:20%;' src="{{ each_clothing.clothing.large_url }}">
                                 </div>
-                                <div class="card-stacked">
+                                <div class="col s12">
                                     <div class="card-content" style="word-wrap: break-word;">
                                         <h5>{{ each_clothing.clothing.name }}</h5>
 
@@ -364,27 +364,68 @@
 
 
                                     </div>
-                                    <div class="card-action">
-                                        <div class="col s12" style="margin-left:-35%; width:130%;">
-                                            <div class="col s5">
-                                                <a href="../clothing/{{ each_clothing.clothing.pk }}">
-                                                    <button class="btn waves-effect waves-light btn" href="/clothing/5">
-                                                        More
-                                                    </button>
-                                                </a>
-                                            </div>
-                                            <div class="col s7">
-                                                <a href="">
-                                                    <button class="btn waves-effect waves-light btn" style="width:125%;">
-                                                        Add to Cart
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
-
+                                </div>
+                                <div class="col s12" style="padding:25px;">
+                                    <div class="col s5">
+                                        <a href="../clothing/{{ each_clothing.clothing.pk }}">
+                                            <button class="btn waves-effect waves-light btn" href="/clothing/5">
+                                                More
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div class="col s7">
+                                        <a href="">
+                                            <button class="btn waves-effect waves-light btn">
+                                                Add to Cart
+                                            </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
+{#                            <div class="card col s12 horizontal">#}
+{#                                <div class="valign-wrapper">#}
+{#                                    <img style='height: auto; width: 100px;' src="{{ each_clothing.clothing.small_url }}">#}
+{#                                </div>#}
+{#                            #}
+{#                                <div class="card-stacked">#}
+{#                                    <div class="card-content" style="word-wrap: break-word;">#}
+{#                                        <h5>{{ each_clothing.clothing.name }}</h5>#}
+{##}
+{#                                        <div class="col s8">#}
+{#                                            {% if each_clothing.clothing.carrier %}#}
+{#                                                <p>Vendor: {{ each_clothing.clothing.carrier }}</p>#}
+{#                                            {% endif %}#}
+{#                                            {% if each_clothing.clothing.brand %}#}
+{#                                                <p>Brand: {{ each_clothing.clothing.brand }}</p>#}
+{#                                            {% endif %}#}
+{#                                        </div>#}
+{#                                        <div class="col s4">#}
+{#                                            <h5 style="float:right;">Price: {{ each_clothing.clothing.price }}</h5>#}
+{#                                        </div>#}
+{##}
+{##}
+{#                                    </div>#}
+{#                                    <div class="card-action">#}
+{#                                        <div class="col s12" style="margin-left:-35%; width:130%;">#}
+{#                                            <div class="col s5">#}
+{#                                                <a href="../clothing/{{ each_clothing.clothing.pk }}">#}
+{#                                                    <button class="btn waves-effect waves-light btn" href="/clothing/5">#}
+{#                                                        More#}
+{#                                                    </button>#}
+{#                                                </a>#}
+{#                                            </div>#}
+{#                                            <div class="col s7">#}
+{#                                                <a href="">#}
+{#                                                    <button class="btn waves-effect waves-light btn" style="width:125%;">#}
+{#                                                        Add to Cart#}
+{#                                                    </button>#}
+{#                                                </a>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{##}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
                         {% endfor %}
 
                     </div>
