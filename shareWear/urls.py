@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^change_profile_settings/', views.change_profile_settings, name='change_profile_settings'),
     url(r'^user_submit_outfit/', views.user_submit_outfit, name='user_submit_outfit'),
     url(r'^get_product_full/', views.get_product_full, name='get_product_full'),
+    url(r'^add_to_cart_single/', views.add_to_cart_single, name='add_to_cart_single'),
 ]

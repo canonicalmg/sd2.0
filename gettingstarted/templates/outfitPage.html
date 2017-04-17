@@ -374,11 +374,9 @@
                                         </a>
                                     </div>
                                     <div class="col s7">
-                                        <a href="">
-                                            <button class="btn waves-effect waves-light btn">
-                                                Add to Cart
-                                            </button>
-                                        </a>
+                                        <button onClick="addToCartSingle('{{ each_clothing.pk }}', '{{ current_outfit.pk }}')" class="btn waves-effect waves-light btn">
+                                            Add to Cart
+                                        </button>
                                     </div>
                                 </div>
                             </div>

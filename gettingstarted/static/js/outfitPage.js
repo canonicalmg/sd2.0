@@ -292,3 +292,22 @@ function setOutfitLikeUnlike(outfitKey, likeVal){
         }
     }
 }
+
+function addToCartSingle(clothingKey, outfitKey){
+    $.ajax({
+            type: 'POST',
+            url: '/add_to_cart_single/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'clothing': clothingKey, 'outfit': outfitKey},
+            success: function (json) {
+                console.log("json = ", json);
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
+            }
+        }
+    )
+}

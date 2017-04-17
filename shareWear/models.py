@@ -145,6 +145,11 @@ class social_media_profile(models.Model):
     profile = models.ForeignKey(profile, related_name='profile')
     social_media = models.ForeignKey(UserSocialAuth, related_name='social_media')
 
+class cartItems(models.Model):
+    clothing = models.ForeignKey(clothing)
+    outfit = models.ForeignKey(outfit)
 
+    def __unicode__(self):
+        return self.clothing.name + " " + self.clothing.price
 
 

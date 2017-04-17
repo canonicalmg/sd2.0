@@ -518,6 +518,21 @@ def follow_user(request):
                     print "Error ", e
     return HttpResponse("Error")
 
+@csrf_exempt
+def add_to_cart_single(request):
+    if request.user.is_authenticated():
+        if request.is_ajax():
+            if request.method == 'POST':
+                try:
+                    outfit_key = request.POST.get('outfit')
+                    clothing_key = request.POST.get('clothing')
+                    current_profile = profile.objects.get(user=request.user)
+
+                    return HttpResponse("Success")
+                except Exception as e:
+                    print "Error ", e
+    return HttpResponse("Error")
+
 def userProfile(request, pk):
     if request.user.is_authenticated():
         template = loader.get_template('userProfile.html')
