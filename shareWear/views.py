@@ -461,10 +461,27 @@ def myCart(request):
     if request.user.is_authenticated():
         template = loader.get_template('myCart.html')
         current_profile = profile.objects.get(user=request.user)
-        is_empty = True
+        all_cart_items = current_profile.cart_items.all()
+
+
+        outfit_clothes = []
+        for each_item in all_cart_items:
+            outfit_clothes.append({'large_url': each_item.clothing.large_url,
+                                   'name': each_item.clothing.name,
+                                   'carrier': each_item.clothing.carrier,
+                                   'brand': each_item.clothing.brand,
+                                   'price': each_item.clothing.price,
+                                   'is_in_cart': each_item.clothing.is_in_cart(current_profile),
+                                   'pk': each_item.clothing.pk,
+                                   'outfit_pk': each_item.outfit.pk})
+        if len(outfit_clothes) == 0:
+            is_empty = True
+        else:
+            is_empty = False
         context = {
             "current_profile": current_profile,
-            "is_empty": is_empty
+            "is_empty": is_empty,
+            "all_clothing": outfit_clothes
         }
     else:
         template = loader.get_template('headerLogin.html')
@@ -529,10 +546,76 @@ def add_to_cart_single(request):
                     outfit_obj = outfit.objects.get(pk=outfit_key)
                     clothing_obj = clothing.objects.get(pk=clothing_key)
                     current_profile = profile.objects.get(user=request.user)
+                    #looking to see if item is in cart. If so, remove from cart
+                    cart_item = cartItems(clothing=clothing_obj, outfit=outfit_obj)
+                    if current_profile.item_in_cart(cart_item):
+                        print "in cart"
+                        current_profile.remove_cart_item(cart_item)
+                        return HttpResponse("Removed")
 
-                    new_item = cartItems(clothing=clothing_obj, outfit=outfit_obj)
+                    else:
+                        #could not find item in cart, creating instead
+                        new_item = cartItems(clothing=clothing_obj, outfit=outfit_obj)
+                        new_item.save()
+                        current_profile.cart_items.add(new_item)
+                        current_profile.save()
+                        return HttpResponse("Added")
 
-                    return HttpResponse("Success")
+                except Exception as e:
+                    print "Error ", e
+    return HttpResponse("Error")
+
+@csrf_exempt
+def add_to_cart_whole(request):
+    if request.user.is_authenticated():
+        if request.is_ajax():
+            if request.method == 'POST':
+                try:
+                    outfit_key = request.POST.get('outfit')
+                    outfit_obj = outfit.objects.get(pk=outfit_key)
+                    current_profile = profile.objects.get(user=request.user)
+                    returned_clothing_id_list = []
+
+                    #get all clothes in outfit
+                    clothes = outfit_obj.get_outfit_items()
+                    for each_item in clothes:
+                        #If item is not in cart, then add it to cart
+                        cart_item = cartItems(clothing=each_item.clothing, outfit=outfit_obj)
+                        if current_profile.item_in_cart(cart_item) == False:
+                            new_item = cartItems(clothing=each_item.clothing, outfit=outfit_obj)
+                            new_item.save()
+                            current_profile.cart_items.add(new_item)
+                            current_profile.save()
+                            returned_clothing_id_list.append(each_item.clothing.pk)
+
+                    json_stuff = json.dumps(returned_clothing_id_list)
+                    return HttpResponse(json_stuff, content_type="application/json")
+                    # return HttpResponse(returned_clothing_id_list)
+
+                except Exception as e:
+                    print "Error ", e
+    return HttpResponse("Error")
+
+@csrf_exempt
+def remove_from_cart(request):
+    if request.user.is_authenticated():
+        if request.is_ajax():
+            if request.method == 'POST':
+                try:
+                    outfit_key = request.POST.get('outfit')
+                    clothing_key = request.POST.get('clothing')
+                    outfit_obj = outfit.objects.get(pk=outfit_key)
+                    clothing_obj = clothing.objects.get(pk=clothing_key)
+                    current_profile = profile.objects.get(user=request.user)
+
+                    cart_item = cartItems(outfit=outfit_obj, clothing=clothing_obj)
+                    current_profile.remove_cart_item(cart_item)
+
+                    if len(current_profile.cart_items.all()) == 0:
+                        return HttpResponse("Removed, Empty")
+                    else:
+                        return HttpResponse("Removed")
+
                 except Exception as e:
                     print "Error ", e
     return HttpResponse("Error")
@@ -587,12 +670,24 @@ def outfit_page(request, pk):
         current_profile_self = profile.objects.get(user=request.user)
         current_profile_outfits = get_outfit_items([current_outfit], current_profile_self)
         print "current profile outfits = ", current_profile_outfits
+        outfit_clothes = []
+        outfit_items = outfit_item.objects.filter(outfit=current_outfit)
+        for each_item in outfit_items:
+            outfit_clothes.append({'large_url': each_item.clothing.large_url,
+                                   'name': each_item.clothing.name,
+                                   'carrier': each_item.clothing.carrier,
+                                   'brand': each_item.clothing.brand,
+                                   'price': each_item.clothing.price,
+                                   'is_in_cart': each_item.clothing.is_in_cart(current_profile_self),
+                                   'pk': each_item.clothing.pk})
+
         context = {
             "current_outfit": current_outfit,
             "current_profile": current_profile,
             "current_profile_self": current_profile_self,
             "outfits": json.dumps(current_profile_outfits),
-            "outfit_clothes": current_outfit.get_outfit_items()
+            # "outfit_clothes": current_outfit.get_outfit_items()
+            "outfit_clothes": outfit_clothes
         }
     else:
         template = loader.get_template('headerLogin.html')

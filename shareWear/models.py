@@ -50,6 +50,18 @@ class profile(models.Model):
         else:
             return "Male"
 
+    def item_in_cart(self, cart_item):
+        for each_item in self.cart_items.all():
+            if (each_item.outfit == cart_item.outfit) and (each_item.clothing == cart_item.clothing):
+                return True
+        return False
+
+    def remove_cart_item(self, cart_item):
+        for each_item in self.cart_items.all():
+            if (each_item.outfit == cart_item.outfit) and (each_item.clothing == cart_item.clothing):
+                each_item.delete()
+                return 0
+
 class clothing(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     carrier = models.CharField(max_length=100, null=True, blank=True)
@@ -69,6 +81,14 @@ class clothing(models.Model):
         else:
             gender_verbose = "Male"
         return "%s %s - %s(%s, %s)" % (gender_verbose, self.cloth_type, self.name, self.carrier, self.price)
+
+    def is_in_cart(self, profile):
+        all_cart_items = profile.cart_items.all()
+        for each_item in all_cart_items:
+            if each_item.clothing == self:
+                return True
+        #else not found
+        return False
 
 class tag(models.Model):
     word = models.CharField(max_length=35)

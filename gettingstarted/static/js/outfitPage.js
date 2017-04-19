@@ -303,6 +303,58 @@ function addToCartSingle(clothingKey, outfitKey){
             data: {'clothing': clothingKey, 'outfit': outfitKey},
             success: function (json) {
                 console.log("json = ", json);
+                var itemToAdd = $("#add" + clothingKey);
+                itemToAdd.html("Item in Cart");
+                if(json == "Added") {
+                    itemToAdd.css('border', '1px solid rgb(43, 187, 173)');
+                    itemToAdd.css('background-color', 'rgb(43, 187, 173)');
+                    itemToAdd.css('color', 'white');
+                }
+                else if(json == "Removed"){
+                    itemToAdd.css('border', '');
+                    itemToAdd.css('background-color', '');
+                    itemToAdd.css('color', '');
+                }
+
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
+            }
+        }
+    )
+}
+
+function addWholeOutfit(outfitKey){
+    $.ajax({
+            type: 'POST',
+            url: '/add_to_cart_whole/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'outfit': outfitKey},
+            success: function (json) {
+                console.log("json = ", json);
+                // var itemToAdd = $("#add" + clothingKey);
+                // if(json == "Added") {
+                //     itemToAdd.css('border', '1px solid rgb(43, 187, 173)');
+                //     itemToAdd.css('background-color', 'rgb(43, 187, 173)');
+                //     itemToAdd.css('color', 'white');
+                // }
+                // else if(json == "Removed"){
+                //     itemToAdd.css('border', '');
+                //     itemToAdd.css('background-color', '');
+                //     itemToAdd.css('color', '');
+                // }
+
+                //for each item in returned json, change item css to added
+                for(var i=0; i < json.length; i++){
+                    var itemToAdd = $("#add" + json[i]);
+                    itemToAdd.html("Item in Cart");
+                    itemToAdd.css('border', '1px solid rgb(43, 187, 173)');
+                    itemToAdd.css('background-color', 'rgb(43, 187, 173)');
+                    itemToAdd.css('color', 'white');
+                }
             },
             error: function (json) {
                 // $("#createRoutine").show();
