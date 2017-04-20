@@ -24,6 +24,7 @@ def populate_db_amazon(request):
         amazon = bottlenose.Amazon('AKIAJOR5NTXK2ERTU6AQ',
                                    'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
                                    'can037-20',
+                                   MaxQPS=0.9
                                    )
         cloth_types = ["Shirt", "Pants", "Shoes"]
         gender = [
@@ -84,7 +85,8 @@ def populate_db(request):
                                     'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
                                     'can037-20',
                                    # Parser=lambda text: BeautifulSoup(text, 'xml')
-                                    # region="US"
+                                    # region="US",
+                                   MaxQPS=0.9
                                    )
         # cloth_types = ["Shirt", "Pants", "Shoes"]
         # gender = ["Women", "Men"]
@@ -463,7 +465,7 @@ def myCart(request):
         template = loader.get_template('myCart.html')
         current_profile = profile.objects.get(user=request.user)
         all_cart_items = current_profile.cart_items.all()
-
+        ASIN = ""
 
         outfit_clothes = []
         for each_item in all_cart_items:
@@ -475,13 +477,32 @@ def myCart(request):
                                    'is_in_cart': each_item.clothing.is_in_cart(current_profile),
                                    'pk': each_item.clothing.pk,
                                    'outfit_pk': each_item.outfit.pk})
+            ASIN = each_item.clothing.carrier_id
         if len(outfit_clothes) == 0:
             is_empty = True
         else:
             is_empty = False
+        amazon = bottlenose.Amazon('AKIAJOR5NTXK2ERTU6AQ',
+                           'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
+                           'can037-20',
+                           )
+        try:
+            kwargs = {
+                "Item.0.ASIN": ASIN,
+                "Item.0.Quantity": 1
+            }
+            response = amazon.CartCreate(**kwargs)
+
+            soup = BeautifulSoup(response, "xml")
+            newDictionary = xmltodict.parse(str(soup))
+            print newDictionary['CartCreateResponse']['Cart']['PurchaseURL']
+        except Exception as e:
+            print "error: ", e
         context = {
             "access_key": "AKIAJOR5NTXK2ERTU6AQ",
             "associate_tag": "can037-20",
+            "signature": "AJmBIow2qBu5GtdtJcYo9y8glhexQgxolmcIJK2xnlQ=",
+            "link": newDictionary['CartCreateResponse']['Cart']['PurchaseURL'],
             "timestamp": datetime.datetime.utcnow().isoformat(),
             "current_profile": current_profile,
             "is_empty": is_empty,
