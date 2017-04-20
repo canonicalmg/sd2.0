@@ -335,7 +335,15 @@
 
                         <div class="card col s12 center">
                             <div class="card-content black-text center">
-                                <button onClick="addWholeOutfit({{ current_outfit.pk }})" class="btn waves-effect waves-light btn">Add Whole Outfit to Cart</button>
+                                {% if current_outfit_in_cart %}
+                                    <button id='addWholeOutfit' style='border: 1px solid rgb(43, 187, 173); background-color: rgb(43, 187, 173); color: white;' onClick="addWholeOutfit({{ current_outfit.pk }})" class="btn waves-effect waves-light btn">
+                                        Outfit In Cart
+                                    </button>
+                                {% else %}
+                                    <button id='addWholeOutfit' onClick="addWholeOutfit({{ current_outfit.pk }})" class="btn waves-effect waves-light btn">
+                                        Add Whole Outfit to Cart
+                                    </button>
+                                {% endif %}
                             </div>
                         </div>
 

@@ -17,6 +17,7 @@ import ast
 from social_django.models import *
 import urllib
 import urllib2
+import datetime
 
 def populate_db_amazon(request):
     try:
@@ -479,6 +480,9 @@ def myCart(request):
         else:
             is_empty = False
         context = {
+            "access_key": "AKIAJOR5NTXK2ERTU6AQ",
+            "associate_tag": "can037-20",
+            "timestamp": datetime.datetime.utcnow().isoformat(),
             "current_profile": current_profile,
             "is_empty": is_empty,
             "all_clothing": outfit_clothes
@@ -669,7 +673,6 @@ def outfit_page(request, pk):
         current_profile = current_outfit.profile
         current_profile_self = profile.objects.get(user=request.user)
         current_profile_outfits = get_outfit_items([current_outfit], current_profile_self)
-        print "current profile outfits = ", current_profile_outfits
         outfit_clothes = []
         outfit_items = outfit_item.objects.filter(outfit=current_outfit)
         for each_item in outfit_items:
@@ -683,6 +686,7 @@ def outfit_page(request, pk):
 
         context = {
             "current_outfit": current_outfit,
+            "current_outfit_in_cart": current_profile_self.outfit_in_cart(current_outfit),
             "current_profile": current_profile,
             "current_profile_self": current_profile_self,
             "outfits": json.dumps(current_profile_outfits),

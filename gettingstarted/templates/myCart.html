@@ -270,69 +270,83 @@
 <main>
     <section>
         <div class="container">
-            <div class="section no-pad-bot" id="index-banner">
+            <div class="section no-pad-bot">
                 <div class="row">
                     <div class="section no-pad-bot" id="index-banner">
                         <div id="profile-page-sidebar" class="col s12 m4">
-                        <h2 class="center-align">Shopping Cart</h2>
-                        <div {% if is_empty %}
-                            style="display:block"
-                            {% else %}
-                            style="display:none;"
-                            {% endif %}
-                                id='emptyCart' class="card-panel teal center">
-                            <h4 class="white-text">Your cart is empty!</h4>
-                            <a href="" class="waves-effect waves-light btn">
-                                <i class="large material-icons" style="background-color:#ff6e66;"></i>
-                                Discover Some Outfits
-                            </a>
-                        </div>
-                        {% for each_clothing in all_clothing %}
-                            <div class="card col s12" id="clothing{{ each_clothing.pk }}x{{ each_clothing.outfit_pk }}">
-{#                                <div class="col s12">#}
-                                    <i style="color:#ff6e66; padding-top:5px;" onClick="removeFromCart('{{ each_clothing.pk }}', '{{ each_clothing.outfit_pk }}')" class="right-align material-icons right">clear</i>
-{#                                </div>#}
-                                <div class="col s12 center-align" style="padding-top:25px;">
-                                    <img style='height:20%;' src="{{ each_clothing.large_url }}">
-                                </div>
-                                <div class="col s12">
-                                    <div class="card-content" style="word-wrap: break-word;">
-                                        <h5>{{ each_clothing.name }}</h5>
-
-                                        <div class="col s8">
-                                            {% if each_clothing.carrier %}
-                                                <p>Vendor: {{ each_clothing.carrier }}</p>
-                                            {% endif %}
-                                            {% if each_clothing.brand %}
-                                                <p>Brand: {{ each_clothing.brand }}</p>
-                                            {% endif %}
-                                        </div>
-                                        <div class="col s4">
-                                            <h5 style="float:right;">Price: {{ each_clothing.price }}</h5>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                <div class="col s12" style="padding-bottom:15px;">
-                                    <div class="col s6">
-                                        <a href="../clothing/{{ each_clothing.pk }}">
-                                            <button class="btn waves-effect waves-light btn" href="/clothing/5">
-                                                More
-                                            </button>
-                                        </a>
-                                    </div>
-                                    <div class="col s6">
-                                        <button id='rem{{ each_clothing.pk }}' onClick="removeFromCart('{{ each_clothing.pk }}', '{{ each_clothing.outfit_pk }}')" class="btn waves-effect waves-light btn">
-                                            Remove
-                                        </button>
-                                    </div>
-                                </div>
-
+                            <h2 class="center-align">Shopping Cart</h2>
+                            <div {% if is_empty %}
+                                style="display:block"
+                                {% else %}
+                                style="display:none;"
+                                {% endif %}
+                                    id='emptyCart' class="card-panel teal center">
+                                <h4 class="white-text">Your cart is empty!</h4>
+                                <a href="" class="waves-effect waves-light btn">
+                                    <i class="large material-icons" style="background-color:#ff6e66;"></i>
+                                    Discover Some Outfits
+                                </a>
                             </div>
-                            <br>
-                            <hr>
-                        {% endfor %}
+                            <div class="col s12" id="clothingList">
+                                <div class="col s12 center-align" style="padding-bottom:15px;">
+                                    <a href="http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId={{ access_key }}&AssociateTag={{ associate_tag }}&Operation=CartCreate&Item.1.OfferListingId=B000062TU1&Item.1.Quantity=2&Timestamp={{ timestamp }}&Signature=[Request Signature]">
+                                        <button class="btn waves-effect waves-light btn">
+                                            Proceed to Checkout
+                                        </button>
+                                    </a>
+                                </div>
+                                {% for each_clothing in all_clothing %}
+                                    <div class="card col s12" id="clothing{{ each_clothing.pk }}x{{ each_clothing.outfit_pk }}">
+                                            <i style="color:#ff6e66; padding-top:5px;" onClick="removeFromCart('{{ each_clothing.pk }}', '{{ each_clothing.outfit_pk }}')" class="right-align material-icons right">clear</i>
+                                        <div class="col s12 center-align" style="padding-top:25px;">
+                                            <img style='height:20%;' src="{{ each_clothing.large_url }}">
+                                        </div>
+                                        <div class="col s12">
+                                            <div class="card-content" style="word-wrap: break-word;">
+                                                <h5>{{ each_clothing.name }}</h5>
+
+                                                <div class="col s8">
+                                                    {% if each_clothing.carrier %}
+                                                        <p>Vendor: {{ each_clothing.carrier }}</p>
+                                                    {% endif %}
+                                                    {% if each_clothing.brand %}
+                                                        <p>Brand: {{ each_clothing.brand }}</p>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col s4">
+                                                    <h5 style="float:right;">Price: {{ each_clothing.price }}</h5>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col s12" style="padding-bottom:15px;">
+                                            <div class="col s6">
+                                                <a href="../clothing/{{ each_clothing.pk }}">
+                                                    <button class="btn waves-effect waves-light btn" href="/clothing/5">
+                                                        More
+                                                    </button>
+                                                </a>
+                                            </div>
+                                            <div class="col s6">
+                                                <button id='rem{{ each_clothing.pk }}' onClick="removeFromCart('{{ each_clothing.pk }}', '{{ each_clothing.outfit_pk }}')" class="btn waves-effect waves-light btn">
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <hr>
+                                {% endfor %}
+                                <div class="col s12 center-align">
+                                    <a href="../clothing/{{ each_clothing.pk }}">
+                                        <button class="btn waves-effect waves-light btn">
+                                            Proceed to Checkout
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
 
                         </div>
                     </div>

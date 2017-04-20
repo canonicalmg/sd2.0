@@ -335,19 +335,12 @@ function addWholeOutfit(outfitKey){
             data: {'outfit': outfitKey},
             success: function (json) {
                 console.log("json = ", json);
-                // var itemToAdd = $("#add" + clothingKey);
-                // if(json == "Added") {
-                //     itemToAdd.css('border', '1px solid rgb(43, 187, 173)');
-                //     itemToAdd.css('background-color', 'rgb(43, 187, 173)');
-                //     itemToAdd.css('color', 'white');
-                // }
-                // else if(json == "Removed"){
-                //     itemToAdd.css('border', '');
-                //     itemToAdd.css('background-color', '');
-                //     itemToAdd.css('color', '');
-                // }
-
                 //for each item in returned json, change item css to added
+                var addWholeOutfit = $("#addWholeOutfit");
+                addWholeOutfit.css('border', '1px solid rgb(43, 187, 173)');
+                addWholeOutfit.css('background-color', 'rgb(43, 187, 173)');
+                addWholeOutfit.css('color', 'white');
+                addWholeOutfit.html("Outfit In Cart");
                 for(var i=0; i < json.length; i++){
                     var itemToAdd = $("#add" + json[i]);
                     itemToAdd.html("Item in Cart");

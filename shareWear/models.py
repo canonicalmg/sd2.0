@@ -56,6 +56,14 @@ class profile(models.Model):
                 return True
         return False
 
+    def outfit_in_cart(self, outfit_obj):
+        for each_item in outfit_obj.get_outfit_items():
+            cart_item = cartItems(outfit=outfit_obj, clothing=each_item.clothing)
+            if self.item_in_cart(cart_item) == False:
+                return False
+        return True
+
+
     def remove_cart_item(self, cart_item):
         for each_item in self.cart_items.all():
             if (each_item.outfit == cart_item.outfit) and (each_item.clothing == cart_item.clothing):

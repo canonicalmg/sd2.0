@@ -54,6 +54,7 @@ function removeClothing(clothingKey, outfitKey){
                 if(json == "Removed, Empty"){
                     $("#clothing"+clothingKey+"x"+outfitKey).remove();
                     $("#emptyCart").show();
+                    $("#clothingList").empty();
                 }
             },
             error: function (json) {
