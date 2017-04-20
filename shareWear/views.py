@@ -492,17 +492,31 @@ def myCart(request):
                 "Item.0.Quantity": 1
             }
             response = amazon.CartCreate(**kwargs)
-
             soup = BeautifulSoup(response, "xml")
             newDictionary = xmltodict.parse(str(soup))
-            print newDictionary['CartCreateResponse']['Cart']['PurchaseURL']
+            CartId = newDictionary['CartCreateResponse']['Cart']['CartId']
+            HMAC = newDictionary['CartCreateResponse']['Cart']['HMAC']
+            counter = 0
+            kwargs = {"CartId": CartId,
+                      "HMAC": HMAC}
+            for each_item in all_cart_items:
+                kwargs["Item."+str(counter)+".ASIN"] = each_item.clothing.carrier_id
+                kwargs["Item."+str(counter)+".Quantity"] = 1
+                counter += 1
+            print "kwargs = ", kwargs
+            response = amazon.CartAdd(**kwargs)
+            print "response = ", response
+            soup = BeautifulSoup(response, "xml")
+            newDictionary = xmltodict.parse(str(soup))
+
+            print newDictionary['CartAddResponse']['Cart']['PurchaseURL']
         except Exception as e:
             print "error: ", e
         context = {
             "access_key": "AKIAJOR5NTXK2ERTU6AQ",
             "associate_tag": "can037-20",
             "signature": "AJmBIow2qBu5GtdtJcYo9y8glhexQgxolmcIJK2xnlQ=",
-            "link": newDictionary['CartCreateResponse']['Cart']['PurchaseURL'],
+            "link": newDictionary['CartAddResponse']['Cart']['PurchaseURL'],
             "timestamp": datetime.datetime.utcnow().isoformat(),
             "current_profile": current_profile,
             "is_empty": is_empty,
