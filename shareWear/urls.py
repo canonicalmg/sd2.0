@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'clothing/(?P<pk>\d+)/?$', views.clothing_page, name='outfit_page'),
     url(r'^myCart$', views.myCart, name='myCart'),
     url(r'^get_product/', views.get_product, name='get_product'),
+    url(r'^get_outfit_discover/', views.get_outfit_discover, name='get_outfit_discover'),
     url(r'^get_front_page/', views.get_front_page, name='get_front_page'),
     url(r'^change_profile_settings/', views.change_profile_settings, name='change_profile_settings'),
     url(r'^user_submit_outfit/', views.user_submit_outfit, name='user_submit_outfit'),
@@ -25,4 +26,5 @@ urlpatterns = [
     url(r'^add_to_cart_single/', views.add_to_cart_single, name='add_to_cart_single'),
     url(r'^add_to_cart_whole/', views.add_to_cart_whole, name='add_to_cart_whole'),
     url(r'^remove_from_cart/', views.remove_from_cart, name='remove_from_cart'),
+    url(r'^discover/', views.discover, name='discover'),
 ]

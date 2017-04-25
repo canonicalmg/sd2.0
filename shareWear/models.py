@@ -108,7 +108,6 @@ class outfit(models.Model):
     profile = models.ForeignKey(profile)
     gender = models.BooleanField(default=True)
     description = models.CharField(max_length=300, null=True, blank=True)
-    # tags = models.CharField(max_length=300, null=True, blank=True)
     likes = models.IntegerField(default=0)
     canvas_height = models.CharField(max_length=50, null=True, blank=True)
     canvas_width = models.CharField(max_length=50, null=True, blank=True)
@@ -123,6 +122,26 @@ class outfit(models.Model):
     def remove_like(self):
         self.likes = self.likes - 1
 
+    def get_outfit_items(self):
+        outfit_items = outfit_item.objects.filter(outfit=self)
+        return outfit_items
+
+    def get_brands(self):
+        brands = []
+        outfit_items = self.get_outfit_items()
+        for each_item in outfit_items:
+            brands.append(each_item.clothing.brand)
+
+        return brands
+
+    def get_pictures(self):
+        pictures = []
+        outfit_items = self.get_outfit_items()
+        for each_item in outfit_items:
+            pictures.append(each_item.clothing.large_url)
+
+        return pictures
+
     def does_user_like(self, given_profile):
         try:
             current_like_obj = profile_likes_outfit.objects.get(profile=given_profile,
@@ -131,9 +150,6 @@ class outfit(models.Model):
         except:
             return False
 
-    def get_outfit_items(self):
-        outfit_items = outfit_item.objects.filter(outfit=self)
-        return outfit_items
 
 class outfit_item(models.Model):
     clothing = models.ForeignKey(clothing)

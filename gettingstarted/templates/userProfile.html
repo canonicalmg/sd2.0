@@ -269,6 +269,7 @@
                 </li>
                 <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
                 <li><a href="/addNew"><i class="material-icons left">note_add</i>Create Outfit</a></li>
+                <li><a href="/discover"><i class="material-icons left">find_in_page</i>Discover Outfits</a></li>
                 <li><a href="/user/{{ current_profile_self.pk }}"><i class="material-icons left">account_circle</i>My Account</a></li>
                 <li><a href="/myCart"><i class="material-icons left">shopping_cart</i>My Cart</a></li>
                 <li><a onClick="signOut()"><i class="material-icons left">power_settings_new</i>Sign Out</a></li>
@@ -421,6 +422,11 @@
                             </div>
                             <div class="row" style="margin-left:auto; margin-right:auto; margin-bottom:20px;">
                                 <div class="col s12">
+                                    <div id="popularTags" class="col s12">
+
+                                    </div>
+                                </div>
+                                <div class="col s12">
                                     <a style="float:left; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="popularPrev()" class="waves-effect waves-light btn">
                                         <i class="material-icons left">keyboard_arrow_left</i>Previous</a>
                                     <a style="float:right; margin-top:10px; padding: 0; width:35%; padding-top:2px; border:1px solid #ff6e66; background-color:white; color:#ff6e66;" onClick="popularNext()" class="waves-effect waves-light btn">
@@ -468,6 +474,14 @@
                         </div>
                         <div class="col s12 settingsTab">
                             <div class="col s12 profileSetting">
+{#                                <div class="input-field col s12">#}
+{#                                    <input type="file" id="file_input" /></label>#}
+{#                                    need space between#}
+{#                                    <label id='fullNameLabel' for="file_input" >Upload Profile Picture</label>#}
+{#                                </div>#}
+{##}
+{#                                <br>#}
+
                                 <div class="input-field col s12">
                                     <textarea id="fullName" style='padding:0px !important;' class="materialize-textarea"></textarea>
                                     <label id='fullNameLabel' for="textarea1" >Full Name</label>

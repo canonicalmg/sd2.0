@@ -29,8 +29,9 @@
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/css/swiper.min.css">
-    <link href="../../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="../../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/sweetalert.css">
 
     <style>
         body {
@@ -136,14 +137,15 @@
         }
 
         .side-nav{
-            background-image: url("../../static/img/menu.jpg");
+            background-image: url("../static/img/menu.jpg");
         }
         .side-nav > li > a, .side-nav > li > a > i.material-icons{
             color:white;
         }
 
-        .profileSetting{
-            padding:2% !important;
+        .container .row{
+            margin-left:0px !important;
+            margin-right:0px !important;
         }
     </style>
 
@@ -237,11 +239,10 @@
     </style>
 </head>
 <body>
-
 <header>
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
-            <a id="logo-container" href="/" class="brand-logo center">My Outfit</a>
+            <a id="logo-container" href="/" class="brand-logo center">Fashionly</a>
             <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="#">Navbar Link</a></li>
@@ -252,22 +253,22 @@
                 <li>
                     <div class="col s12 center" style="margin-right:10px; margin-top:25px;">
                         <div class="col s3">
-                            <img id="featuredProfileImg" style='height:150px; width:150px;' src="{{ current_profile_self.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
+                            <img id="featuredProfileImgMain" style='height:150px; width:150px;' src="{{ current_profile.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
                         </div>
                         <div class="col s5" style="word-wrap: break-word;">
-                            {% if current_profile_self.user.username %}
-                                <h5 id="featuredProfileUser" class="white-text margin" style="margin-bottom:0;">{{ current_profile_self.user.username }}</h5>
+                            {% if current_profile.user.username %}
+                                <h5 class="white-text margin" style="margin-bottom:0;">{{ current_profile.user.username }}</h5>
                             {% endif %}
-                            {% if current_profile_self.location %}
-                                <span id="featuredProfileLoc" class="white-text ultra-small">{{ current_profile_self.location }}</span>
+                            {% if current_profile.location %}
+                                <span class="white-text ultra-small">{{ current_profile.location }}</span>
                             {% endif %}
                         </div>
                     </div>
                 </li>
                 <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
                 <li><a href="/addNew"><i class="material-icons left">note_add</i>Create Outfit</a></li>
+                <li><a href="/user/{{ current_profile.pk }}"><i class="material-icons left">account_circle</i>My Account</a></li>
                 <li><a href="/discover"><i class="material-icons left">find_in_page</i>Discover Outfits</a></li>
-                <li><a href="/user/{{ current_profile_self.pk }}"><i class="material-icons left">account_circle</i>My Account</a></li>
                 <li><a href="/myCart"><i class="material-icons left">shopping_cart</i>My Cart</a></li>
                 <li><a onClick="signOut()"><i class="material-icons left">power_settings_new</i>Sign Out</a></li>
             </ul>
@@ -279,50 +280,68 @@
 <main>
     <section>
         <div class="container">
-            <div class="section no-pad-bot" id="index-banner">
-                <div class="row">
-
-                    <div id="profile-page-sidebar" class="col s12 m4">
-                        <!-- Profile About Details  -->
-
-                        <div class="card col s12 l12 mainCard">
-
-                            <div class="card-content">
-                                <div class="col s12">
-                                    <h5>{{ current_clothing.name }}</h5>
-                                </div>
-                                <div class="card-image">
-                                    <img src="{{ current_clothing.large_url }}">
-                                </div>
-                            </div>
-                            <div class="card-action">
-
-                                <div class="col s12">
-                                    <span class="card-title">Brand: {{ current_clothing.brand }}</span>
-                                </div>
-                                <div class="col s12">
-                                    <span class="card-title">Price: {{ current_clothing.price }}</span>
-                                </div>
-                                <div class="col s12 center" style="padding: 25px;">
-                                    <a href="{{ current_clothing.aff_url }}">
-                                        <button class="btn waves-effect waves-light btn">View on {{ current_clothing.carrier }}</button>
-                                    </a>
-                                </div>
-                            </div>
-
-
+            <div class="section no-pad-bot">
+                <div class="row" style="background-color:#f0f0f0; padding-left:10px; padding-right: 10px;">
+                    <div class="card col s12 l4 center" style="padding:0px !important;">
+                        <div id="profile-page-sidebar" class="col s12 m4">
+{#                            <h3 style="margin-top:0px;" class="center-align">Discover</h3>#}
                         </div>
+                        <div class="row" id="addNewButtonGroup">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">search</i>
+                                <input style="color:black;" placeholder="search" id="autocomplete-input" class="autocomplete">
+                                {#                        <label style="color:black;" for="autocomplete-input">Search</label>#}
+                            </div>
+                            <div style="margin-left:10%; margin-bottom:10%;" class="input-field col s12 switch">
+                                <label>
+                                    Male
+                                    {% if profile.gender %}
+                                        <input id='gender_check' type="checkbox" checked>
+                                    {% else %}
+                                        <input id="gender_check" type="checkbox">
+                                    {% endif %}
+                                    <span class="lever"></span>
+                                    Female
+                                </label>
+                            </div>
+                            <div class="input-field col s12">
+                                <a onClick="shirtClick(this.id)" id="shirtBtn" class="waves-effect waves-light teal btn z-depth-3 clothType">Shirts</a>
+                                <a onClick="pantsClick(this.id)" id="pantsBtn" class="waves-effect waves-light btn z-depth-3 clothType">Pants</a>
+                                <a onClick="shoesClick(this.id)" id="shoesBtn" class="waves-effect waves-light btn z-depth-3 clothType">Shoes</a>
+                            </div>
+                            <div id="routineLoader" class="col s12">
+                                <div id='routineBeforeL' class='loading-container'>
+                                    <div class='loading'></div>
+                                    <div class='loading-text'>loading</div>
+                                </div>
+                            </div>
 
 
+
+                            </div>
+                            <div class="col s12">
+                                <ul class="pagination" id="pagination">
+                                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                                    <li class="active"><a href="#!">1</a></li>
+                                    <li id='pag6' class="waves-effect disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                                </ul>
+                                {#                        <div id="loading_paginate" style="display:None;"><p>Loading more items..</p></div>#}
+                            </div>
+                        </div>
                     </div>
 
-
-
+{#                    {% for each_outfit in outfits %}#}
+{##}
+{##}
+{#                    {% endfor %}#}
+                <div class="col s12" id="product_list">
+                    <hr>
                 </div>
+
             </div>
 
         </div>
-    </section>
+        <section>
 </main>
 
 <!--  Scripts-->
@@ -331,8 +350,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/js/swiper.jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-touch-events/1.0.5/jquery.mobile-events.js"></script>
 
-<script src="../../static/js/materialize.js"></script>
-{#<script src="../../static/js/outfitPage.js"></script>#}
+<script src="../static/js/materialize.js"></script>
+<script src="../static/js/sweetalert.min.js"></script>
+<script src="../static/js/discover.js"></script>
+
 
 
 </body>

@@ -358,6 +358,13 @@ function submit_outfit(){
                 for(var i=0; i < items.length; i++){
                     load_outfit($("#shirt"), items[i]);
                 }
+                //load tags
+                var splitTags = TAG_LIST.split(",");
+                var tagList = "";
+                for(var i=0; i < splitTags.length; i++){
+                    tagList += "<div class='chip'>"+splitTags[i]+"</div>";
+                }
+                $("#newTags").html(tagList);
                 $('#modal1').modal('close');
                 swal("Good job!", "You have created your outfit!", "success")
             },

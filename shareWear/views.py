@@ -402,8 +402,8 @@ def get_product(request):
             print "cloth type = ", cloth_type
             print "gender = ", current_gender
             products = clothing.objects.filter(gender=current_gender,
-                                              cloth_type=cloth_type,
-                                              )
+                                               cloth_type=cloth_type,
+                                               )
             print "products = ", products
             product_list = []
             for each_product in products:
@@ -415,6 +415,45 @@ def get_product(request):
                                          'carrier': each_product.carrier,
                                          'price': each_product.price,
                                          'brand': each_product.brand})
+            json_stuff = json.dumps({"products": product_list,
+                                     "cloth_type": cloth_type,
+                                     })
+            return HttpResponse(json_stuff, content_type="application/json")
+    return HttpResponse("Error")
+
+@csrf_exempt
+def get_outfit_discover(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            current_profile = profile.objects.get(user=request.user)
+            cloth_type = request.POST.get('cloth_type')
+            current_gender = request.POST.get('gender')
+            if current_gender == 'true':
+                current_gender = True
+            else:
+                current_gender = False
+            print "cloth type = ", cloth_type
+            print "gender = ", current_gender
+            outfits = outfit.objects.filter(gender=current_gender)
+            print "products = ", outfits
+            product_list = []
+            for each_product in outfits:
+                    tag_list = []
+                    for each_tag in each_product.tag_list.all():
+                        tag_list.append(each_tag.word)
+                    product_list.append({
+                                         'username': each_product.profile.user.username,
+                                         'userPhoto': each_product.profile.profile_image,
+                                         'num_likes': each_product.likes,
+                                         'has_liked': each_product.does_user_like(current_profile),
+                                         'is_following': each_product.profile.is_following(current_profile),
+                                         'description': each_product.description,
+                                         'tags': tag_list,
+                                         'brands': each_product.get_brands(),
+                                         'pk': each_product.pk,
+                                         'pictures': each_product.get_pictures(),
+                                         'location': each_product.profile.location
+                                         })
             json_stuff = json.dumps({"products": product_list,
                                      "cloth_type": cloth_type,
                                      })
@@ -460,6 +499,21 @@ def addNew(request):
         }
     return HttpResponse(template.render(context, request))
 
+def discover(request):
+    if request.user.is_authenticated():
+        template = loader.get_template('discover.html')
+        current_profile = profile.objects.get(user=request.user)
+        outfits = outfit.objects.filter()
+        context = {
+            "current_profile": current_profile,
+            "outfits": outfits
+        }
+    else:
+        template = loader.get_template('headerLogin.html')
+        context = {
+        }
+    return HttpResponse(template.render(context, request))
+
 def myCart(request):
     if request.user.is_authenticated():
         template = loader.get_template('myCart.html')
@@ -485,7 +539,9 @@ def myCart(request):
         amazon = bottlenose.Amazon('AKIAJOR5NTXK2ERTU6AQ',
                            'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
                            'can037-20',
+                           MaxQPS=0.9
                            )
+        cart_link = None
         try:
             kwargs = {
                 "Item.0.ASIN": ASIN,
@@ -508,15 +564,16 @@ def myCart(request):
             print "response = ", response
             soup = BeautifulSoup(response, "xml")
             newDictionary = xmltodict.parse(str(soup))
-
+            cart_link = newDictionary['CartAddResponse']['Cart']['PurchaseURL']
             print newDictionary['CartAddResponse']['Cart']['PurchaseURL']
         except Exception as e:
             print "error: ", e
+
         context = {
             "access_key": "AKIAJOR5NTXK2ERTU6AQ",
             "associate_tag": "can037-20",
             "signature": "AJmBIow2qBu5GtdtJcYo9y8glhexQgxolmcIJK2xnlQ=",
-            "link": newDictionary['CartAddResponse']['Cart']['PurchaseURL'],
+            "link": cart_link,
             "timestamp": datetime.datetime.utcnow().isoformat(),
             "current_profile": current_profile,
             "is_empty": is_empty,

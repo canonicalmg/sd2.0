@@ -102,10 +102,10 @@ function populateSections(){
             load_outfit($("#featured"),
                 json.featured[0].outfit[i],
                 json.featured[0].outfit_pk,
-                "featured",
-                json.featured[0].tags
+                "featured"
             );
           }
+          loadTags("featured", json.featured[0].tags);
 
           NEW = json.new;
           // $("#newProfileImg").attr("src", json.new[0].user.profile_img);
@@ -118,10 +118,10 @@ function populateSections(){
             load_outfit($("#new"),
                 json.new[0].outfit[i],
                 json.new[0].outfit_pk,
-                "new",
-                json.new[0].tags
-            );
+                "new");
           }
+          loadTags("new", json.new[0].tags);
+
 
           POPULAR = json.popular;
           // $("#popularProfileImg").attr("src", json.popular[0].user.profile_img);
@@ -134,10 +134,10 @@ function populateSections(){
             load_outfit($("#popular"),
                 json.popular[0].outfit[i],
                 json.popular[0].outfit_pk,
-                "popular",
-                json.popular[0].tags
-            );
+                "popular");
           }
+          loadTags("popular", json.popular[0].tags);
+
 
         },
         error: function (json) {
@@ -160,9 +160,10 @@ function newNext(){
     load_outfit($("#new"),
         NEW[NEW_CURRENT % NEW.length].outfit[i],
         NEW[NEW_CURRENT % NEW.length].outfit_pk,
-        "new",
-        NEW[NEW_CURRENT % NEW.length].tags);
+        "new");
   }
+  loadTags("new", NEW[NEW_CURRENT % NEW.length].tags);
+
 }
 
 function newPrev(){
@@ -179,9 +180,9 @@ function newPrev(){
     load_outfit($("#new"),
         NEW[NEW_CURRENT % NEW.length].outfit[i],
         NEW[NEW_CURRENT % NEW.length].outfit_pk,
-        "new",
-        NEW[NEW_CURRENT % NEW.length].tags);
+        "new");
   }
+  loadTags("new", NEW[NEW_CURRENT % NEW.length].tags);
 }
 
 function popularNext(){
@@ -196,9 +197,10 @@ function popularNext(){
     load_outfit($("#popular"),
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit[i],
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
-        "popular",
-        POPULAR[POPULAR_CURRENT % POPULAR.length].tags);
+        "popular");
   }
+  loadTags("popular", POPULAR[POPULAR_CURRENT % POPULAR.length].tags);
+
 }
 
 function popularPrev(){
@@ -214,9 +216,10 @@ function popularPrev(){
     load_outfit($("#popular"),
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit[i],
         POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
-        "popular",
-        POPULAR[POPULAR_CURRENT % POPULAR.length].tags);
+        "popular");
   }
+  loadTags("popular", POPULAR[POPULAR_CURRENT % POPULAR.length].tags);
+
 }
 
 function featuredNext(){
@@ -230,9 +233,10 @@ function featuredNext(){
     load_outfit($("#featured"),
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit[i],
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit_pk,
-        "featured",
-        FEATURED[FEATURED_CURRENT % FEATURED.length].tags);
+        "featured");
   }
+  loadTags("featured", FEATURED[FEATURED_CURRENT % FEATURED.length].tags);
+
 }
 
 function featuredPrev(){
@@ -248,9 +252,10 @@ function featuredPrev(){
     load_outfit($("#featured"),
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit[i],
         FEATURED[FEATURED_CURRENT % FEATURED.length].outfit_pk,
-        "featured",
-        NEW[FEATURED_CURRENT % FEATURED.length].tags);
+        "featured");
   }
+  loadTags("featured", FEATURED[FEATURED_CURRENT % FEATURED.length].tags);
+
 }
 
 function load_user(trey, item, liked, total_likes){
@@ -335,7 +340,15 @@ function newVert(id){
   }
 }
 
-function load_outfit(whereToAdd, whatToAdd, outfit, trey, tags){
+function loadTags(trey, tag_list){
+  var tagList = "";
+  for(var i=0; i < tag_list.length; i++){
+    tagList += "<div class='chip'>"+tag_list[i]+"</div>";
+  }
+  $("#"+trey+"Tags").html(tagList);
+}
+
+function load_outfit(whereToAdd, whatToAdd, outfit, trey){
   //remove existing
   $('#fixed'+trey+outfit+"o"+whatToAdd.pk).remove();
   //add new
@@ -369,12 +382,6 @@ function load_outfit(whereToAdd, whatToAdd, outfit, trey, tags){
   document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk).style.zIndex = whatToAdd.zIndex;
   document.getElementById("fixed"+trey+outfit+"o"+whatToAdd.pk).style.WebkitTransform = curTransform;
 
-  //load tags
-  var tagList = "";
-  for(var i=0; i < tags.length; i++){
-    tagList += "<div class='chip'>"+tags[i]+"</div>";
-  }
-  $("#"+trey+"Tags").html(tagList);
   if (window.getComputedStyle(document.body).mixBlendMode !== undefined)
     $(".outfitCanvasItem").addClass("curtain");
 
@@ -576,9 +583,9 @@ function reloadOutfitIfFollowing(user_id){
       load_outfit($("#featured"),
           FEATURED[FEATURED_CURRENT % FEATURED.length].outfit[i],
           FEATURED[FEATURED_CURRENT % FEATURED.length].outfit_pk,
-          "featured",
-          FEATURED[FEATURED_CURRENT % FEATURED.length].tags);
+          "featured");
     }
+    loadTags("featured", FEATURED[FEATURED_CURRENT % FEATURED.length].tags);
   }
   //popular
   if(POPULAR[POPULAR_CURRENT % POPULAR.length].user.user_id == user_id){
@@ -591,9 +598,10 @@ function reloadOutfitIfFollowing(user_id){
       load_outfit($("#popular"),
           POPULAR[POPULAR_CURRENT % POPULAR.length].outfit[i],
           POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
-          "popular",
-          POPULAR[POPULAR_CURRENT % POPULAR.length].tags);
+          "popular");
     }
+    loadTags("popular", POPULAR[POPULAR_CURRENT % POPULAR.length].tags);
+
   }
   //new
   if(NEW[NEW_CURRENT % NEW.length].user.user_id == user_id){
@@ -606,9 +614,11 @@ function reloadOutfitIfFollowing(user_id){
       load_outfit($("#new"),
           NEW[NEW_CURRENT % NEW.length].outfit[i],
           NEW[NEW_CURRENT % NEW.length].outfit_pk,
-          "new",
-          NEW[NEW_CURRENT % NEW.length].tags);
+          "new");
     }
+    loadTags("new", NEW[NEW_CURRENT % NEW.length].tags);
+
+
   }
 }
 

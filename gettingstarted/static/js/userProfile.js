@@ -82,6 +82,7 @@ function popularNext(){
             POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
             "popular");
     }
+    loadTags("popular", POPULAR[POPULAR_CURRENT % POPULAR.length].tags);
 }
 
 function popularPrev(){
@@ -99,6 +100,8 @@ function popularPrev(){
             POPULAR[POPULAR_CURRENT % POPULAR.length].outfit_pk,
             "popular");
     }
+    loadTags("popular", POPULAR[POPULAR_CURRENT % POPULAR.length].tags);
+
 }
 
 function signOut(){
@@ -114,6 +117,14 @@ function signOut(){
     });
 }
 
+function loadTags(trey, tag_list){
+    var tagList = "";
+    for(var i=0; i < tag_list.length; i++){
+        tagList += "<div class='chip'>"+tag_list[i]+"</div>";
+    }
+    $("#"+trey+"Tags").html(tagList);
+}
+
 function populateSections(){
     console.log("popular = ", POPULAR);
     if(POPULAR.length > 0) {
@@ -127,6 +138,7 @@ function populateSections(){
                 POPULAR[0].outfit_pk,
                 "popular");
         }
+        loadTags("popular", POPULAR[0].tags);
     }
 }
 
