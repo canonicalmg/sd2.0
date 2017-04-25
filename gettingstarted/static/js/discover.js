@@ -203,13 +203,13 @@ function product_loader_template(items){
         +"    </div>"
         +"    <hr>"
         +"    <div class='col s12 center-align'>"
-        +" <div class='carousel'>"
+        +" <div class='carousel' style='height:250px;'>"
                 + outfitPictures
         +"</div>"
         +"    </div>"
         +"    <div class='col s12 left-align' style='padding-left:0px;'>"
         +"    <div class='col s12 center-align' style='padding:2%;'>"
-        +"    <a href='/outfit/"+items[i].pk+"' class='waves-effect waves-dark btn' style='width:50%; border:1px solid #ff6e66; background-color:white; color:#ff6e66;'>View Outfit</a>"
+        +"    <a href='/outfit/"+items[i].pk+"' class='waves-effect waves-dark btn' style='width:70%; background-color:#ff6e66;'>View Outfit</a>"
         +"</div>";
         if(items[i].description.length > 0){
             htmlString += "<div class='col s12'>"
