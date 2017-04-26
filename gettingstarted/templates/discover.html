@@ -147,6 +147,9 @@
             margin-left:0px !important;
             margin-right:0px !important;
         }
+        .n-tag{
+            color:black !important;
+        }
     </style>
 
     <style>
@@ -287,12 +290,7 @@
 {#                            <h3 style="margin-top:0px;" class="center-align">Discover</h3>#}
                         </div>
                         <div class="row" id="addNewButtonGroup">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">search</i>
-                                <input style="color:black;" placeholder="search" id="autocomplete-input" class="autocomplete">
-                                {#                        <label style="color:black;" for="autocomplete-input">Search</label>#}
-                            </div>
-                            <div style="margin-left:10%; margin-bottom:10%;" class="input-field col s12 switch">
+                            <div style="margin-left:10%; margin-bottom:10%;" class="input-field col s12 switch right-align">
                                 <label>
                                     Male
                                     {% if profile.gender %}
@@ -305,9 +303,12 @@
                                 </label>
                             </div>
                             <div class="input-field col s12">
-                                <a onClick="shirtClick(this.id)" id="shirtBtn" class="waves-effect waves-light teal btn z-depth-3 clothType">Shirts</a>
-                                <a onClick="pantsClick(this.id)" id="pantsBtn" class="waves-effect waves-light btn z-depth-3 clothType">Pants</a>
-                                <a onClick="shoesClick(this.id)" id="shoesBtn" class="waves-effect waves-light btn z-depth-3 clothType">Shoes</a>
+                                <div class="col s1 left-align">
+                                    <i class="material-icons prefix">search</i>
+                                </div>
+                                <div class="col s11">
+                                    <input id='tag_list' style="color:black !important;" type="text" placeholder="Add a Tag (Comma Separated)" data-role="materialtags" />
+                                </div>
                             </div>
                             <div id="routineLoader" class="col s12">
                                 <div id='routineBeforeL' class='loading-container'>
@@ -319,14 +320,6 @@
 
 
                             </div>
-                            <div class="col s12">
-                                <ul class="pagination" id="pagination">
-                                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                                    <li class="active"><a href="#!">1</a></li>
-                                    <li id='pag6' class="waves-effect disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-                                </ul>
-                                {#                        <div id="loading_paginate" style="display:None;"><p>Loading more items..</p></div>#}
-                            </div>
                         </div>
                     </div>
 
@@ -336,6 +329,12 @@
 {#                    {% endfor %}#}
                 <div class="col s12" id="product_list">
                     <hr>
+                </div>
+                <div class="col s12" id="product_loader">
+                    <div class="progress">
+                        <span>Loading...</span>
+                        <div class="indeterminate"></div>
+                    </div>
                 </div>
 
             </div>
@@ -353,6 +352,9 @@
 <script src="../static/js/materialize.js"></script>
 <script src="../static/js/sweetalert.min.js"></script>
 <script src="../static/js/discover.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.4/typeahead.bundle.min.js"></script>
+<script src="../static/js/materialize-tags.js"></script>
+
 
 
 

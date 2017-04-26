@@ -32,33 +32,6 @@ var TAG_LIST = [];
 var OFFSET = 0;
 populate_product(true);
 
-function shirtClick(elem){
-    console.log("elem = ", elem);
-    CLOTH_TYPE = "Shirt";
-    $(".clothType").removeClass("teal");
-    $("#"+elem).addClass("teal");
-    remove_requests();
-    populate_product(true);
-}
-
-function pantsClick(elem){
-    console.log("elem = ", elem);
-    CLOTH_TYPE = "Pants";
-    $(".clothType").removeClass("teal");
-    $("#"+elem).addClass("teal");
-    remove_requests();
-    populate_product(true);
-}
-
-function shoesClick(elem){
-    console.log("elem = ", elem);
-    CLOTH_TYPE = "Shoes";
-    $(".clothType").removeClass("teal");
-    $("#"+elem).addClass("teal");
-    remove_requests();
-    populate_product(true);
-}
-
 function remove_requests(){
     for(var i = 0; i < REQUESTS.length; i++) {
         REQUESTS[i].abort();
@@ -69,9 +42,6 @@ function remove_requests(){
 }
 
 function populate_product(new_search){
-    if(OFFSET == "END"){
-        return 0;
-    }
     var offsetVar = OFFSET;
     if(new_search) {
         $("#product_list").empty();
@@ -89,21 +59,30 @@ function populate_product(new_search){
                 },
                 data: {'cloth_type': CLOTH_TYPE,
                     'gender': GENDER,
-                    'offset': offsetVar},
+                    'offset': offsetVar,
+                    'tags':TAG_LIST},
                 success: function (json) {
                     console.log("json = ", json);
                     OFFSET = json.offset;
+                    if(json.products[0] == PAGINATION[PAGINATION.length-1] || json.products.length == 0){
+                        //scroll is loading duplicate content
+                        OFFSET = "END";
+                        $("#product_loader").hide();
+                        return 0;
+                    }
                     if(new_search){
                         PAGINATION = json.products;
                     }
                     else{
+                        for(var i=0; i < PAGINATION.length; i++){
+                            if(PAGINATION[i] == json.products[0]){
+                                return 0;
+                                //duplicate found
+                            }
+                        }
                         PAGINATION += json.products;
                     }
-                    if(json.products[0] == PAGINATION[PAGINATION.length-1] || json.products.length == 0){
-                        //scroll is loading duplicate content
-                        OFFSET = "END";
-                        return 0;
-                    }
+
                     product_loader_template(json.products, new_search);
                     // load_pagination();
                     // load_page(1);
@@ -239,11 +218,17 @@ function product_loader_template(items, new_search){
         +"    </div>"
         +"    </div>"
         +"    <hr>"
-        +"    <div class='col s12 center-align'>"
-        +" <div class='carousel' style='height:250px;'>"
-                + outfitPictures
-        +"</div>"
-        +"    </div>"
+        +"    <div class='col s12 center-align'>";
+        if(items[i].pictures.length > 1) {
+            htmlString += " <div class='carousel' style='height:250px;'>"
+            + outfitPictures
+            + "</div>";
+        }
+        else{
+            htmlString +="<img style='height:250px;' class='responsive-img' src='"+items[i].pictures[0]+"'>";
+        }
+
+        htmlString += "    </div>"
         +"    <div class='col s12 left-align' style='padding-left:0px;'>"
         +"    <div class='col s12 center-align' style='padding:2%;'>"
         +"    <a href='/outfit/"+items[i].pk+"' class='waves-effect waves-dark btn' style='border:1px solid #ff6e66; background-color:white; color:#ff6e66; width:80%;'>View Outfit</a>"
@@ -484,3 +469,29 @@ $(window).scroll(throttle(function (event) {
     }
     // Do something
 },3000));
+
+$('#tag_list').on('change', function (event)
+{
+    var $element   = $(event.target),
+        $container = $element.closest('.example');
+
+    if (!$element.data('materialtags'))
+    {
+        return;
+    }
+
+    var val = $element.val();
+    if (val === null)
+    {
+        val = "null";
+    }
+    console.log("val = ", val);
+    TAG_LIST = val;
+    populate_product(true)
+
+}).trigger('change');
+
+$("#gender_check").change(function() {
+    GENDER = this.checked;
+    populate_product(true);
+});
