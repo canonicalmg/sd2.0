@@ -29,7 +29,8 @@ var CURRENT_PAGE = 1;
 var CLOTH_TYPE = "Shirt";
 var GENDER = document.getElementById('gender_check').checked;
 var TAG_LIST = [];
-populate_product();
+var OFFSET = 0;
+populate_product(true);
 
 function shirtClick(elem){
     console.log("elem = ", elem);
@@ -37,7 +38,7 @@ function shirtClick(elem){
     $(".clothType").removeClass("teal");
     $("#"+elem).addClass("teal");
     remove_requests();
-    populate_product();
+    populate_product(true);
 }
 
 function pantsClick(elem){
@@ -46,7 +47,7 @@ function pantsClick(elem){
     $(".clothType").removeClass("teal");
     $("#"+elem).addClass("teal");
     remove_requests();
-    populate_product();
+    populate_product(true);
 }
 
 function shoesClick(elem){
@@ -55,7 +56,7 @@ function shoesClick(elem){
     $(".clothType").removeClass("teal");
     $("#"+elem).addClass("teal");
     remove_requests();
-    populate_product();
+    populate_product(true);
 }
 
 function remove_requests(){
@@ -67,8 +68,15 @@ function remove_requests(){
     }
 }
 
-function populate_product(){
-    $("#product_list").empty();
+function populate_product(new_search){
+    if(OFFSET == "END"){
+        return 0;
+    }
+    var offsetVar = OFFSET;
+    if(new_search) {
+        $("#product_list").empty();
+        offsetVar = 0;
+    }
     $("#routineLoader").show();
     console.log("CALLING POPULATE PRODUCT ON ", CLOTH_TYPE);
     console.log("REQUESTS = ", REQUESTS);
@@ -80,17 +88,44 @@ function populate_product(){
                     "X-CSRFToken": getCookie("csrftoken")
                 },
                 data: {'cloth_type': CLOTH_TYPE,
-                    'gender': GENDER},
+                    'gender': GENDER,
+                    'offset': offsetVar},
                 success: function (json) {
                     console.log("json = ", json);
-                    PAGINATION = json.products;
-                    product_loader_template(json.products);
-                    load_pagination();
-                    load_page(1);
+                    OFFSET = json.offset;
+                    if(new_search){
+                        PAGINATION = json.products;
+                    }
+                    else{
+                        PAGINATION += json.products;
+                    }
+                    if(json.products[0] == PAGINATION[PAGINATION.length-1] || json.products.length == 0){
+                        //scroll is loading duplicate content
+                        OFFSET = "END";
+                        return 0;
+                    }
+                    product_loader_template(json.products, new_search);
+                    // load_pagination();
+                    // load_page(1);
                     $("#loading_paginate").show();
                     $("#routineLoader").hide();
                     $('.carousel').carousel();
                     // back_load_product()
+                    // var options = [];
+                    // var selDict;
+                    // var offsetCounter = 0;
+                    // $("#outfit"+PAGINATION[0].pk).show();
+                    // for(var i=0; i < PAGINATION.length; i++){
+                    //     selDict = {selector: "#outfit"+PAGINATION[i].pk,
+                    //                offset: offsetCounter + $("#outfit"+PAGINATION[0].pk).height() /4,
+                    //                callback: function(el){
+                    //                    console.log(el);
+                    //                    $("#"+el.id).fadeIn();
+                    //                }};
+                    //     options.push(selDict);
+                    //     offsetCounter += $("#outfit"+PAGINATION[0].pk).height() / 4;
+                    // }
+                    // Materialize.scrollFire(options);
                 },
                 error: function (json) {
                     // $("#createRoutine").show();
@@ -101,8 +136,10 @@ function populate_product(){
     );
 }
 
-function product_loader_template(items){
-    $("#product_list").empty();
+function product_loader_template(items, new_search){
+    if(new_search) {
+        $("#product_list").empty();
+    }
     var tag_list = "";
     var brand_list = "";
     var htmlString = "";
@@ -156,17 +193,17 @@ function product_loader_template(items){
             }
         }
         if(isFollowing){
-            followString ="<a class='waves-effect waves-dark btn' onClick='followClick(this.id)' style='border:1px solid #2bbbad; background-color:#2bbbad; color:white;'>Following</a>";
+            followString ="<a class='waves-effect waves-dark btn' id='follow"+items[i].user_pk+"x"+items[i].pk+"' onClick='followClick(this.id)' style='border:1px solid #2bbbad; background-color:#2bbbad; color:white;'>Following</a>";
 
         }
         else{
-            followString = "<a class='waves-effect waves-dark btn' onClick='followClick(this.id)' style='border:1px solid #ff6e66; background-color:white; color:#ff6e66;'>Follow</a>";
+            followString = "<a class='waves-effect waves-dark btn' id='follow"+items[i].user_pk+"x"+items[i].pk+"' onClick='followClick(this.id)' style='border:1px solid #ff6e66; background-color:white; color:#ff6e66;'>Follow</a>";
         }
         for(var j=0; j < items[i].pictures.length; j++){
             outfitPictures += "<a class='carousel-item' href='#one!'><img src='"+items[i].pictures[j]+"'></a>";
         }
         console.log("hasLiked = ", outfitPictures);
-        htmlString += "<div class='row'>"
+        htmlString += "<div id='outfit"+items[i].pk+"' class='row'>"
         +"<div class='card col s12' style='padding-bottom:1%; padding-top:1%;'>"
         +"    <div class='col s12' style='margin-top:5%;'>"
         +"    <div class='col s3' style='float:left; margin-top:-15px; margin-left:-25px;'>"
@@ -185,16 +222,16 @@ function product_loader_template(items){
         +"    <div class='col s12 ' style='padding-top:5px;'>"
         +"    <i class='material-icons left socialIcons featuredProfileSocial'>shopping_cart</i>";
         if(hasLiked == true) {
-            htmlString += "    <i onClick='likeOutfit(this.id)' class='material-icons left socialIcons featuredProfileSocial'>favorite</i>";
+            htmlString += "    <i id='like"+items[i].pk+"' onClick='likeOutfit(this.id)' class='material-icons left socialIcons featuredProfileSocial'>favorite</i>";
         }
         else{
-            htmlString += "    <i onClick='likeOutfit(this.id)' class='material-icons left socialIcons featuredProfileSocial'>favorite_border</i>";
+            htmlString += "    <i id='like"+items[i].pk+"' onClick='likeOutfit(this.id)' class='material-icons left socialIcons featuredProfileSocial'>favorite_border</i>";
         }
         htmlString += "    <i class='material-icons left socialIcons featuredProfileSocial'>share</i>"
         +"    <i class='material-icons left socialIcons featuredProfileSocial'>comment</i>"
         +"    </div>"
         +"    <div class='col s12 featuredProfileSocial' style='padding-top:5px;'>"
-        +"    <span class='left grey-text text-darken-2 ultra-small'>"+likeString+"</span>"
+        +"    <span id='likeString"+items[i].pk+"' class='left grey-text text-darken-2 ultra-small'>"+likeString+"</span>"
         +"    </div>"
         +"    </div>"
         +"    <div class='col s2'>"
@@ -209,7 +246,7 @@ function product_loader_template(items){
         +"    </div>"
         +"    <div class='col s12 left-align' style='padding-left:0px;'>"
         +"    <div class='col s12 center-align' style='padding:2%;'>"
-        +"    <a href='/outfit/"+items[i].pk+"' class='waves-effect waves-dark btn' style='width:70%; background-color:#ff6e66;'>View Outfit</a>"
+        +"    <a href='/outfit/"+items[i].pk+"' class='waves-effect waves-dark btn' style='border:1px solid #ff6e66; background-color:white; color:#ff6e66; width:80%;'>View Outfit</a>"
         +"</div>";
         if(items[i].description.length > 0){
             htmlString += "<div class='col s12'>"
@@ -285,3 +322,165 @@ function load_page(page){
         }
     }
 }
+
+function signOut(){
+    $.ajax({
+        type:"GET",
+        url:"/logout",
+        headers : {
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        success: function(data){
+            window.location.replace("/");
+        }
+    });
+}
+
+function followClick(dom_id){
+    var userKey = dom_id.split("follow")[1].split("x")[0];
+    var domObject = $("#"+dom_id);
+    $.ajax({
+            type: 'POST',
+            url: '/follow_user/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'user':userKey},
+            success: function (json) {
+                console.log("json = ", json);
+                if(json == "Follow"){
+                    //add is_follow=True to all outfits of this user
+                    setUserFollowUnfollow(userKey, true);
+                    //re-initialize any outfits whose user is the user we are following
+                    reloadFollowBtn(userKey);
+                }
+                else if(json == "Unfollow"){
+                    setUserFollowUnfollow(userKey, false);
+                    reloadFollowBtn(userKey);
+                }
+
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
+            }
+        }
+    )
+}
+
+function setUserFollowUnfollow(userKey, followVal){
+    //Finds all occurences of the user in the outfit array and sets their 'is_following' property accordingly
+    for(var i=0; i < PAGINATION.length; i++){
+        if(PAGINATION[i].user_pk == userKey){
+            PAGINATION[i].is_following = followVal;
+        }
+    }
+}
+
+function reloadFollowBtn(user_id){
+    var domObject;
+    for(var i=0; i < PAGINATION.length; i++){
+        if(PAGINATION[i].user_pk == user_id){
+            domObject = $("#follow"+user_id+"x"+PAGINATION[i].pk);
+            if(PAGINATION[i].is_following == true){
+                domObject.text("Following");
+                domObject.css('color', 'white');
+                domObject.css('background-color', '#2bbbad');
+                domObject.css('border', '1px solid #2bbbad');
+            }
+            else if(PAGINATION[i].is_following == false){
+                domObject.text("Follow");
+                domObject.css('color', '#ff6e66');
+                domObject.css('background-color', 'white');
+                domObject.css('border', '1px solid #ff6e66');
+            }
+        }
+    }
+}
+
+function likeOutfit(id){
+    //get current featured
+    var currentOutfit = id.split("like")[1];
+    console.log("curernt outfit = ", currentOutfit);
+    $.ajax({
+            type: 'POST',
+            url: '/like_outfit/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'outfit':currentOutfit},
+            success: function (json) {
+                console.log("json = ", json);
+                var numLikes;
+                for(var i=0; i < PAGINATION.length; i++){
+                    if(PAGINATION[i].pk == currentOutfit){
+                        numLikes = PAGINATION[i].num_likes;
+                        break;
+                    }
+                }
+                if(json == "Like"){
+                    numLikes += 1;
+                    //modify html of current outfit
+                    $("#like"+currentOutfit).html('favorite');
+                    if(numLikes == 1){
+                        $("#likeString"+currentOutfit).html("You like this.");
+                    }
+                    else {
+                        var total_likes = numLikes - 2;
+                        if(total_likes == 1){
+                            $("#likeString"+currentOutfit).html("You and " + total_likes + " person likes this.");
+                        }
+                        else {
+                            $("#likeString"+currentOutfit).html("You and " + total_likes + " people like this.");
+                        }
+                    }
+
+                }
+                else if(json == "Unlike"){
+                    numLikes -= 1;
+                    $("#like"+currentOutfit).html('favorite_border');
+                    if(numLikes == 1){
+                        $("#likeString"+currentOutfit).html(numLikes + " person likes this.");
+                    }
+                    else {
+                        $("#likeString"+currentOutfit).html(numLikes + " people like this.");
+                    }
+                }
+
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
+            }
+        }
+    )
+}
+function throttle(func, wait) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        if (!timeout) {
+            // the first time the event fires, we setup a timer, which
+            // is used as a guard to block subsequent calls; once the
+            // timer's handler fires, we reset it and create a new one
+            timeout = setTimeout(function() {
+                timeout = null;
+                func.apply(context, args);
+            }, wait);
+        }
+    }
+}
+
+
+$(window).scroll(throttle(function (event) {
+    if(OFFSET != "END") {
+        var scroll = $(window).scrollTop();
+        if (scroll >= $(window).height() / 2) {
+            console.log("in half");
+            populate_product(false);
+        }
+        console.log(scroll + " - " + $(window).height());
+        console.log(scroll > $(window).height() / 4);
+    }
+    // Do something
+},3000));

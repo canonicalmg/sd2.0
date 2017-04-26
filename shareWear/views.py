@@ -426,22 +426,26 @@ def get_outfit_discover(request):
     if request.is_ajax():
         if request.method == 'POST':
             current_profile = profile.objects.get(user=request.user)
+            offset = int(request.POST.get('offset'))
             cloth_type = request.POST.get('cloth_type')
             current_gender = request.POST.get('gender')
             if current_gender == 'true':
                 current_gender = True
             else:
                 current_gender = False
+            pagesize = 5
             print "cloth type = ", cloth_type
             print "gender = ", current_gender
-            outfits = outfit.objects.filter(gender=current_gender)
+            outfits = outfit.objects.filter(gender=current_gender)[offset:pagesize+offset]
             print "products = ", outfits
+            print "offset = ", offset + len(outfits)
             product_list = []
             for each_product in outfits:
                     tag_list = []
                     for each_tag in each_product.tag_list.all():
                         tag_list.append(each_tag.word)
                     product_list.append({
+                                         'user_pk': each_product.profile.pk,
                                          'username': each_product.profile.user.username,
                                          'userPhoto': each_product.profile.profile_image,
                                          'num_likes': each_product.likes,
@@ -456,6 +460,7 @@ def get_outfit_discover(request):
                                          })
             json_stuff = json.dumps({"products": product_list,
                                      "cloth_type": cloth_type,
+                                     "offset": offset + len(outfits)
                                      })
             return HttpResponse(json_stuff, content_type="application/json")
     return HttpResponse("Error")
