@@ -18,6 +18,8 @@ from social_django.models import *
 import urllib
 import urllib2
 import datetime
+from django.db.models import Q
+
 
 def populate_db_amazon(request):
     try:
@@ -429,6 +431,8 @@ def get_outfit_discover(request):
             offset = int(request.POST.get('offset'))
             cloth_type = request.POST.get('cloth_type')
             current_gender = request.POST.get('gender')
+            tags = request.POST.getlist('tags')
+            print "tags = ", tags
             if current_gender == 'true':
                 current_gender = True
             else:
@@ -436,7 +440,18 @@ def get_outfit_discover(request):
             pagesize = 5
             print "cloth type = ", cloth_type
             print "gender = ", current_gender
-            outfits = outfit.objects.filter(gender=current_gender)[offset:pagesize+offset]
+
+            if len(tags) == 0:
+                outfits = outfit.objects.filter(gender=current_gender)[offset:pagesize+offset]
+            else:
+                # outfits = outfit.objects.filter(
+                #     tag_list__word__contains=tags[0],
+                #     gender=current_gender
+                # )[offset:pagesize+offset]
+                outfits = outfit.objects.filter(
+                    reduce(lambda x, y: x | y, [Q(tag_list__word__contains=word) for word in tags]
+                           )
+                )[offset:pagesize+offset]
             print "products = ", outfits
             print "offset = ", offset + len(outfits)
             product_list = []
