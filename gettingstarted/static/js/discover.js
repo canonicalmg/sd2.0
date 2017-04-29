@@ -273,7 +273,7 @@ function product_loader_template(items, new_search){
         +"    </div>"
         +"    </div>"
         +"    <div class='col s2'>"
-        +"    <i onClick='featuredVert(this.id)'  class='material-icons left socialIcons right'>keyboard_arrow_down</i>"
+        // +"    <i onClick='featuredVert(this.id)'  class='material-icons left socialIcons right'>keyboard_arrow_down</i>"
         +"    </div>"
         +"    </div>"
         +"    <hr>"
@@ -559,6 +559,13 @@ function populateBrands(){
     console.log("clicked");
 }
 
-$('#pickerContainer').on('change', 'select', function(){ console.log("got you"); });
-
+function searchVert(id){
+    $("#filterOptions").toggle();
+    if ($("#filterOptions").is(':hidden')) {
+        $("#"+id).html('keyboard_arrow_up');
+    }
+    else{
+        $("#"+id).html('keyboard_arrow_down');
+    }
+}
 

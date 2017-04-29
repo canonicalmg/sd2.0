@@ -154,6 +154,9 @@
         input#autocomplete-input.autocomplete{
             color:black !important;
         }
+        input.select-dropdown{
+            color: #d3d3d3 !important;
+        }
     </style>
 
     <style>
@@ -294,54 +297,69 @@
 {#                            <h3 style="margin-top:0px;" class="center-align">Discover</h3>#}
                         </div>
                         <div class="row" id="addNewButtonGroup">
-                            <h5>Filter</h5>
-                            <div style="margin-left:10%; margin-bottom:10%;" class="input-field col s12 switch right-align">
-                                <label>
-                                    Male
-                                    {% if profile.gender %}
-                                        <input id='gender_check' type="checkbox" checked>
-                                    {% else %}
-                                        <input id="gender_check" type="checkbox">
-                                    {% endif %}
-                                    <span class="lever"></span>
-                                    Female
-                                </label>
-                            </div>
-                            <div class="input-field col s12">
-                                <div class="col s1 left-align">
-                                    <i class="material-icons prefix">search</i>
+                            <h5>Filter Options</h5>
+                            <div class="input-field col s12" style="margin-bottom:10%; margin-top:-2%;">
+                                <div class="col s2 left-align">
+                                    <i class="material-icons socialIcons prefix">wc</i>
                                 </div>
-                                <div class="col s11">
-                                    <input id='tag_list' style="color:black !important;" type="text" placeholder="Filter by Tag (Comma Separated)" data-role="materialtags" />
+                                <div class="col s10 switch">
+                                    <label style="margin-left:20%;">
+                                        Male
+                                        {% if profile.gender %}
+                                            <input id='gender_check' type="checkbox" checked>
+                                        {% else %}
+                                            <input id="gender_check" type="checkbox">
+                                        {% endif %}
+                                        <span class="lever"></span>
+                                        Female
+                                    </label>
                                 </div>
                             </div>
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">textsms</i>
-                                <input type="text" placeholder="Filter by Brand" id="autocomplete-input" class="autocomplete">
-                                <label for="autocomplete-input">Autocomplete</label>
+
+                            <div id="filterOptions" style="display:none;">
+                                <div class="input-field col s12">
+                                    <div class="col s2 left-align">
+                                        <i class="material-icons socialIcons prefix">search</i>
+                                    </div>
+                                    <div class="col s10">
+                                        <input id='tag_list' style="color:black !important;" type="text" placeholder="Filter by Tag (Comma Separated)" data-role="materialtags" />
+                                    </div>
+                                </div>
+                                <div class="input-field col s12">
+                                    <div class="col s2 left-align">
+                                        <i class="material-icons socialIcons prefix">textsms</i>
+                                    </div>
+                                    <div class="col s10">
+                                        <input type="text" placeholder="Filter by Brand" id="autocomplete-input" class="autocomplete">
+                                        <label for="autocomplete-input">Autocomplete</label>
+                                    </div>
+                                </div>
+                                <div class="input-field col s12">
+                                <div class="col s2 left-align">
+                                    <i class="material-icons socialIcons prefix">invert_colors</i>
+                                </div>
+                                <div class="col s10">
+                                    <select id="brandSelect" multiple>
+                                        <option value="" disabled selected>Filter by Color</option>
+                                        <option value="1">Option 1</option>
+                                        <option value="2">Option 2</option>
+                                        <option value="3">Option 3</option>
+                                    </select>
+{#                                    <label>Filter by Color</label>#}
+                                </div>
                             </div>
-                            <div class="input-field col s12">
-                                <select id="brandSelect" multiple>
-                                    <option value="" disabled selected>Choose your option</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
-                                <label>Filter by Color</label>
+                            </div>
+                            <div class="col s12 right-align">
+                                <a onClick="searchVert('searchVert')" style="color:#ff6e66">Advanced</a>
+                                <i id='searchVert' onClick='searchVert(this.id)'  class='material-icons left socialIcons right'>keyboard_arrow_up</i>
                             </div>
 
-{#                            <div id="routineLoader" class="col s12">#}
-{#                                <div id='routineBeforeL' class='loading-container'>#}
-{#                                    <div class='loading'></div>#}
-{#                                    <div class='loading-text'>loading</div>#}
-{#                                </div>#}
-{#                            </div>#}
 
 
 
-                            </div>
                         </div>
                     </div>
+                </div>
 
 {#                    {% for each_outfit in outfits %}#}
 {##}
