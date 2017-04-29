@@ -150,6 +150,10 @@
         .n-tag{
             color:black !important;
         }
+
+        input#autocomplete-input.autocomplete{
+            color:black !important;
+        }
     </style>
 
     <style>
@@ -308,18 +312,24 @@
                                     <i class="material-icons prefix">search</i>
                                 </div>
                                 <div class="col s11">
-                                    <input id='tag_list' style="color:black !important;" type="text" placeholder="Add a Tag (Comma Separated)" data-role="materialtags" />
+                                    <input id='tag_list' style="color:black !important;" type="text" placeholder="Filter by Tag (Comma Separated)" data-role="materialtags" />
                                 </div>
                             </div>
                             <div class="input-field col s12">
-                                <select multiple>
+                                <i class="material-icons prefix">textsms</i>
+                                <input type="text" placeholder="Filter by Brand" id="autocomplete-input" class="autocomplete">
+                                <label for="autocomplete-input">Autocomplete</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <select id="brandSelect" multiple>
                                     <option value="" disabled selected>Choose your option</option>
                                     <option value="1">Option 1</option>
                                     <option value="2">Option 2</option>
                                     <option value="3">Option 3</option>
                                 </select>
-                                <label>Materialize Multiple Select</label>
+                                <label>Filter by Color</label>
                             </div>
+
 {#                            <div id="routineLoader" class="col s12">#}
 {#                                <div id='routineBeforeL' class='loading-container'>#}
 {#                                    <div class='loading'></div>#}
