@@ -281,7 +281,7 @@
 </header>
 
 <main>
-    <section>
+{#    <section>#}
         <div class="container">
             <div class="section no-pad-bot">
                 <div class="row" style="background-color:#f0f0f0; padding-left:10px; padding-right: 10px;">
@@ -290,6 +290,7 @@
 {#                            <h3 style="margin-top:0px;" class="center-align">Discover</h3>#}
                         </div>
                         <div class="row" id="addNewButtonGroup">
+                            <h5>Filter</h5>
                             <div style="margin-left:10%; margin-bottom:10%;" class="input-field col s12 switch right-align">
                                 <label>
                                     Male
@@ -310,12 +311,21 @@
                                     <input id='tag_list' style="color:black !important;" type="text" placeholder="Add a Tag (Comma Separated)" data-role="materialtags" />
                                 </div>
                             </div>
-                            <div id="routineLoader" class="col s12">
-                                <div id='routineBeforeL' class='loading-container'>
-                                    <div class='loading'></div>
-                                    <div class='loading-text'>loading</div>
-                                </div>
+                            <div class="input-field col s12">
+                                <select multiple>
+                                    <option value="" disabled selected>Choose your option</option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                                <label>Materialize Multiple Select</label>
                             </div>
+{#                            <div id="routineLoader" class="col s12">#}
+{#                                <div id='routineBeforeL' class='loading-container'>#}
+{#                                    <div class='loading'></div>#}
+{#                                    <div class='loading-text'>loading</div>#}
+{#                                </div>#}
+{#                            </div>#}
 
 
 
@@ -340,7 +350,7 @@
             </div>
 
         </div>
-        <section>
+{#        </section>#}
 </main>
 
 <!--  Scripts-->

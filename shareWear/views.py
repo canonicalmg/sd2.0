@@ -19,6 +19,7 @@ import urllib
 import urllib2
 import datetime
 from django.db.models import Q
+import operator
 
 
 def populate_db_amazon(request):
@@ -431,7 +432,11 @@ def get_outfit_discover(request):
             offset = int(request.POST.get('offset'))
             cloth_type = request.POST.get('cloth_type')
             current_gender = request.POST.get('gender')
-            tags = request.POST.getlist('tags')
+            tags = []
+            try:
+                tags = request.POST.getlist('tags')[0].split(",")
+            except IndexError:
+                print "index error on tags"
             print "tags = ", tags
             if current_gender == 'true':
                 current_gender = True
@@ -441,21 +446,28 @@ def get_outfit_discover(request):
             print "cloth type = ", cloth_type
             print "gender = ", current_gender
 
+            #check to see if tag is actually just empty string
+            if len(tags) == 1:
+                if tags[0] == "":
+                    tags = []
+
             if len(tags) == 0:
                 outfits = outfit.objects.filter(gender=current_gender)[offset:pagesize+offset]
             else:
-                # outfits = outfit.objects.filter(
-                #     tag_list__word__contains=tags[0],
-                #     gender=current_gender
-                # )[offset:pagesize+offset]
                 outfits = outfit.objects.filter(
-                    reduce(lambda x, y: x | y, [Q(tag_list__word__contains=word) for word in tags]
-                           )
+                    reduce(operator.or_, (Q(outfit_item__clothing__brand__contains=item) |
+                                          Q(tag_list__word__contains=item)
+                                          for item in tags)),
+                    gender=current_gender
                 )[offset:pagesize+offset]
-            print "products = ", outfits
             print "offset = ", offset + len(outfits)
             product_list = []
             for each_product in outfits:
+                duplicate = False
+                for each_item in product_list:
+                    if each_product.pk == each_item['pk']:
+                        duplicate = True
+                if not duplicate:
                     tag_list = []
                     for each_tag in each_product.tag_list.all():
                         tag_list.append(each_tag.word)
@@ -473,9 +485,13 @@ def get_outfit_discover(request):
                                          'pictures': each_product.get_pictures(),
                                          'location': each_product.profile.location
                                          })
+            less_than_pagesize = len(outfits) < pagesize
+            print "product list = ", product_list
+            print "length of list = ", len(product_list)
             json_stuff = json.dumps({"products": product_list,
                                      "cloth_type": cloth_type,
-                                     "offset": offset + len(outfits)
+                                     "offset": offset + len(outfits),
+                                     "less_than_pagesize": less_than_pagesize
                                      })
             return HttpResponse(json_stuff, content_type="application/json")
     return HttpResponse("Error")
