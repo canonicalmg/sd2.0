@@ -31,10 +31,10 @@ def populate_db_amazon(request):
                                    )
         cloth_types = ["Shirt", "Pants", "Shoes"]
         gender = [
-            "Women",
-            # "Men"
+            # "Women",
+            "Men"
         ]
-        pages = [1,2,3,4,5,6,7,8,9,10]
+        pages = [1,2,3,4,5]
         for each_gender in gender:
             for each_cloth_type in cloth_types:
                 for each_page in pages:
@@ -48,6 +48,7 @@ def populate_db_amazon(request):
 
                     newDictionary = xmltodict.parse(str(soup))
                     try:
+                        print "item = ", newDictionary['ItemSearchResponse']['Items']
                         for each_item in newDictionary['ItemSearchResponse']['Items']['Item']:
                             try:
                                 current_clothing = clothing.objects.get(carrier='amazon',
@@ -71,6 +72,14 @@ def populate_db_amazon(request):
                                                             aff_url=generate_amazon_link(each_item['ASIN']),
                                                             cloth_type=each_cloth_type)
                                     new_clothing.save()
+                                    newbrand = brands.objects.filter(name=each_item['ItemAttributes']['Brand'])
+                                    if len(newbrand) == 0:
+                                        newbrand = brands(name=each_item['ItemAttributes']['Brand'])
+                                        newbrand.save()
+                                    newcolor = color.objects.filter(name=each_item['ItemAttributes']['Color'])
+                                    if len(newcolor) == 0:
+                                        newcolor = colors(name=each_item['ItemAttributes']['Color'])
+                                        newcolor.save()
                                     print "added item"
                                 except Exception as e:
                                     print "error ", e
@@ -428,9 +437,27 @@ def get_product(request):
 def get_outfit_discover(request):
     if request.is_ajax():
         if request.method == 'POST':
+
+            all_clothes = clothing.objects.filter()
+            for each_outfit in all_clothes:
+                brandname = each_outfit.brand
+                try:
+                    brandobj = brands.objects.filter(name=brandname)
+                    print "brand obj len = ", len(brandobj)
+                    if len(brandobj) == 0:
+                        new_brandobj = brands(name=brandname)
+                        new_brandobj.save()
+                except Exception as e:
+                    print "adding"
+
+
             current_profile = profile.objects.get(user=request.user)
             offset = int(request.POST.get('offset'))
             cloth_type = request.POST.get('cloth_type')
+            brand = request.POST.get('brand')
+            clothing_colors = request.POST.getlist('colors[]')
+            print "brand = ", brand
+            print "colors = ", clothing_colors
             current_gender = request.POST.get('gender')
             tags = []
             try:
@@ -445,21 +472,39 @@ def get_outfit_discover(request):
             pagesize = 5
             print "cloth type = ", cloth_type
             print "gender = ", current_gender
+            print "offset = ", offset
 
             #check to see if tag is actually just empty string
             if len(tags) == 1:
                 if tags[0] == "":
                     tags = []
 
-            if len(tags) == 0:
+            has_filter = False
+            if len(tags) > 0:
+                has_filter = True
+            elif brand != "":
+                has_filter = True
+            elif len(clothing_colors) > 0:
+                has_filter = True
+
+            print "has filter = ", has_filter
+
+            if has_filter == False:
                 outfits = outfit.objects.filter(gender=current_gender)[offset:pagesize+offset]
             else:
-                outfits = outfit.objects.filter(
-                    reduce(operator.or_, (Q(outfit_item__clothing__brand__contains=item) |
-                                          Q(tag_list__word__contains=item)
-                                          for item in tags)),
-                    gender=current_gender
-                )[offset:pagesize+offset]
+                outfits = outfit.objects.filter(gender=current_gender)
+                if len(tags) > 0:
+                    outfits = outfits.filter(
+                        reduce(operator.or_, (
+                            # Q(outfit_item__clothing__brand__contains=item) |
+                                              Q(tag_list__word__contains=item)
+                                              for item in tags)),
+                        gender=current_gender
+                    )
+                if brand != "":
+                    outfits = outfits.filter(outfit_item__clothing__brand__contains=brand)
+
+                outfits = outfits[offset:pagesize+offset]
             print "offset = ", offset + len(outfits)
             product_list = []
             for each_product in outfits:
@@ -539,10 +584,17 @@ def discover(request):
     if request.user.is_authenticated():
         template = loader.get_template('discover.html')
         current_profile = profile.objects.get(user=request.user)
-        outfits = outfit.objects.filter()
+        # outfits = outfit.objects.filter()
+        brand_list = brands.objects.filter()
+        brand_json = {}
+        for each_item in brand_list:
+            brand_json[each_item.name] = None
+        # brand_json = {"Google": "http://placehold.it/250x250",
+        #           "microsoft": None}
         context = {
             "current_profile": current_profile,
-            "outfits": outfits
+            # "outfits": outfits,
+            "brands": json.dumps(brand_json)
         }
     else:
         template = loader.get_template('headerLogin.html')

@@ -4,14 +4,10 @@
         $('.button-collapse').sideNav();
         $('.carousel').carousel();
         $('input.autocomplete').autocomplete({
-            data: {
-                "Apple": null,
-                "Microsoft": null,
-                "Google": 'http://placehold.it/250x250'
-            },
+            data: BRANDS,
             limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
             onAutocomplete: function(val) {
-                // Callback function when value is autcompleted.
+                populate_product(true);
             },
             minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
         });
@@ -73,7 +69,8 @@ function populate_product(new_search){
                     'gender': GENDER,
                     'offset': offsetVar,
                     'tags':TAG_LIST,
-                    'brands': $("#brandSelect").val()},
+                    'brand': $("#brandSelect").val(),
+                    'colors': $("#colorSelect").val()},
                 success: function (json) {
                     // console.log("json = ", json);
 
@@ -127,6 +124,12 @@ function populate_product(new_search){
                     // }
                     // PAGINATION += add_to_pagination;
                     // console.log("offset = ", old_offset);
+                    if(json.products.length == 0){
+                        $("#noResults").show();
+                    }
+                    else{
+                        $("#noResults").hide();
+                    }
                     if(new_search){
                         PAGINATION = [];
                     }
@@ -568,4 +571,13 @@ function searchVert(id){
         $("#"+id).html('keyboard_arrow_down');
     }
 }
+
+
+
+// $("#brandSelect").off("click")(function(e){
+//     console.log($("#brandSelect").val());
+//     if($("#brandSelect").val().length == 0){
+//         console.log("EMPTY");
+//     }
+// });
 

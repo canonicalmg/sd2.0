@@ -157,6 +157,9 @@
         input.select-dropdown{
             color: #d3d3d3 !important;
         }
+        input#brandSelect.autocomplete{
+            color:black !important;
+        }
     </style>
 
     <style>
@@ -249,6 +252,9 @@
     </style>
 </head>
 <body>
+<script>
+    var BRANDS = JSON.parse("{{brands | escapejs}}");
+</script>
 <header>
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
@@ -330,8 +336,8 @@
                                         <i class="material-icons socialIcons prefix">textsms</i>
                                     </div>
                                     <div class="col s10">
-                                        <input type="text" placeholder="Filter by Brand" id="autocomplete-input" class="autocomplete">
-                                        <label for="autocomplete-input">Autocomplete</label>
+                                        <input id='brandSelect' type="text" placeholder="Filter by Brand" class="autocomplete">
+                                        <label for="brandSelect">Autocomplete</label>
                                     </div>
                                 </div>
                                 <div class="input-field col s12">
@@ -339,11 +345,19 @@
                                     <i class="material-icons socialIcons prefix">invert_colors</i>
                                 </div>
                                 <div class="col s10">
-                                    <select id="brandSelect" multiple>
+                                    <select id="colorSelect" multiple>
                                         <option value="" disabled selected>Filter by Color</option>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
+                                        <option value="1">Beige</option>
+                                        <option value="2">Blue</option>
+                                        <option value="3">Grey</option>
+                                        <option value="3">Navy</option>
+                                        <option value="3">Pink</option>
+                                        <option value="3">White</option>
+                                        <option value="3">Black</option>
+                                        <option value="3">Brown</option>
+                                        <option value="3">Khaki</option>
+                                        <option value="3">Orange</option>
+                                        <option value="3">Red</option>
                                     </select>
 {#                                    <label>Filter by Color</label>#}
                                 </div>
@@ -359,6 +373,19 @@
 
                         </div>
                     </div>
+
+                    <div id='noResults' class="card col s12 l4 center" style="display: none; padding:0px !important;">
+                        <div class="row" id="addNewButtonGroup">
+                            <div class="col s12">
+                                <h5>No search results found</h5>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+
                 </div>
 
 {#                    {% for each_outfit in outfits %}#}

@@ -198,4 +198,11 @@ class cartItems(models.Model):
     def __unicode__(self):
         return self.clothing.name + " " + self.clothing.price
 
+class brands(models.Model):
+    name = models.CharField(unique=True,null=True,blank=True,max_length=50)
+
+    def __unicode__(self):
+        return self.name
+
+
 
