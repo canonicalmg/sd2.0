@@ -76,10 +76,6 @@ def populate_db_amazon(request):
                                     if len(newbrand) == 0:
                                         newbrand = brands(name=each_item['ItemAttributes']['Brand'])
                                         newbrand.save()
-                                    newcolor = color.objects.filter(name=each_item['ItemAttributes']['Color'])
-                                    if len(newcolor) == 0:
-                                        newcolor = colors(name=each_item['ItemAttributes']['Color'])
-                                        newcolor.save()
                                     print "added item"
                                 except Exception as e:
                                     print "error ", e
@@ -437,20 +433,6 @@ def get_product(request):
 def get_outfit_discover(request):
     if request.is_ajax():
         if request.method == 'POST':
-
-            all_clothes = clothing.objects.filter()
-            for each_outfit in all_clothes:
-                brandname = each_outfit.brand
-                try:
-                    brandobj = brands.objects.filter(name=brandname)
-                    print "brand obj len = ", len(brandobj)
-                    if len(brandobj) == 0:
-                        new_brandobj = brands(name=brandname)
-                        new_brandobj.save()
-                except Exception as e:
-                    print "adding"
-
-
             current_profile = profile.objects.get(user=request.user)
             offset = int(request.POST.get('offset'))
             cloth_type = request.POST.get('cloth_type')
