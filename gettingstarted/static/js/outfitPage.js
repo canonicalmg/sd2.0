@@ -233,36 +233,39 @@ function likeOutfit(id){
             data: {'outfit':currentOutfit.outfit_pk},
             success: function (json) {
                 console.log("json = ", json);
-                if(json == "Like"){
+                var numLikes = json.likes;
+                console.log("numlikes = ", numLikes);
+                console.log("type = ", typeof(numLikes));
+                if(json.status == "Like"){
                     console.log("liked");
                     //find all outfits with this pk, set their like == true
                     setOutfitLikeUnlike(currentOutfit.outfit_pk, true);
                     //modify html of current outfit
-                    $("#"+id).html('favorite');
-                    if(currentOutfit.total_likes == 1){
+                    $("#popularLike").html('favorite');
+                    if(numLikes == 1){
                         $("#"+id+"Comment").html("You like this.");
                     }
                     else {
-                        var total_likes = currentOutfit.total_likes - 1;
-                        if(total_likes == 1){
-                            $("#" + id + "Comment").html("You and " + total_likes + " person likes this.");
+                        numLikes -= 1;
+                        if(numLikes == 1){
+                            $("#" + id + "Comment").html("You and " + numLikes + " person likes this.");
                         }
                         else {
-                            $("#" + id + "Comment").html("You and " + total_likes + " people like this.");
+                            $("#" + id + "Comment").html("You and " + numLikes + " people like this.");
                         }
                     }
 
                 }
-                else if(json == "Unlike"){
+                else if(json.status == "Unlike"){
                     console.log("unliked");
                     setOutfitLikeUnlike(currentOutfit.outfit_pk, false);
-                    $("#"+id).html('favorite_border');
+                    $("#popularLike").html('favorite_border');
                     // var old_html = $("#"+id+"Comment").html().split("You and ")[1];
-                    if(currentOutfit.total_likes == 1){
-                        $("#" + id + "Comment").html(currentOutfit.total_likes + " person likes this.");
+                    if(numLikes == 1){
+                        $("#" + id + "Comment").html(numLikes + " person likes this.");
                     }
                     else {
-                        $("#" + id + "Comment").html(currentOutfit.total_likes + " people like this.");
+                        $("#" + id + "Comment").html(numLikes + " people like this.");
                     }
                 }
 
@@ -309,11 +312,13 @@ function addToCartSingle(clothingKey, outfitKey){
                     itemToAdd.css('border', '1px solid rgb(43, 187, 173)');
                     itemToAdd.css('background-color', 'rgb(43, 187, 173)');
                     itemToAdd.css('color', 'white');
+                    Materialize.toast('Item added to cart', 4000) // 4000 is the duration of the toast
                 }
                 else if(json == "Removed"){
                     itemToAdd.css('border', '');
                     itemToAdd.css('background-color', '');
                     itemToAdd.css('color', '');
+                    Materialize.toast('Outfit removed from cart', 4000) // 4000 is the duration of the toast
                 }
 
             },
@@ -348,6 +353,8 @@ function addWholeOutfit(outfitKey){
                     itemToAdd.css('background-color', 'rgb(43, 187, 173)');
                     itemToAdd.css('color', 'white');
                 }
+                Materialize.toast('Outfit added to cart', 4000) // 4000 is the duration of the toast
+
             },
             error: function (json) {
                 // $("#createRoutine").show();
@@ -355,4 +362,8 @@ function addWholeOutfit(outfitKey){
             }
         }
     )
+}
+
+function shareClick(){
+
 }

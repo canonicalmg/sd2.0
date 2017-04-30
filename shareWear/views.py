@@ -437,15 +437,19 @@ def get_outfit_discover(request):
             offset = int(request.POST.get('offset'))
             cloth_type = request.POST.get('cloth_type')
             brand = request.POST.get('brand')
-            clothing_colors = request.POST.getlist('colors[]')
             print "brand = ", brand
-            print "colors = ", clothing_colors
             current_gender = request.POST.get('gender')
             tags = []
+            clothing_colors = []
             try:
                 tags = request.POST.getlist('tags')[0].split(",")
             except IndexError:
                 print "index error on tags"
+            try:
+                clothing_colors = request.POST.getlist('colors')[0].split(",")
+                print "clothing colors in = ", clothing_colors
+            except IndexError:
+                print "index error on colors"
             print "tags = ", tags
             if current_gender == 'true':
                 current_gender = True
@@ -453,6 +457,7 @@ def get_outfit_discover(request):
                 current_gender = False
             pagesize = 5
             print "cloth type = ", cloth_type
+            print "colors = ", clothing_colors
             print "gender = ", current_gender
             print "offset = ", offset
 
@@ -485,6 +490,13 @@ def get_outfit_discover(request):
                     )
                 if brand != "":
                     outfits = outfits.filter(outfit_item__clothing__brand__contains=brand)
+                if len(clothing_colors) > 0:
+                    outfits = outfits.filter(
+                        reduce(operator.or_, (
+                            Q(outfit_item__clothing__color__contains=item)
+                            for item in clothing_colors)),
+                        gender=current_gender
+                    )
 
                 outfits = outfits[offset:pagesize+offset]
             print "offset = ", offset + len(outfits)
@@ -668,14 +680,20 @@ def like_outfit(request):
                         current_like_obj = profile_likes_outfit.objects.get(profile=current_profile,
                                                                             outfit=current_outfit)
                         current_like_obj.delete()
-                        return HttpResponse("Unlike")
+                        like_status = "Unlike"
                     except Exception as e:
                         current_like_obj = profile_likes_outfit(profile=current_profile,
                                                                 outfit=current_outfit)
                         current_like_obj.save()
-                        return HttpResponse("Like")
+                        like_status = "Like"
+                    outfit_likes = profile_likes_outfit.objects.filter(outfit=current_outfit)
+                    return_dict = {"status": like_status,
+                                   "likes": len(outfit_likes)}
+                    json_stuff = json.dumps(return_dict)
+                    return HttpResponse(json_stuff, content_type="application/json")
                 except Exception as e:
                     print "Error ", e
+
     return HttpResponse("Error")
 
 @csrf_exempt

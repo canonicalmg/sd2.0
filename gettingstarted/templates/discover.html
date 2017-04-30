@@ -160,6 +160,9 @@
         input#brandSelect.autocomplete{
             color:black !important;
         }
+        input#colorSelect{
+            color:black !important;
+        }
         .select-dropdown{
             overflow-y: auto !important;
         }
@@ -348,21 +351,7 @@
                                         <i class="material-icons socialIcons prefix">invert_colors</i>
                                     </div>
                                     <div class="col s10">
-                                        <select id="colorSelect" multiple>
-                                            <option value="" disabled selected>Filter by Color</option>
-                                            <option value="1">Beige</option>
-                                            <option value="2">Blue</option>
-                                            <option value="3">Grey</option>
-                                            <option value="3">Navy</option>
-                                            <option value="3">Pink</option>
-                                            <option value="3">White</option>
-                                            <option value="3">Black</option>
-                                            <option value="3">Brown</option>
-                                            <option value="3">Khaki</option>
-                                            <option value="3">Orange</option>
-                                            <option value="3">Red</option>
-                                        </select>
-    {#                                    <label>Filter by Color</label>#}
+                                        <input id='colorSelect' style="color:black !important;" type="text" placeholder="Filter by Color (Comma Separated)" data-role="materialtags" />
                                     </div>
                                 </div>
                             </div>

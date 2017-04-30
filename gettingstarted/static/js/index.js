@@ -456,17 +456,18 @@ function likeOutfit(id){
         data: {'outfit':currentOutfit.outfit_pk},
         success: function (json) {
           console.log("json = ", json);
-          if(json == "Like"){
+          var numLikes = json.likes;
+          if(json.status == "Like"){
             console.log("liked");
             //find all outfits with this pk, set their like == true
             setOutfitLikeUnlike(currentOutfit.outfit_pk, true);
             //modify html of current outfit
             $("#"+id).html('favorite');
-            if(currentOutfit.total_likes == 1){
+            if(numLikes == 1){
               $("#"+id+"Comment").html("You like this.");
             }
             else {
-              var total_likes = currentOutfit.total_likes - 1;
+              var total_likes = numLikes - 1;
               if(total_likes == 1){
                 $("#" + id + "Comment").html("You and " + total_likes + " person likes this.");
               }
@@ -476,16 +477,16 @@ function likeOutfit(id){
             }
 
           }
-          else if(json == "Unlike"){
+          else if(json.status == "Unlike"){
             console.log("unliked");
             setOutfitLikeUnlike(currentOutfit.outfit_pk, false);
             $("#"+id).html('favorite_border');
             // var old_html = $("#"+id+"Comment").html().split("You and ")[1];
-            if(currentOutfit.total_likes == 1){
-              $("#" + id + "Comment").html(currentOutfit.total_likes + " person likes this.");
+            if(numLikes == 1){
+              $("#" + id + "Comment").html(numLikes + " person likes this.");
             }
             else {
-              $("#" + id + "Comment").html(currentOutfit.total_likes + " people like this.");
+              $("#" + id + "Comment").html(numLikes + " people like this.");
             }
           }
 
@@ -617,4 +618,38 @@ function outfitPage(trey){
   var selectedObject = mainArr[counterArr % mainArr.length];
   console.log("loading ", selectedObject);
   window.location.href = "/outfit/"+selectedObject.outfit_pk;
+}
+
+function addToCart(trey){
+    var mainArr;
+    var counterArr;
+    if(trey == "featured"){
+        mainArr = FEATURED;
+        counterArr = FEATURED_CURRENT;
+    }
+    else if(trey == "popular"){
+        mainArr = POPULAR;
+        counterArr = POPULAR_CURRENT;
+    }
+    else if(trey == "new"){
+        mainArr = NEW;
+        counterArr = NEW_CURRENT;
+    }
+    var selectedObject = mainArr[counterArr % mainArr.length];
+    $.ajax({
+            type: 'POST',
+            url: '/add_to_cart_whole/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'outfit':selectedObject.outfit_pk},
+            success: function (json) {
+                Materialize.toast('Outfit added to cart', 4000) // 4000 is the duration of the toast
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
+            }
+        }
+    )
 }
