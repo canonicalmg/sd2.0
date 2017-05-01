@@ -365,5 +365,12 @@ function addWholeOutfit(outfitKey){
 }
 
 function shareClick(){
+    $("#shareBtnDiv").toggle();
+}
 
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    $("#visitApp").hide();
+}
+else{
+    $("#visitApp").show();
 }

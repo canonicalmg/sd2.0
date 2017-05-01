@@ -246,7 +246,7 @@ function product_loader_template(items, new_search){
         }
         console.log("hasLiked = ", outfitPictures);
         htmlString += "<div id='outfit"+items[i].pk+"' class='row'>"
-        +"<div class='card col s12' style='padding-bottom:1%; padding-top:1%;'>"
+        +"<div class='card col s12 m6 push-m3' style='padding-bottom:1%; padding-top:1%;'>"
         +"    <div class='col s12' style='margin-top:5%;'>"
         +"    <div class='col s3' style='float:left; margin-top:-15px; margin-left:-25px;'>"
         +"    <img src='"+items[i].userPhoto+"' alt='' class='circle responsive-img profile-post-uer-image'>"
@@ -605,6 +605,13 @@ function addToCart(id){
             }
         }
     )
+}
+
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    $("#visitApp").hide();
+}
+else{
+    $("#visitApp").show();
 }
 
 

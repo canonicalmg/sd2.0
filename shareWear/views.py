@@ -433,7 +433,6 @@ def get_product(request):
 def get_outfit_discover(request):
     if request.is_ajax():
         if request.method == 'POST':
-            current_profile = profile.objects.get(user=request.user)
             offset = int(request.POST.get('offset'))
             cloth_type = request.POST.get('cloth_type')
             brand = request.POST.get('brand')
@@ -510,20 +509,37 @@ def get_outfit_discover(request):
                     tag_list = []
                     for each_tag in each_product.tag_list.all():
                         tag_list.append(each_tag.word)
-                    product_list.append({
-                                         'user_pk': each_product.profile.pk,
-                                         'username': each_product.profile.user.username,
-                                         'userPhoto': each_product.profile.profile_image,
-                                         'num_likes': each_product.likes,
-                                         'has_liked': each_product.does_user_like(current_profile),
-                                         'is_following': each_product.profile.is_following(current_profile),
-                                         'description': each_product.description,
-                                         'tags': tag_list,
-                                         'brands': each_product.get_brands(),
-                                         'pk': each_product.pk,
-                                         'pictures': each_product.get_pictures(),
-                                         'location': each_product.profile.location
-                                         })
+                    if request.user.is_authenticated():
+                        current_profile = profile.objects.get(user=request.user)
+                        product_list.append({
+                                             'user_pk': each_product.profile.pk,
+                                             'username': each_product.profile.user.username,
+                                             'userPhoto': each_product.profile.profile_image,
+                                             'num_likes': each_product.likes,
+                                             'has_liked': each_product.does_user_like(current_profile),
+                                             'is_following': each_product.profile.is_following(current_profile),
+                                             'description': each_product.description,
+                                             'tags': tag_list,
+                                             'brands': each_product.get_brands(),
+                                             'pk': each_product.pk,
+                                             'pictures': each_product.get_pictures(),
+                                             'location': each_product.profile.location
+                                             })
+                    else:
+                        product_list.append({
+                            'user_pk': each_product.profile.pk,
+                            'username': each_product.profile.user.username,
+                            'userPhoto': each_product.profile.profile_image,
+                            'num_likes': each_product.likes,
+                            'has_liked': False,
+                            'is_following': False,
+                            'description': each_product.description,
+                            'tags': tag_list,
+                            'brands': each_product.get_brands(),
+                            'pk': each_product.pk,
+                            'pictures': each_product.get_pictures(),
+                            'location': each_product.profile.location
+                        })
             less_than_pagesize = len(outfits) < pagesize
             print "product list = ", product_list
             print "length of list = ", len(product_list)
@@ -591,8 +607,17 @@ def discover(request):
             "brands": json.dumps(brand_json)
         }
     else:
-        template = loader.get_template('headerLogin.html')
+        template = loader.get_template('discover.html')
+        brand_list = brands.objects.filter()
+        brand_json = {}
+        for each_item in brand_list:
+            brand_json[each_item.name] = None
+        # brand_json = {"Google": "http://placehold.it/250x250",
+        #           "microsoft": None}
         context = {
+            # "current_profile": current_profile,
+            # "outfits": outfits,
+            "brands": json.dumps(brand_json)
         }
     return HttpResponse(template.render(context, request))
 
@@ -662,10 +687,79 @@ def myCart(request):
             "all_clothing": outfit_clothes
         }
     else:
-        template = loader.get_template('headerLogin.html')
-        context = {
-        }
+        template = loader.get_template('myCart.html')
+        context = unregistered_cart(request)
     return HttpResponse(template.render(context, request))
+
+def unregistered_cart(request):
+    # current_profile = profile.objects.get(user=request.user)
+    # all_cart_items = current_profile.cart_items.all()
+    try:
+        all_cart_items = request.session['cart']
+    except:
+        all_cart_items = []
+    ASIN = ""
+
+    outfit_clothes = []
+    for each_item in all_cart_items:
+        each_item = clothing.objects.get(pk=each_item)
+        outfit_clothes.append({'large_url': each_item.large_url,
+                               'name': each_item.name,
+                               'carrier': each_item.carrier,
+                               'brand': each_item.brand,
+                               'price': each_item.price,
+                               'is_in_cart': True,
+                               'pk': each_item.pk,
+                               'outfit_pk': 0})
+        ASIN = each_item.carrier_id
+    if len(outfit_clothes) == 0:
+        is_empty = True
+    else:
+        is_empty = False
+    amazon = bottlenose.Amazon('AKIAJOR5NTXK2ERTU6AQ',
+                               'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
+                               'can037-20',
+                               MaxQPS=0.9
+                               )
+    cart_link = None
+    try:
+        kwargs = {
+            "Item.0.ASIN": ASIN,
+            "Item.0.Quantity": 1
+        }
+        response = amazon.CartCreate(**kwargs)
+        soup = BeautifulSoup(response, "xml")
+        newDictionary = xmltodict.parse(str(soup))
+        CartId = newDictionary['CartCreateResponse']['Cart']['CartId']
+        HMAC = newDictionary['CartCreateResponse']['Cart']['HMAC']
+        counter = 0
+        kwargs = {"CartId": CartId,
+                  "HMAC": HMAC}
+        for each_item in all_cart_items:
+            each_item = clothing.objects.get(pk=each_item)
+            kwargs["Item."+str(counter)+".ASIN"] = each_item.carrier_id
+            kwargs["Item."+str(counter)+".Quantity"] = 1
+            counter += 1
+        print "kwargs = ", kwargs
+        response = amazon.CartAdd(**kwargs)
+        print "response = ", response
+        soup = BeautifulSoup(response, "xml")
+        newDictionary = xmltodict.parse(str(soup))
+        cart_link = newDictionary['CartAddResponse']['Cart']['PurchaseURL']
+        print newDictionary['CartAddResponse']['Cart']['PurchaseURL']
+    except Exception as e:
+        print "error: ", e
+
+    return {
+        "access_key": "AKIAJOR5NTXK2ERTU6AQ",
+        "associate_tag": "can037-20",
+        "signature": "AJmBIow2qBu5GtdtJcYo9y8glhexQgxolmcIJK2xnlQ=",
+        "link": cart_link,
+        "timestamp": datetime.datetime.utcnow().isoformat(),
+        # "current_profile": current_profile,
+        "is_empty": is_empty,
+        "all_clothing": outfit_clothes
+    }
 
 @csrf_exempt
 def like_outfit(request):
@@ -747,7 +841,49 @@ def add_to_cart_single(request):
 
                 except Exception as e:
                     print "Error ", e
+    else:
+        add_to_cart_single_unregistered(request)
     return HttpResponse("Error")
+
+def add_to_cart_single_unregistered(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                outfit_key = request.POST.get('outfit')
+                clothing_key = request.POST.get('clothing')
+                outfit_obj = outfit.objects.get(pk=outfit_key)
+                clothing_obj = clothing.objects.get(pk=clothing_key)
+                #looking to see if item is in cart. If so, remove from cart
+                try:
+                    if type(request.session['cart']) == type([]):
+                        if clothing_obj.pk not in request.session['cart']:
+                            old_req = request.session['cart']
+                            old_req.append(clothing_obj.pk)
+                            request.session['cart'] = old_req
+                            return HttpResponse("Added")
+                        else:
+                            old_req = request.session['cart']
+                            old_req.remove(clothing_obj.pk)
+                            request.session['cart'] = old_req
+                            return HttpResponse("Removed")
+                except:
+                    request.session['cart'] = []
+                    if type(request.session['cart']) == type([]):
+                        if clothing_obj.pk not in request.session['cart']:
+                            old_req = request.session['cart']
+                            old_req.append(clothing_obj.pk)
+                            request.session['cart'] = old_req
+                            return HttpResponse("Added")
+                        else:
+                            old_req = request.session['cart']
+                            old_req.remove(clothing_obj.pk)
+                            request.session['cart'] = old_req
+                            return HttpResponse("Removed")
+
+
+
+            except Exception as e:
+                print "Error ", e
 
 @csrf_exempt
 def add_to_cart_whole(request):
@@ -778,7 +914,46 @@ def add_to_cart_whole(request):
 
                 except Exception as e:
                     print "Error ", e
+
+    else:
+        add_to_cart_whole_unregistered(request)
     return HttpResponse("Error")
+
+def add_to_cart_whole_unregistered(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                outfit_key = request.POST.get('outfit')
+                outfit_obj = outfit.objects.get(pk=outfit_key)
+                returned_clothing_id_list = []
+
+                #get all clothes in outfit
+                clothes = outfit_obj.get_outfit_items()
+                for each_item in clothes:
+                    #If item is not in cart, then add it to cart
+                    # cart_item = cartItems(clothing=each_item.clothing, outfit=outfit_obj)
+                    try:
+                        if type(request.session['cart']) == type([]):
+                            if each_item.clothing.pk not in request.session['cart']:
+                                old_req = request.session['cart']
+                                old_req.append(each_item.clothing.pk)
+                                request.session['cart'] = old_req
+                                returned_clothing_id_list.append(each_item.clothing.pk)
+                    except:
+                        request.session['cart'] = []
+                        if type(request.session['cart']) == type([]):
+                            if each_item.clothing.pk not in request.session['cart']:
+                                old_req = request.session['cart']
+                                old_req.append(each_item.clothing.pk)
+                                request.session['cart'] = old_req
+                                returned_clothing_id_list.append(each_item.clothing.pk)
+
+                json_stuff = json.dumps(returned_clothing_id_list)
+                return HttpResponse(json_stuff, content_type="application/json")
+                # return HttpResponse(returned_clothing_id_list)
+
+            except Exception as e:
+                print "Error ", e
 
 @csrf_exempt
 def remove_from_cart(request):
@@ -874,6 +1049,10 @@ def outfit_page(request, pk):
             "outfit_clothes": outfit_clothes
         }
     else:
+        try:
+            print "shopping cart = ", request.session['cart']
+        except:
+            print "no cart"
         template = loader.get_template('outfitPage.html')
         current_outfit = outfit.objects.get(pk=pk)
         current_profile = current_outfit.profile
@@ -911,8 +1090,12 @@ def clothing_page(request, pk):
             "current_clothing": current_clothing
         }
     else:
-        template = loader.get_template('headerLogin.html')
+        template = loader.get_template('clothingPage.html')
+        current_clothing = clothing.objects.get(pk=pk)
+        # current_profile_self = profile.objects.get(user=request.user)
         context = {
+            # "current_profile_self": current_profile_self,
+            "current_clothing": current_clothing
         }
     return HttpResponse(template.render(context, request))
 

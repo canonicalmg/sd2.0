@@ -11,6 +11,14 @@
 {#</head>#}
 
 <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=1385275688183042";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <!--Import jQuery before materialize.js-->
 {#<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>#}
 {#<script type="text/javascript" src="../static/js/materialize.min.js"></script>#}
@@ -256,8 +264,7 @@
             <a id="logo-container" href="/" class="brand-logo center">Fashionly</a>
             <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="#">Navbar Link</a></li>
-                <li><a onClick="signOut()">Sign Out</a></li>
+                <li><a style="color:black;" onClick="signOut()">Sign Out</a></li>
             </ul>
 
             <ul id="nav-mobile" class="side-nav fixed">
@@ -294,7 +301,7 @@
             <div class="section no-pad-bot" id="index-banner">
                 <div class="row">
 
-                    <div id="profile-page-sidebar" class="col s12 m6 push-m3">
+                    <div id="profile-page-sidebar" class="col s12 m6 push-m4">
                         <!-- Profile About Details  -->
 
                         <div class="card col s12 l12 center mainCard" style='overflow-x:hidden;'>
@@ -331,8 +338,8 @@
                                             <i onClick='shareClick()' class="material-icons left socialIcons popularProfileSocial">share</i>
                                             <i class="material-icons left socialIcons popularProfileSocial">comment</i>
                                         </div>
-                                        <div class="col s12" style="display:none;">
-
+                                        <div id="shareBtnDiv" class="col s12" style="display:none;">
+                                            <div class="fb-share-button" data-href="https://thawing-tor-61108.herokuapp.com/outfit/10" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fthawing-tor-61108.herokuapp.com%2Foutfit%2F10&amp;src=sdkpreparse">Share</a></div>
                                         </div>
                                         <div class="col s12 popularProfileSocial" style="padding-top:5px;">
                                             <span class="left grey-text text-darken-2 ultra-small" id="popularLikeComment"></span>

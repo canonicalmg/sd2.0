@@ -237,14 +237,13 @@
 <header>
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
-            <a id="logo-container" href="/" class="brand-logo center">My Outfit</a>
+            <a id="logo-container" href="/" class="brand-logo center">Fashionly</a>
             <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="#">Navbar Link</a></li>
-                <li><a onClick="signOut()">Sign Out</a></li>
+                <li><a style="color:black;" onClick="signOut()">Sign Out</a></li>
             </ul>
 
-            <ul id="nav-mobile" class="side-nav">
+            <ul id="nav-mobile" class="side-nav fixed">
                 <li>
                     <div class="col s12 center" style="margin-right:10px; margin-top:25px;">
                         <div class="col s3">
@@ -278,7 +277,7 @@
             <div class="section no-pad-bot">
                 <div class="row">
                     <div class="section no-pad-bot" id="index-banner">
-                        <div id="profile-page-sidebar" class="col s12 m4">
+                        <div id="profile-page-sidebar" class="col s12 m6 push-m3">
                             <h2 class="center-align">Shopping Cart</h2>
                             <div {% if is_empty %}
                                 style="display:block"
