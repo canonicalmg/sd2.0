@@ -874,8 +874,30 @@ def outfit_page(request, pk):
             "outfit_clothes": outfit_clothes
         }
     else:
-        template = loader.get_template('headerLogin.html')
+        template = loader.get_template('outfitPage.html')
+        current_outfit = outfit.objects.get(pk=pk)
+        current_profile = current_outfit.profile
+        # current_profile_self = profile.objects.get(user=request.user)
+        current_profile_outfits = get_outfit_items([current_outfit], current_profile)
+        outfit_clothes = []
+        outfit_items = outfit_item.objects.filter(outfit=current_outfit)
+        for each_item in outfit_items:
+            outfit_clothes.append({'large_url': each_item.clothing.large_url,
+                                   'name': each_item.clothing.name,
+                                   'carrier': each_item.clothing.carrier,
+                                   'brand': each_item.clothing.brand,
+                                   'price': each_item.clothing.price,
+                                   'is_in_cart': False,
+                                   'pk': each_item.clothing.pk})
+
         context = {
+            "current_outfit": current_outfit,
+            # "current_outfit_in_cart": current_profile_self.outfit_in_cart(current_outfit),
+            "current_profile": current_profile,
+            # "current_profile_self": current_profile_self,
+            "outfits": json.dumps(current_profile_outfits),
+            # "outfit_clothes": current_outfit.get_outfit_items()
+            "outfit_clothes": outfit_clothes
         }
     return HttpResponse(template.render(context, request))
 
