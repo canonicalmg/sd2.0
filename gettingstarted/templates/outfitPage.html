@@ -32,7 +32,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>{{ current_outfit }}</title>
+    <title>Outfit: {{ current_outfit }}</title>
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -261,7 +261,10 @@
 <header>
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
-            <a id="logo-container" href="/" class="brand-logo center">Fashionly</a>
+            <a id="logo-container" href="/" class="brand-logo center">
+{#                <img style="padding-top:5%;" class='responsive-img' src="../static/img/toplogo.png">#}
+                <h4 style="color: #ff6e66;">Fashionly</h4>
+            </a>
             <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a style="color:black;" onClick="signOut()">Sign Out</a></li>
