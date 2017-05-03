@@ -11,9 +11,41 @@
 {#</head>#}
 
 <body>
-<!--Import jQuery before materialize.js-->
-{#<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>#}
-{#<script type="text/javascript" src="../static/js/materialize.min.js"></script>#}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=1385275688183042";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>window.twttr = (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+    if (d.getElementById(id)) return t;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js, fjs);
+
+    t._e = [];
+    t.ready = function(f) {
+        t._e.push(f);
+    };
+
+    return t;
+}(document, "script", "twitter-wjs"));
+</script>
+<script type="text/javascript">
+    (function(d){
+        var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');
+        p.type = 'text/javascript';
+        p.async = true;
+        p.src = '//assets.pinterest.com/js/pinit.js';
+        f.parentNode.insertBefore(p, f);
+    }(document));
+</script>
 </body>
 </html>
 
@@ -25,6 +57,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1"/>
     <title>Add New Outfit</title>
+    <!--Facebook Metadata-->
+    <meta property="og:url"           content=" {{ request.build_absolute_uri }}" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Fashionly" />
+    <meta property="og:description"   content="The best way for you to share, discover, and make money with fashion!" />
+    <meta property="og:image"         content="../static/img/logo.png" />
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -285,7 +323,6 @@
                 <h4 style="color: #ff6e66;">Fashionly</h4>
             </a>            <i class="material-icons right" style="color:#ff6e66;">shopping_cart</i>
             <ul class="right hide-on-med-and-down">
-                <li><a href="#">Navbar Link</a></li>
                 <li><a onClick="signOut()">Sign Out</a></li>
             </ul>
 
@@ -337,12 +374,12 @@
 {#                            <a href="#">Like</a>#}
 {#                            <a href="#">Share</a>#}
 {#                        </div>#}
-                        <ul class="card-action-buttons">
-                            <li style="float:right; margin-right:-25px; margin-left:5px;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="large material-icons">plus_one</i></a>
-                            </li>
-                            <li style="float:right;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="large material-icons">share</i></a>
-                            </li>
-                        </ul>
+{#                        <ul class="card-action-buttons">#}
+{#                            <li style="float:right; margin-right:-25px; margin-left:5px;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="large material-icons">plus_one</i></a>#}
+{#                            </li>#}
+{#                            <li style="float:right;"><a class="btn-floating waves-effect waves-light red accent-2"><i class="large material-icons">share</i></a>#}
+{#                            </li>#}
+{#                        </ul>#}
                     </div>
                 </div>
                 <div style="height:50%; position:relative; overflow-x:hidden; overflow-y: hidden;" id="addNewBody">
@@ -415,25 +452,14 @@
                         <h5>Share your outfit</h5>
                     </div>
                     <div class="col s12">
-                        <div class="entry-social">
-                            <div class="fb">
-                                <a href="Your_Facebok_Page" target="_blank">Facebook</a>
-                            </div>
-                            <div class="twitter">
-                                <a href="Your_twitter_Profile" target="_blank">Twitter</a>
-                            </div>
-                            <div class="gplus">
-                                <a href="Your_Googleplus_Follow" target="_blank">Google+</a>
-                            </div>
-                            <div class="linkedin">
-                                <a href="Your_Linkedin_Profile" target="_blank">Linkedin</a>
-                            </div>
-                            <div class="pinterest">
-                                <a href="You_Pinterest_Page" target="_blank">Pinterest</a>
-                            </div>
-                            <div class="delicious">
-                                <a href="Your_Delicious_Profile" target="_blank">Delicious</a>
-                            </div>
+                        <div style="padding-bottom: 5%; padding-left:20%;" class="valign-wrapper">
+                            <div class="fb-share-button" data-href="https://thawing-tor-61108.herokuapp.com/outfit/{{ current_outfit.pk }}" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fthawing-tor-61108.herokuapp.com%2Foutfit%2F10&amp;src=sdkpreparse">Share</a></div>
+                            <a class="twitter-share-button"
+                               href="https://twitter.com/intent/tweet?text=Check%20out%20this%20cool%20outfit!"
+                               data-size="large">
+                                Tweet
+                            </a>
+                            <a data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?url={{ request.build_absolute_uri }}" data-pin-height="28"></a>
                         </div>
                     </div>
                     <div class="col s12 center-align">
@@ -452,7 +478,7 @@
                     </div>
                     <div class="col s12">
                         <input style="color:black;" placeholder="Write a caption..." id="caption_field" class="autocomplete">
-                        <p style="float:left;"><i style="margin-right:5px;" class="material-icons">location_on</i>Add Location</p>
+{#                        <p style="float:left;"><i style="margin-right:5px;" class="material-icons">location_on</i>Add Location</p>#}
                     </div>
                 <br>
 

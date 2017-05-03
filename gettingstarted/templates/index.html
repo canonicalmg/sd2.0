@@ -11,6 +11,41 @@
 {#</head>#}
 
 <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=1385275688183042";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>window.twttr = (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+    if (d.getElementById(id)) return t;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js, fjs);
+
+    t._e = [];
+    t.ready = function(f) {
+        t._e.push(f);
+    };
+
+    return t;
+}(document, "script", "twitter-wjs"));
+</script>
+<script type="text/javascript">
+    (function(d){
+        var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');
+        p.type = 'text/javascript';
+        p.async = true;
+        p.src = '//assets.pinterest.com/js/pinit.js';
+        f.parentNode.insertBefore(p, f);
+    }(document));
+</script>
 <!--Import jQuery before materialize.js-->
 {#<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>#}
 {#<script type="text/javascript" src="../static/js/materialize.min.js"></script>#}
@@ -25,6 +60,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Home</title>
+    <!--Facebook Metadata-->
+    <meta property="og:url"           content=" {{ request.build_absolute_uri }}" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Fashionly" />
+    <meta property="og:description"   content="The best way for you to share, discover, and make money with fashion!" />
+    <meta property="og:image"         content="../static/img/logo.png" />
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -249,7 +290,8 @@
             <a id="logo-container" href="/" class="brand-logo center">
                 {#                <img style="padding-top:5%;" class='responsive-img' src="../static/img/toplogo.png">#}
                 <h4 style="color: #ff6e66;">Fashionly</h4>
-            </a>            <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
+            </a>
+            <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="#">Navbar Link</a></li>
                 <li><a onClick="signOut()">Sign Out</a></li>
@@ -350,9 +392,16 @@
                                 <i onClick="addToCart('featured')" class="material-icons left socialIcons featuredProfileSocial">shopping_cart</i>
                                 <i onClick='likeOutfit(this.id)' id='featuredLike' class="material-icons left socialIcons featuredProfileSocial">favorite_border</i>
                                 <i onClick="shareOutfit('featured')" class="material-icons left socialIcons featuredProfileSocial">share</i>
-                                <i class="material-icons left socialIcons featuredProfileSocial">comment</i>
+{#                                <i class="material-icons left socialIcons featuredProfileSocial">comment</i>#}
                             </div>
                             <div id="featuredShareBtnDiv" class="col s12 valign-wrapper" style="display:none;">
+                                <div id='featuredFbLike' class="fb-share-button" data-href="" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fthawing-tor-61108.herokuapp.com%2Foutfit%2F10&amp;src=sdkpreparse">Share</a></div>
+                                <a id="featuredTwitterShare" class="twitter-share-button"
+                                   href="https://twitter.com/intent/tweet?text=Check%20out%20this%20cool%20outfit!"
+                                   data-size="large">
+                                    Tweet
+                                </a>
+                                <a id='featuredPinterestShare' data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?url=" data-pin-height="28"></a>
                             </div>
                             <div class="col s12 featuredProfileSocial" style="padding-top:5px;">
                                 <span class="left grey-text text-darken-2 ultra-small" id="featuredLikeComment"></span>
@@ -430,9 +479,16 @@
                                 <i onClick="addToCart('popular')" class="material-icons left socialIcons popularProfileSocial">shopping_cart</i>
                                 <i onClick='likeOutfit(this.id)' id='popularLike' class="material-icons left socialIcons popularProfileSocial">favorite_border</i>
                                 <i onClick="shareOutfit('popular')" class="material-icons left socialIcons popularProfileSocial">share</i>
-                                <i class="material-icons left socialIcons popularProfileSocial">comment</i>
+{#                                <i class="material-icons left socialIcons popularProfileSocial">comment</i>#}
                             </div>
                             <div id="popularShareBtnDiv" class="col s12 valign-wrapper" style="display:none;">
+                                <div id='popularFbLike' class="fb-share-button" data-href="" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fthawing-tor-61108.herokuapp.com%2Foutfit%2F10&amp;src=sdkpreparse">Share</a></div>
+                                <a id="popularTwitterShare" class="twitter-share-button"
+                                   href="https://twitter.com/intent/tweet?text=Check%20out%20this%20cool%20outfit!"
+                                   data-size="large">
+                                    Tweet
+                                </a>
+                                <a id='popularPinterestShare' data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?url=" data-pin-height="28"></a>
                             </div>
                             <div class="col s12 popularProfileSocial" style="padding-top:5px;">
                                 <span class="left grey-text text-darken-2 ultra-small" id="popularLikeComment"></span>
@@ -520,9 +576,16 @@
                                 <i onClick="addToCart('new')" class="material-icons left socialIcons newProfileSocial">shopping_cart</i>
                                 <i onClick='likeOutfit(this.id)' id='newLike' class="material-icons left socialIcons newProfileSocial">favorite_border</i>
                                 <i onClick="shareOutfit('new')" class="material-icons left socialIcons newProfileSocial">share</i>
-                                <i class="material-icons left socialIcons newProfileSocial">comment</i>
+{#                                <i class="material-icons left socialIcons newProfileSocial">comment</i>#}
                             </div>
                             <div id="newShareBtnDiv" class="col s12 valign-wrapper" style="display:none;">
+                                <div id='newFbLike' class="fb-share-button" data-href="" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fthawing-tor-61108.herokuapp.com%2Foutfit%2F10&amp;src=sdkpreparse">Share</a></div>
+                                <a id="newTwitterShare" class="twitter-share-button"
+                                   href="https://twitter.com/intent/tweet?text=Check%20out%20this%20cool%20outfit!"
+                                   data-size="large">
+                                    Tweet
+                                </a>
+                                <a id='newPinterestShare' data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?url=" data-pin-height="28"></a>
                             </div>
                             <div class="col s12 newProfileSocial" style="padding-top:5px;">
                                 <span class="left grey-text text-darken-2 ultra-small" id="newLikeComment"></span>

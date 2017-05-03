@@ -269,9 +269,9 @@ function product_loader_template(items, new_search){
         else{
             htmlString += "    <i id='like"+items[i].pk+"' onClick='likeOutfit(this.id)' class='material-icons left socialIcons featuredProfileSocial'>favorite_border</i>";
         }
-        htmlString += "    <i class='material-icons left socialIcons featuredProfileSocial'>share</i>"
-        +"    <i class='material-icons left socialIcons featuredProfileSocial'>comment</i>"
-        +"    </div>"
+        // htmlString += "    <i class='material-icons left socialIcons featuredProfileSocial'>share</i>"
+        // +"    <i class='material-icons left socialIcons featuredProfileSocial'>comment</i>"
+        htmlString += "    </div>"
         +"    <div class='col s12 featuredProfileSocial' style='padding-top:5px;'>"
         +"    <span id='likeString"+items[i].pk+"' class='left grey-text text-darken-2 ultra-small'>"+likeString+"</span>"
         +"    </div>"
