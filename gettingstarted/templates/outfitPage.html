@@ -19,9 +19,33 @@
     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=1385275688183042";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-<!--Import jQuery before materialize.js-->
-{#<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>#}
-{#<script type="text/javascript" src="../static/js/materialize.min.js"></script>#}
+
+<script>window.twttr = (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+    if (d.getElementById(id)) return t;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js, fjs);
+
+    t._e = [];
+    t.ready = function(f) {
+        t._e.push(f);
+    };
+
+    return t;
+}(document, "script", "twitter-wjs"));
+</script>
+<script type="text/javascript">
+    (function(d){
+        var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');
+        p.type = 'text/javascript';
+        p.async = true;
+        p.src = '//assets.pinterest.com/js/pinit.js';
+        f.parentNode.insertBefore(p, f);
+    }(document));
+</script>
 </body>
 </html>
 
@@ -347,8 +371,14 @@
                                             <i onClick='shareClick()' class="material-icons left socialIcons popularProfileSocial">share</i>
                                             <i class="material-icons left socialIcons popularProfileSocial">comment</i>
                                         </div>
-                                        <div id="shareBtnDiv" class="col s12" style="display:none;">
+                                        <div id="shareBtnDiv" class="col s12 valign-wrapper" style="display:none;">
                                             <div class="fb-share-button" data-href="https://thawing-tor-61108.herokuapp.com/outfit/{{ current_outfit.pk }}" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fthawing-tor-61108.herokuapp.com%2Foutfit%2F10&amp;src=sdkpreparse">Share</a></div>
+                                            <a class="twitter-share-button"
+                                               href="https://twitter.com/intent/tweet?text=Check%20out%20this%20cool%20outfit!"
+                                               data-size="large">
+                                                Tweet
+                                            </a>
+                                            <a data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?url={{ request.build_absolute_uri }}" data-pin-height="28"></a>
                                         </div>
                                         <div class="col s12 popularProfileSocial" style="padding-top:5px;">
                                             <span class="left grey-text text-darken-2 ultra-small" id="popularLikeComment"></span>
