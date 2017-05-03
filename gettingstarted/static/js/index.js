@@ -653,3 +653,29 @@ function addToCart(trey){
         }
     )
 }
+
+function shareOutfit(trey){
+    var mainArr;
+    var counterArr;
+    if(trey == "featured"){
+        mainArr = FEATURED;
+        counterArr = FEATURED_CURRENT;
+    }
+    else if(trey == "popular"){
+        mainArr = POPULAR;
+        counterArr = POPULAR_CURRENT;
+    }
+    else if(trey == "new"){
+        mainArr = NEW;
+        counterArr = NEW_CURRENT;
+    }
+    var selectedObject = mainArr[counterArr % mainArr.length];
+    var shareDiv = $("#"+trey+"ShareBtnDiv");
+    var buttonHtml = "<div class='fb-share-button' data-href='https://thawing-tor-61108.herokuapp.com/outfit/"+selectedObject.outfit_pk+"' data-layout='button' data-size='large' data-mobile-iframe='true'><a class='fb-xfbml-parse-ignore' target='_blank' href='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fthawing-tor-61108.herokuapp.com%2Foutfit%2F10&amp;src=sdkpreparse'>Share</a></div>"
+        +"<a class='twitter-share-button'"
+    +"href='https://twitter.com/intent/tweet?text=Check%20out%20this%20cool%20outfit!&url=https://thawing-tor-61108.herokuapp.com/outfit/"+selectedObject.outfit_pk+"'"
+    +"data-size='large'>"
+        +"Tweet"
+        +"</a>"
+        +"<a data-pin-do='buttonPin' href='https://www.pinterest.com/pin/create/button/?url=https://thawing-tor-61108.herokuapp.com/outfit/"+selectedObject.outfit_pk+"' data-pin-height='28'></a>";
+}

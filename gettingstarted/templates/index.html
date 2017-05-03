@@ -349,8 +349,10 @@
                             <div class="col s12 " style="padding-top:5px;">
                                 <i onClick="addToCart('featured')" class="material-icons left socialIcons featuredProfileSocial">shopping_cart</i>
                                 <i onClick='likeOutfit(this.id)' id='featuredLike' class="material-icons left socialIcons featuredProfileSocial">favorite_border</i>
-                                <i class="material-icons left socialIcons featuredProfileSocial">share</i>
+                                <i onClick="shareOutfit('featured')" class="material-icons left socialIcons featuredProfileSocial">share</i>
                                 <i class="material-icons left socialIcons featuredProfileSocial">comment</i>
+                            </div>
+                            <div id="featuredShareBtnDiv" class="col s12 valign-wrapper" style="display:none;">
                             </div>
                             <div class="col s12 featuredProfileSocial" style="padding-top:5px;">
                                 <span class="left grey-text text-darken-2 ultra-small" id="featuredLikeComment"></span>
@@ -427,8 +429,10 @@
                             <div class="col s12 " style="padding-top:5px;">
                                 <i onClick="addToCart('popular')" class="material-icons left socialIcons popularProfileSocial">shopping_cart</i>
                                 <i onClick='likeOutfit(this.id)' id='popularLike' class="material-icons left socialIcons popularProfileSocial">favorite_border</i>
-                                <i class="material-icons left socialIcons popularProfileSocial">share</i>
+                                <i onClick="shareOutfit('popular')" class="material-icons left socialIcons popularProfileSocial">share</i>
                                 <i class="material-icons left socialIcons popularProfileSocial">comment</i>
+                            </div>
+                            <div id="popularShareBtnDiv" class="col s12 valign-wrapper" style="display:none;">
                             </div>
                             <div class="col s12 popularProfileSocial" style="padding-top:5px;">
                                 <span class="left grey-text text-darken-2 ultra-small" id="popularLikeComment"></span>
@@ -515,8 +519,10 @@
                             <div class="col s12 " style="padding-top:5px;">
                                 <i onClick="addToCart('new')" class="material-icons left socialIcons newProfileSocial">shopping_cart</i>
                                 <i onClick='likeOutfit(this.id)' id='newLike' class="material-icons left socialIcons newProfileSocial">favorite_border</i>
-                                <i class="material-icons left socialIcons newProfileSocial">share</i>
+                                <i onClick="shareOutfit('new')" class="material-icons left socialIcons newProfileSocial">share</i>
                                 <i class="material-icons left socialIcons newProfileSocial">comment</i>
+                            </div>
+                            <div id="newShareBtnDiv" class="col s12 valign-wrapper" style="display:none;">
                             </div>
                             <div class="col s12 newProfileSocial" style="padding-top:5px;">
                                 <span class="left grey-text text-darken-2 ultra-small" id="newLikeComment"></span>
