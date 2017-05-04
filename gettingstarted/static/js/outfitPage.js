@@ -368,9 +368,12 @@ function shareClick(){
     $("#shareBtnDiv").toggle();
 }
 
-if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+if( /Android|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+    // if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
     $("#visitApp").hide();
+    console.log("is app, hiding");
 }
 else{
     $("#visitApp").show();
+    console.log("is not app, showing");
 }

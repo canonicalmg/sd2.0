@@ -1224,4 +1224,9 @@ def terms(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
+def privacy(request):
+    template = loader.get_template('privacy.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
 
