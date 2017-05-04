@@ -1219,4 +1219,9 @@ def get_avatar(backend, strategy, details, response,
         # user.save()
     print "end of get avatar"
 
+def terms(request):
+    template = loader.get_template('terms.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
 

@@ -672,7 +672,7 @@ function shareOutfit(trey){
     }
     var selectedObject = mainArr[counterArr % mainArr.length];
     $("#"+trey+"ShareBtnDiv").toggle();
-    $("#"+trey+"FbLike").data('href', "https://thawing-tor-61108.herokuapp.com/outfit/"+selectedObject.outfit_pk);
+    $("#"+trey+"FbLike").data('href', "fashion-ly.com/outfit/"+selectedObject.outfit_pk);
     // $("#"+trey+"TwitterShare")
-    $("#"+trey+"PinterestShare").data('href', "https://www.pinterest.com/pin/create/button/?url=https://thawing-tor-61108.herokuapp.com/outfit/"+selectedObject.outfit_pk);
+    $("#"+trey+"PinterestShare").data('href', "https://www.pinterest.com/pin/create/button/?url=fashion-ly.com/outfit/"+selectedObject.outfit_pk);
 }
