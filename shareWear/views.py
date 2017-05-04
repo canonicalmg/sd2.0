@@ -224,6 +224,8 @@ def headerSignUp(request):
                 user = User.objects.create_user(username=str(data[0]),
                                                 email=str(data[2]),
                                                 password=str(data[1]))
+                user.backend='django.contrib.auth.backends.ModelBackend'
+                user.save()
                 gender = data[3]
                 if gender == "true":
                     gender = True
