@@ -123,3 +123,10 @@ $("#facebookLink").click(function(e){
         document.location.href="/";
     }, 5000);
 });
+
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    $("#visitApp").hide();
+}
+else{
+    $("#visitApp").show();
+}

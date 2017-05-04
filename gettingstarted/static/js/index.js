@@ -676,3 +676,13 @@ function shareOutfit(trey){
     // $("#"+trey+"TwitterShare")
     $("#"+trey+"PinterestShare").data('href', "https://www.pinterest.com/pin/create/button/?url=fashion-ly.com/outfit/"+selectedObject.outfit_pk);
 }
+
+if( /Android|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+    // if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    $("#visitApp").hide();
+    console.log("is app, hiding");
+}
+else{
+    $("#visitApp").show();
+    console.log("is not app, showing");
+}
