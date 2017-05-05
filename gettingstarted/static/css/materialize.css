@@ -5062,7 +5062,7 @@ button.btn-floating {
   bottom: 23px;
   padding-top: 15px;
   margin-bottom: 0;
-  z-index: 998;
+  z-index: 99998;
 }
 
 .fixed-action-btn.active ul {
@@ -6943,7 +6943,7 @@ input[type=range]:focus::-ms-fill-upper {
   height: -moz-calc(100%);
   padding-bottom: 60px;
   background-color: #fff;
-  z-index: 999;
+  z-index: 99999;
   overflow-y: auto;
   will-change: transform;
   -webkit-backface-visibility: hidden;

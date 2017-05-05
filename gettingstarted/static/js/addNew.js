@@ -273,10 +273,44 @@ function hammerIt(elm) {
     });
 }
 
+function prioritize_zIndex(){
+    var prioritized = [];
+    for(var i=0; i < HAMMERS.length; i++){
+        prioritized.push([parseInt($("#"+HAMMERS[i][0])[0].style.zIndex), $("#"+HAMMERS[i][0])[0].id.split("can")[1]]);
+    }
+    function Comparator(a, b) {
+        if (a[0] < b[0]) return -1;
+        if (a[0] > b[0]) return 1;
+        return 0;
+    }
+    prioritized = prioritized.sort(Comparator);
+    console.log("prioritized = ", prioritized);
+    var startIndex = 1;
+    for(var i=0; i < prioritized.length; i++){
+        for(var j=0; j < HAMMERS.length; j++) {
+            if ($("#" + HAMMERS[j][0])[0].id.split("can")[1] == prioritized[i][1]) {
+                console.log("okay");
+                $("#" + HAMMERS[j][0])[0].style.zIndex = startIndex;
+                startIndex++;
+            }
+            else {
+                console.log('missmatch');
+            }
+        }
+    }
+}
+
 function submit_outfit(){
     var items = [];
     var transformList = [];
     var zIndex;
+    //create priority queue of each item based on z-index. Once order is found, re-initialize where lowest is set to 1, lowest+1 is set to 1+1, etc
+    //[15, 33, 12] -> [12, 15, 33] -> [1, 2, 3]
+    prioritize_zIndex();
+    for(var i=0; i < HAMMERS.length; i++){
+        var currentItem = $("#"+HAMMERS[i][0])[0];
+        console.log("sorted hammers = ", currentItem);
+    }
     for(var i=0; i < HAMMERS.length; i++){
         var currentItem = $("#"+HAMMERS[i][0])[0];
         var curTransform = new WebKitCSSMatrix(window.getComputedStyle(currentItem).webkitTransform);
@@ -333,11 +367,19 @@ function submit_outfit(){
     // }
     console.log("caption = ", caption.val());
     console.log("tag = ", tagList);
+    var tagsToSend;
+    try {
+        tagsToSend = TAG_LIST.split(",");
+    }
+    catch(e){
+        tagsToSend = "";
+    }
+
     //ajax post
     var data = {"items": items,
                 'gender': checkbox.checked,
                 'caption': caption.val(),
-                'tag': TAG_LIST.split(","),
+                'tag': tagsToSend,
                 'canvasHeight': document.getElementById("addNewBody").clientHeight,
                 'canvasWidth': document.getElementById("addNewBody").clientWidth};
     $.ajax({
@@ -359,7 +401,7 @@ function submit_outfit(){
                     load_outfit($("#shirt"), items[i]);
                 }
                 //load tags
-                var splitTags = TAG_LIST.split(",");
+                var splitTags = tagsToSend;
                 var tagList = "";
                 for(var i=0; i < splitTags.length; i++){
                     tagList += "<div class='chip'>"+splitTags[i]+"</div>";
@@ -555,4 +597,15 @@ else{
     console.log("is not app, showing");
 }
 
-
+function signOut(){
+    $.ajax({
+        type:"GET",
+        url:"/logout",
+        headers : {
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        success: function(data){
+            window.location.replace("/");
+        }
+    });
+}
