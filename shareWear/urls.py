@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^add_to_cart_whole/', views.add_to_cart_whole, name='add_to_cart_whole'),
     url(r'^remove_from_cart/', views.remove_from_cart, name='remove_from_cart'),
     url(r'^discover/', views.discover, name='discover'),
+    url(r'^cart_checkout/', views.cart_checkout, name='cart_checkout'),
     url(r'^terms/', views.terms, name='terms'),
     url(r'^privacy/', views.privacy, name='privacy'),
 ]

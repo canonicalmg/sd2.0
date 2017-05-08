@@ -7,7 +7,7 @@ from social_django.models import *
 class profile(models.Model):
     user = models.ForeignKey(User)
     gender = models.BooleanField(default=True)
-    profile_image = models.CharField(max_length=200, null=True, blank=True)
+    profile_image = models.CharField(max_length=200, default='../static/img/anonymous-user.png')
     location = models.CharField(max_length=100, null=True, blank=True)
     full_name = models.CharField(max_length=100, null=True, blank=True)
     joined_date = models.DateTimeField(auto_now_add=True)
@@ -203,6 +203,16 @@ class brands(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class cart_referral(models.Model):
+    profile = models.ForeignKey(profile)
+    store = models.CharField(max_length=50, null=True, blank=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    cart_items = models.ManyToManyField(cartItems)
+
+    def __unicode__(self):
+        return "%s - %s - %s" % (self.profile.user.username, self.store, self.created_date)
+
 
 
 

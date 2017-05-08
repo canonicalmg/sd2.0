@@ -71,3 +71,23 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 else{
     $("#visitApp").show();
 }
+
+function proceedCheckout(link){
+    console.log("clicked", link);
+    $.ajax({
+            type: 'GET',
+            url: '/cart_checkout/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            success: function (json) {
+                console.log("json = ", json);
+                window.location.replace(link);
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
+            }
+        }
+    )
+}

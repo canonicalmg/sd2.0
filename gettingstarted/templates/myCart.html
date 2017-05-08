@@ -301,11 +301,9 @@
                                  style="display:block;"
                                     {% endif %}>
                                 <div class="col s12 center-align" style="padding-bottom:15px;">
-                                    <a href="{{ link }}">
-                                        <button class="btn waves-effect waves-light btn">
-                                            Proceed to Checkout
-                                        </button>
-                                    </a>
+                                    <button onclick="proceedCheckout('{{ link }}')" class="btn waves-effect waves-light btn">
+                                        Proceed to Checkout
+                                    </button>
                                 </div>
                                 {% for each_clothing in all_clothing %}
                                     <div class="card col s12" id="clothing{{ each_clothing.pk }}x{{ each_clothing.outfit_pk }}">
@@ -352,11 +350,9 @@
                                     <hr>
                                 {% endfor %}
                                 <div class="col s12 center-align">
-                                    <a href="{{ link }}">
-                                        <button class="btn waves-effect waves-light btn">
-                                            Proceed to Checkout
-                                        </button>
-                                    </a>
+                                    <button onclick="proceedCheckout('{{ link }}')" class="btn waves-effect waves-light btn">
+                                        Proceed to Checkout
+                                    </button>
                                 </div>
                             </div>
 

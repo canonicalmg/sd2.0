@@ -1231,4 +1231,26 @@ def privacy(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
+def cart_checkout(request):
+    if request.user.is_authenticated():
+        if request.is_ajax():
+            if request.method == 'GET':
+                current_profile = profile.objects.get(user=request.user)
+                print request.user
+                #create potential purchase object
+                cart_referral_obj = cart_referral(profile=current_profile,
+                                                  store="Amazon",
+                                                  )
+                cart_referral_obj.save()
+                namestring = ""
+                for each_item in current_profile.cart_items.all():
+                    namestring = namestring + "-"  + str(each_item.clothing.name)
+                    cart_referral_obj.cart_items.add(each_item)
+                cart_referral_obj.save()
+                #consider dumping user's cart here
+
+                print namestring
+                return HttpResponse(namestring)
+    return HttpResponse("Error")
+
 

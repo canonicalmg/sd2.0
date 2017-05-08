@@ -360,3 +360,115 @@ function applySettings(){
         }
     );
 }
+
+function shareOutfit(){
+    var mainArr;
+    var counterArr;
+    mainArr = POPULAR;
+    counterArr = POPULAR_CURRENT;
+    var selectedObject = mainArr[counterArr % mainArr.length];
+    $("#popularShareBtnDiv").toggle();
+    $("#popularFbLike").data('href', "fashion-ly.com/outfit/"+selectedObject.outfit_pk);
+    // $("#"+trey+"TwitterShare")
+    $("#popularPinterestShare").data('href', "https://www.pinterest.com/pin/create/button/?url=fashion-ly.com/outfit/"+selectedObject.outfit_pk);
+}
+
+function addToCart(){
+    var mainArr;
+    var counterArr;
+    mainArr = POPULAR;
+    counterArr = POPULAR_CURRENT;
+    var selectedObject = mainArr[counterArr % mainArr.length];
+    $.ajax({
+            type: 'POST',
+            url: '/add_to_cart_whole/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'outfit':selectedObject.outfit_pk},
+            success: function (json) {
+                Materialize.toast('Outfit added to cart', 4000) // 4000 is the duration of the toast
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
+            }
+        }
+    )
+}
+
+function setOutfitLikeUnlike(outfitKey, likeVal){
+    //Finds all occurences of the outfit in the outfit arrays and sets their 'liked' property accordingly
+    //popular
+    for(var i=0; i < POPULAR.length; i++){
+        if(POPULAR[i].outfit_pk == outfitKey){
+            POPULAR[i].liked = likeVal;
+            if(likeVal==true){
+                POPULAR[i].total_likes += 1;
+            }
+            else{
+                POPULAR[i].total_likes -= 1;
+            }
+            break;
+        }
+    }
+}
+
+function likeOutfit(id){
+    console.log("id = ", id);
+    //get current featured
+    var currentOutfit = POPULAR[POPULAR_CURRENT % POPULAR.length];
+    console.log("curernt outfit = ", currentOutfit);
+    $.ajax({
+            type: 'POST',
+            url: '/like_outfit/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'outfit':currentOutfit.outfit_pk},
+            success: function (json) {
+                console.log("json = ", json);
+                var numLikes = json.likes;
+                console.log("numlikes = ", numLikes);
+                console.log("type = ", typeof(numLikes));
+                if(json.status == "Like"){
+                    console.log("liked");
+                    //find all outfits with this pk, set their like == true
+                    setOutfitLikeUnlike(currentOutfit.outfit_pk, true);
+                    //modify html of current outfit
+                    $("#popularLike").html('favorite');
+                    if(numLikes == 1){
+                        $("#"+id+"Comment").html("You like this.");
+                    }
+                    else {
+                        numLikes -= 1;
+                        if(numLikes == 1){
+                            $("#" + id + "Comment").html("You and " + numLikes + " person likes this.");
+                        }
+                        else {
+                            $("#" + id + "Comment").html("You and " + numLikes + " people like this.");
+                        }
+                    }
+
+                }
+                else if(json.status == "Unlike"){
+                    console.log("unliked");
+                    setOutfitLikeUnlike(currentOutfit.outfit_pk, false);
+                    $("#popularLike").html('favorite_border');
+                    // var old_html = $("#"+id+"Comment").html().split("You and ")[1];
+                    if(numLikes == 1){
+                        $("#" + id + "Comment").html(numLikes + " person likes this.");
+                    }
+                    else {
+                        $("#" + id + "Comment").html(numLikes + " people like this.");
+                    }
+                }
+
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
+            }
+        }
+    )
+}

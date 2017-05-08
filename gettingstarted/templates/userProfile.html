@@ -472,10 +472,19 @@
                                 <div class="col s12 profileSocialBody">
                                     <div class="col s10">
                                         <div class="col s12 " style="padding-top:5px;">
-                                            <i class="material-icons left socialIcons popularProfileSocial">shopping_cart</i>
+                                            <i onClick='addToCart()' class="material-icons left socialIcons popularProfileSocial">shopping_cart</i>
                                             <i onClick='likeOutfit(this.id)' id='popularLike' class="material-icons left socialIcons popularProfileSocial">favorite_border</i>
-                                            <i class="material-icons left socialIcons popularProfileSocial">share</i>
-                                            <i class="material-icons left socialIcons popularProfileSocial">comment</i>
+                                            <i onClick="shareOutfit()" class="material-icons left socialIcons popularProfileSocial">share</i>
+{#                                            <i class="material-icons left socialIcons popularProfileSocial">comment</i>#}
+                                        </div>
+                                        <div id="popularShareBtnDiv" class="col s12 valign-wrapper" style="display:none;">
+                                            <div id='popularFbLike' class="fb-share-button" data-href="" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffashion-ly.com%2Foutfit%2F10&amp;src=sdkpreparse">Share</a></div>
+                                            <a id="popularTwitterShare" class="twitter-share-button"
+                                               href="https://twitter.com/intent/tweet?text=Check%20out%20this%20cool%20outfit!"
+                                               data-size="large">
+                                                Tweet
+                                            </a>
+                                            <a id='popularPinterestShare' data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?url=" data-pin-height="28"></a>
                                         </div>
                                         <div class="col s12 popularProfileSocial" style="padding-top:5px;">
                                             <span class="left grey-text text-darken-2 ultra-small" id="popularLikeComment"></span>
