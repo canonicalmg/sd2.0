@@ -29,6 +29,7 @@ var REQUESTS = [];
 var HAMMERS = [];
 var CURRENT_PAGE = 1;
 var CLOTH_TYPE = "Shirt";
+var CLOTH_SUB_TYPE = "All";
 var GENDER = document.getElementById('gender_check').checked;
 var TAG_LIST = [];
 populate_product();
@@ -46,7 +47,8 @@ function populate_product(){
                     "X-CSRFToken": getCookie("csrftoken")
                 },
                 data: {'cloth_type': CLOTH_TYPE,
-                        'gender': GENDER},
+                    'cloth_sub_type': CLOTH_SUB_TYPE,
+                    'gender': GENDER},
                 success: function (json) {
                     console.log("json = ", json);
                     PAGINATION = json.products;
@@ -86,25 +88,25 @@ function itemClick(id){
 
 function openItemModal(item){
     return swal({   title: "Add this item?",
-                text: "Price: " + item.price +
-                "<br>Vendor: "+item.carrier+ "" +
-                "<br>Brand: "+item.brand,
-                imageUrl:item.large_url,
-                html:true,
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                cancelButtonText: "No!",
-                confirmButtonText: "Yes!",
-                closeOnConfirm: false,
-                closeOnCancel: true },
-            function(isConfirm){
-                if (isConfirm) {
-                    swal("Added!", "Feel free to move the item around and pinch to resize.", "success");
-                    displayOnCanvas(item);
-                }
-                else {
-                    swal("Cancelled", "Your imaginary file is safe :)", "error");   }
-            });
+            text: "Price: " + item.price +
+            "<br>Vendor: "+item.carrier+ "" +
+            "<br>Brand: "+item.brand,
+            imageUrl:item.large_url,
+            html:true,
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            cancelButtonText: "No!",
+            confirmButtonText: "Yes!",
+            closeOnConfirm: false,
+            closeOnCancel: true },
+        function(isConfirm){
+            if (isConfirm) {
+                swal("Added!", "Feel free to move the item around and pinch to resize.", "success");
+                displayOnCanvas(item);
+            }
+            else {
+                swal("Cancelled", "Your imaginary file is safe :)", "error");   }
+        });
 }
 
 function displayOnCanvas(item){
@@ -344,11 +346,11 @@ function submit_outfit(){
         zIndex = currentItem.style.zIndex;
 
         items.push({"item_id": currentItem.id.split("can")[1],
-                    "transform": transformList,
-                    "zIndex": zIndex,
-                    "type": HAMMERS[i][1],
-                    "large_url": HAMMERS[i][2],
-                    "carrier": HAMMERS[i][3]});
+            "transform": transformList,
+            "zIndex": zIndex,
+            "type": HAMMERS[i][1],
+            "large_url": HAMMERS[i][2],
+            "carrier": HAMMERS[i][3]});
     }
 
     console.log("ITEMS = ", items);
@@ -377,11 +379,11 @@ function submit_outfit(){
 
     //ajax post
     var data = {"items": items,
-                'gender': checkbox.checked,
-                'caption': caption.val(),
-                'tag': tagsToSend,
-                'canvasHeight': document.getElementById("addNewBody").clientHeight,
-                'canvasWidth': document.getElementById("addNewBody").clientWidth};
+        'gender': checkbox.checked,
+        'caption': caption.val(),
+        'tag': tagsToSend,
+        'canvasHeight': document.getElementById("addNewBody").clientHeight,
+        'canvasWidth': document.getElementById("addNewBody").clientWidth};
     $.ajax({
             type: 'POST',
             url: 'user_submit_outfit/',
@@ -491,7 +493,7 @@ function load_pagination(){
     console.log("pages = ", pages);
     $("#pagination").empty();
     $("#pagination").append("<li onClick='page_prev()' class='disabled'><a href='#!'><i class='material-icons'>chevron_left</i></a></li>"
-                            + "<li onClick='load_page(1)' id='pag1' class='active'><a href='#!'>1</a></li>");
+        + "<li onClick='load_page(1)' id='pag1' class='active'><a href='#!'>1</a></li>");
     for(var i=2; i <= pages; i++){
         $("#pagination").append("<li onClick='load_page("+ i +")' id='pag"+i+"' class='waves-effect'><a href='#!'>"+i+"</a></li>");
     }
@@ -609,3 +611,36 @@ function signOut(){
         }
     });
 }
+
+function clothingClick(clothingType, subtype){
+    console.log("clothing type = ", clothingType);
+    console.log("subtype = ", subtype);
+    CLOTH_TYPE = clothingType;
+    CLOTH_SUB_TYPE = subtype;
+    populate_product();
+    $("#ShirtsBtn").html("Tops");
+    $("#PantsBtn").html("Bottoms");
+    $("#ShoesBtn").html("Shoes");
+    $("#AccessoriesBtn").html("Accessories");
+    console.log("removing teal");
+    $(".clothType").removeClass("teal");
+    console.log("adding teal");
+    $("#"+clothingType+"Btn").addClass("teal");
+    console.log("changing name");
+    $("#"+clothingType+"Btn").html(clothingType + " > " + subtype);
+}
+
+$('#itemSearch').bind("enterKey",function(e){
+    //do stuff here
+    console.log("enter hit");
+});
+$('#itemSearch').keyup(function(e){
+    if(e.keyCode == 13)
+    {
+        $(this).trigger("enterKey");
+    }
+});
+
+$("#itemSearch").focusout(function(e){
+    console.log("out");
+});
