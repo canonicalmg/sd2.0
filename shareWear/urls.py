@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^about$', views.about, name='about'),
     url(r'^contact$', views.contact, name='contact'),
     url(r'^addNew$', views.addNew, name='addNew'),
+    url(r'^test$', views.test, name='test'),
     url(r'user/(?P<pk>\d+)/?$', views.userProfile, name='userProfile'),
     url(r'outfit/(?P<pk>\d+)/?$', views.outfit_page, name='outfit_page'),
     url(r'clothing/(?P<pk>\d+)/?$', views.clothing_page, name='outfit_page'),

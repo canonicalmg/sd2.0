@@ -14,6 +14,7 @@ class profile(models.Model):
     website = models.CharField(max_length=100, null=True, blank=True)
     description = models.CharField(max_length=300, null=True, blank=True)
     cart_items = models.ManyToManyField('cartItems')
+    favorite_clothing = models.ManyToManyField('clothing')
 
     #profile settings
     display_fullName = models.BooleanField(default=True)
@@ -82,6 +83,7 @@ class clothing(models.Model):
     color = models.CharField(max_length=100, null=True, blank=True)
     brand = models.CharField(max_length=200, null=True, blank=True)
     cloth_type = models.CharField(max_length=100, null=True, blank=True)
+    cloth_sub_type = models.CharField(max_length=100, default="all")
 
     def __unicode__(self):
         if self.gender == True:
