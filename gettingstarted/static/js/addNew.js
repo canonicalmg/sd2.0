@@ -111,28 +111,27 @@ function openItemModal(item){
 
 function displayOnCanvas(item){
     var max_pos_y, max_pos_x, transform;
-    if(item.cloth_type == "Shirt"){
-        $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
-        max_pos_y = document.getElementById('addNewBody').clientHeight * .45;
-        max_pos_x = document.getElementById('addNewBody').clientWidth * .5;
-        transform = "translate3d(-"+max_pos_x+"px, -"+max_pos_y+"px, 0) "
-            + "scale3d(0.35, 0.35, 1)";
-    }
-    else if(item.cloth_type == "Pants"){
-        $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
-        max_pos_y = document.getElementById('addNewBody').clientHeight * .15;
-        max_pos_x = document.getElementById('addNewBody').clientWidth / 2;
-        transform = "translate3d(-"+max_pos_x+"px, -"+max_pos_y+"px, 0) "
-            + "scale3d(0.5, 0.5, 1)";
-    }
-    else if(item.cloth_type == "Shoes"){
-        $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
-        max_pos_y = document.getElementById('addNewBody').clientHeight * .3;
-        max_pos_x = document.getElementById('addNewBody').clientWidth * .4;
-        transform = "translate3d(-"+max_pos_x+"px, "+max_pos_y+"px, 0) "
-            + "scale3d(0.3, 0.3, 1)";
-    }
-
+    // if(item.cloth_type == "Shirt"){
+    //     $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
+    //     max_pos_y = document.getElementById('addNewBody').clientHeight * .45;
+    //     max_pos_x = document.getElementById('addNewBody').clientWidth * .5;
+    //     transform = "translate3d(-"+max_pos_x+"px, -"+max_pos_y+"px, 0) "
+    //         + "scale3d(0.35, 0.35, 1)";
+    // }
+    // else if(item.cloth_type == "Pants"){
+    //     $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
+    //     max_pos_y = document.getElementById('addNewBody').clientHeight * .15;
+    //     max_pos_x = document.getElementById('addNewBody').clientWidth / 2;
+    //     transform = "translate3d(-"+max_pos_x+"px, -"+max_pos_y+"px, 0) "
+    //         + "scale3d(0.5, 0.5, 1)";
+    // }
+    // else if(item.cloth_type == "Shoes"){
+    $("#shirt").append("<img class='outfitCanvasItem' style='position:absolute;' id='can"+item.item_id+"' src='"+item.large_url+"'>");
+    max_pos_y = document.getElementById('addNewBody').clientHeight * .45;
+    max_pos_x = document.getElementById('addNewBody').clientWidth * .5;
+    transform = "translate3d(-"+max_pos_x+"px, -"+max_pos_y+"px, 0) "
+        + "scale3d(0.35, 0.35, 1)";
+    // }
 
     document.getElementById("can"+item.item_id).style.WebkitTransform = transform;
 
@@ -165,7 +164,7 @@ function displayOnCanvas(item){
     HAMMERS.push(["can"+item.item_id, item.cloth_type, large_url, carrier]);
     if(HAMMERS.length > 0){
         $("#submitBtn").fadeIn();
-        window.scrollTo(0,document.body.scrollHeight);
+        // window.scrollTo(0,document.body.scrollHeight);
     }
     else{
         $("#submitBtn").fadeOut();

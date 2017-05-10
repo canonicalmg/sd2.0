@@ -60,7 +60,7 @@ function signOut(){
 function populateSections(){
   $.ajax({
         type: 'POST',
-        url: 'get_front_page/',
+        url: '/get_front_page/',
         headers: {
           "X-CSRFToken": getCookie("csrftoken")
         },
@@ -450,7 +450,7 @@ function likeOutfit(id){
   console.log("curernt outfit = ", currentOutfit);
   $.ajax({
         type: 'POST',
-        url: 'like_outfit/',
+        url: '/like_outfit/',
         headers: {
           "X-CSRFToken": getCookie("csrftoken")
         },
@@ -520,7 +520,7 @@ function followClick(dom_id){
   var domObject = $("#"+dom_id);
   $.ajax({
         type: 'POST',
-        url: 'follow_user/',
+        url: '/follow_user/',
         headers: {
           "X-CSRFToken": getCookie("csrftoken")
         },

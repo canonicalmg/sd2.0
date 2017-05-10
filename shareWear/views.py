@@ -324,12 +324,17 @@ def get_front_page(request):
 def signUpLogIn(request):
     if request.user.is_authenticated():
         #send them to /home
-        template = loader.get_template('index.html')
+        template = loader.get_template('discover.html')
         try:
             current_profile = profile.objects.get(user=request.user)
 
+            brand_list = brands.objects.filter()
+            brand_json = {}
+            for each_item in brand_list:
+                brand_json[each_item.name] = None
             context = {
-                "current_profile": current_profile
+                "current_profile": current_profile,
+                "brands": json.dumps(brand_json)
             }
         except Exception as e:
             print "error ", e
@@ -499,9 +504,9 @@ def get_outfit_discover(request):
             print "has filter = ", has_filter
 
             if has_filter == False:
-                outfits = outfit.objects.filter(gender=current_gender)[offset:pagesize+offset]
+                outfits = outfit.objects.filter(gender=current_gender).order_by('-id')[offset:pagesize+offset]
             else:
-                outfits = outfit.objects.filter(gender=current_gender)
+                outfits = outfit.objects.filter(gender=current_gender).order_by('-id')
                 if len(tags) > 0:
                     outfits = outfits.filter(
                         reduce(operator.or_, (
@@ -509,16 +514,16 @@ def get_outfit_discover(request):
                                               Q(tag_list__word__contains=item)
                                               for item in tags)),
                         gender=current_gender
-                    )
+                    ).order_by('-id')
                 if brand != "":
-                    outfits = outfits.filter(outfit_item__clothing__brand__contains=brand)
+                    outfits = outfits.filter(outfit_item__clothing__brand__contains=brand).order_by('-id')
                 if len(clothing_colors) > 0:
                     outfits = outfits.filter(
                         reduce(operator.or_, (
                             Q(outfit_item__clothing__color__contains=item)
                             for item in clothing_colors)),
                         gender=current_gender
-                    )
+                    ).order_by('-id')
 
                 outfits = outfits[offset:pagesize+offset]
             print "offset = ", offset + len(outfits)
@@ -628,32 +633,14 @@ def test(request):
 
 def discover(request):
     if request.user.is_authenticated():
-        template = loader.get_template('discover.html')
+        template = loader.get_template('index.html')
         current_profile = profile.objects.get(user=request.user)
-        # outfits = outfit.objects.filter()
-        brand_list = brands.objects.filter()
-        brand_json = {}
-        for each_item in brand_list:
-            brand_json[each_item.name] = None
-        # brand_json = {"Google": "http://placehold.it/250x250",
-        #           "microsoft": None}
         context = {
             "current_profile": current_profile,
-            # "outfits": outfits,
-            "brands": json.dumps(brand_json)
         }
     else:
-        template = loader.get_template('discover.html')
-        brand_list = brands.objects.filter()
-        brand_json = {}
-        for each_item in brand_list:
-            brand_json[each_item.name] = None
-        # brand_json = {"Google": "http://placehold.it/250x250",
-        #           "microsoft": None}
+        template = loader.get_template('headerLogin.html')
         context = {
-            # "current_profile": current_profile,
-            # "outfits": outfits,
-            "brands": json.dumps(brand_json)
         }
     return HttpResponse(template.render(context, request))
 
