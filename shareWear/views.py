@@ -33,12 +33,14 @@ def populate_db_amazon(request):
         #                "skirts", "leggings", "athletic shoes", "boots", "sandals", "professional" "shoes", "belts", "sunglasses", "wallets",
         #                "scarves & wraps", "watches", "jewelry"
         #                ]
-        cloth_types = {"Shirt": ["Sweaters", "Tanks", "Tops", "Swim Top", "Shirt"],
-                       "Pants": ["Jeans", "Joggers", "Shorts", "Swim Shorts", "Skirts", "Leggings", "Pants"],
-                       "Shoes": ["Athletic Shoes", "Boots", "Sandals", "Professional Shoes"],
-                       "Accessories": ["Belts", "Sunglasses", "Wallets", "Scarves & Wraps", "Watches", "Jewelry"]}
+        cloth_types = {
+            "Shirt": ["Sweaters", "Tanks", "Tops", "Swim Top", "Shirt"],
+           # "Pants": ["Jeans", "Joggers", "Shorts", "Swim Shorts", "Skirts", "Leggings", "Pants"],
+           # "Shoes": ["Athletic Shoes", "Boots", "Sandals", "Professional Shoes"],
+           # "Accessories": ["Belts", "Sunglasses", "Wallets", "Scarves & Wraps", "Watches", "Jewelry"]
+        }
         gender = [
-            "Women",
+            # "Women",
             "Men"
         ]
         pages = [1,2,3,4,5]
@@ -56,7 +58,7 @@ def populate_db_amazon(request):
 
                         newDictionary = xmltodict.parse(str(soup))
                         try:
-                            print "item = ", newDictionary['ItemSearchResponse']['Items']
+                            # print "item = ", newDictionary['ItemSearchResponse']['Items']
                             for each_item in newDictionary['ItemSearchResponse']['Items']['Item']:
                                 try:
                                     current_clothing = clothing.objects.get(carrier='amazon',
