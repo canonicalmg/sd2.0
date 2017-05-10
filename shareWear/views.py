@@ -21,6 +21,66 @@ import datetime
 from django.db.models import Q
 import operator
 
+def populate_db_amazon_user_req(request, gender, main_cloth, cloth):
+    print "gender = ", gender
+    print "cloth = ", cloth
+    try:
+        amazon = bottlenose.Amazon('AKIAJOR5NTXK2ERTU6AQ',
+                                   'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
+                                   'can037-20',
+                                   MaxQPS=0.9
+                                   )
+        pages = [1,2,3,4,5]
+        for each_page in pages:
+            product = amazon.ItemSearch(Keywords="%s's %s" % (gender, cloth),
+                                        SearchIndex="All",
+                                        ResponseGroup="Images, SalesRank, OfferFull, ItemAttributes",
+                                        Availability="Available",
+                                        paginate=True,
+                                        ItemPage=each_page)
+            soup = BeautifulSoup(product, "xml")
+
+            newDictionary = xmltodict.parse(str(soup))
+            try:
+                # print "item = ", newDictionary['ItemSearchResponse']['Items']
+                for each_item in newDictionary['ItemSearchResponse']['Items']['Item']:
+                    try:
+                        current_clothing = clothing.objects.get(carrier='amazon',
+                                                                carrier_id=each_item['ASIN'])
+                    except:
+                        #clothing does not exist in db
+                        try:
+                            if "women" in gender.lower() or "female" in gender.lower() or "girl" in gender.lower():
+                                gender_bool = True
+                            else:
+                                gender_bool = False
+                            new_clothing = clothing(name=each_item['ItemAttributes']['Title'],
+                                                    carrier="amazon",
+                                                    carrier_id=each_item['ASIN'],
+                                                    small_url=each_item['SmallImage']['URL'],
+                                                    large_url=each_item['LargeImage']['URL'],
+                                                    gender=gender_bool,
+                                                    price=each_item['OfferSummary']['LowestNewPrice']['FormattedPrice'],
+                                                    color=each_item['ItemAttributes']['Color'],
+                                                    brand=each_item['ItemAttributes']['Brand'],
+                                                    aff_url=generate_amazon_link(each_item['ASIN']),
+                                                    cloth_type=main_cloth,
+                                                    cloth_sub_type="%s, all" % cloth)
+                            new_clothing.save()
+                            newbrand = brands.objects.filter(name=each_item['ItemAttributes']['Brand'])
+                            if len(newbrand) == 0:
+                                newbrand = brands(name=each_item['ItemAttributes']['Brand'])
+                                newbrand.save()
+                            print "added item"
+                        except Exception as e:
+                            print "error ", e
+                            pass
+            except Exception as e:
+                print "Error on upper try: ", e
+        return HttpResponse("Success")
+    except Exception as e:
+        print "error ", e
+        return HttpResponse("Error")
 
 def populate_db_amazon(request):
     try:
