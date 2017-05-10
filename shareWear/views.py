@@ -71,7 +71,7 @@ def populate_db_amazon_user_req(request, gender, main_cloth, cloth):
                             if len(newbrand) == 0:
                                 newbrand = brands(name=each_item['ItemAttributes']['Brand'])
                                 newbrand.save()
-                            print "added item"
+                            print "added item ", each_item['ItemAttributes']['Title'],
                         except Exception as e:
                             print "error ", e
                             pass
