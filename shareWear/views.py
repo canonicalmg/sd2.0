@@ -498,10 +498,15 @@ def get_product(request):
                                                    # cloth_sub_type__icontains=cloth_sub_type
                                                   )
             else:
-                products = clothing.objects.filter(gender=current_gender,
-                                                   # cloth_type=cloth_type,
-                                                   cloth_sub_type__icontains=cloth_sub_type
-                                                   )
+                if cloth_sub_type == "Scarves & Wraps":
+                    products = clothing.objects.filter(Q(cloth_sub_type__icontains="Scarves") |
+                                                       Q(cloth_sub_type__icontains="Wraps") |
+                                                       Q(cloth_sub_type__icontains="Scarves & Wraps"))
+                else:
+                    products = clothing.objects.filter(gender=current_gender,
+                                                       # cloth_type=cloth_type,
+                                                       cloth_sub_type__icontains=cloth_sub_type
+                                                       )
             print "products = ", products
             product_list = []
             for each_product in products:
