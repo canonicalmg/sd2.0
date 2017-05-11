@@ -61,6 +61,12 @@ function populate_product(new_search){
                     'offset': offsetVar},
                 success: function (json) {
                     if(json.products.length == 0){
+                        var searchString = CLOTH_TYPE + " > " + CLOTH_SUB_TYPE;
+                        if($("#brandSelect").val()){
+                            console.log("brand = ", $("#brandSelect").val());
+                            searchString += "<br><br>With selected brand: " + $("#brandSelect").val();
+                        }
+                        $("#searchCriteria").html(searchString);
                         $("#noResults").show();
                     }
                     else{
