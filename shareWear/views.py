@@ -411,6 +411,34 @@ def signUpLogIn(request):
         }
     return HttpResponse(template.render(context, request))
 
+def discover_clothing(request):
+    if request.user.is_authenticated():
+        #send them to /home
+        template = loader.get_template('discover_clothing.html')
+        try:
+            current_profile = profile.objects.get(user=request.user)
+
+            brand_list = brands.objects.filter()
+            brand_json = {}
+            for each_item in brand_list:
+                brand_json[each_item.name] = None
+            context = {
+                "current_profile": current_profile,
+                "brands": json.dumps(brand_json)
+            }
+        except Exception as e:
+            print "error ", e
+            template = loader.get_template('headerLogin.html')
+            context = {
+                "asd": "asd"
+            }
+    else:
+        template = loader.get_template('headerLogin.html')
+        context = {
+            "asd": "asd"
+        }
+    return HttpResponse(template.render(context, request))
+
 def about(request):
     template = loader.get_template('about.html')
     context = {}
@@ -514,13 +542,18 @@ def get_product(request):
             product_list = []
             for each_product in products:
                 if (each_product.small_url is not None) and (each_product.large_url is not None):
+                    is_in_cart = False
                     product_list.append({'small_url': each_product.small_url,
                                          'cloth_type': cloth_type,
                                          'item_id': str(each_product.carrier_id),
                                          'large_url': each_product.large_url,
                                          'carrier': each_product.carrier,
                                          'price': each_product.price,
-                                         'brand': each_product.brand})
+                                         'brand': each_product.brand,
+                                         'name': each_product.name,
+                                         'color': each_product.color,
+                                         'pk': each_product.pk,
+                                         'is_in_cart': each_product.is_in_cart(current_profile)})
             json_stuff = json.dumps({"products": product_list,
                                      "cloth_type": cloth_type,
                                      })
@@ -914,7 +947,14 @@ def add_to_cart_single(request):
                 try:
                     outfit_key = request.POST.get('outfit')
                     clothing_key = request.POST.get('clothing')
-                    outfit_obj = outfit.objects.get(pk=outfit_key)
+                    print "outfit key = ", outfit_key
+                    print "tyep = ", type(outfit_key)
+                    if int(outfit_key) == -1:
+                        admin = profile.objects.get(user__username="admin")
+                        print "admin = ", admin
+                        outfit_obj = outfit.objects.filter(profile = admin)[0]
+                    else:
+                        outfit_obj = outfit.objects.get(pk=outfit_key)
                     clothing_obj = clothing.objects.get(pk=clothing_key)
                     current_profile = profile.objects.get(user=request.user)
                     #looking to see if item is in cart. If so, remove from cart

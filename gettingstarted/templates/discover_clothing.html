@@ -56,7 +56,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Outfit: {{ current_outfit }}</title>
+    <title>Discover Clothing</title>
     <!--Facebook Metadata-->
     <meta property="og:url"           content=" {{ request.build_absolute_uri }}" />
     <meta property="og:type"          content="website" />
@@ -285,14 +285,11 @@
     </style>
 </head>
 <body>
-<script>
-    var POPULAR = JSON.parse("{{outfits | escapejs}}");
-</script>
 <header>
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
             <a id="logo-container" href="/" class="brand-logo center">
-{#                <img style="padding-top:5%;" class='responsive-img' src="../static/img/toplogo.png">#}
+                {#                <img style="padding-top:5%;" class='responsive-img' src="../static/img/toplogo.png">#}
                 <h4 style="color: #ff6e66;">Fashion-ly</h4>
             </a>
             <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
@@ -334,128 +331,117 @@
         <div class="container">
             <div class="section no-pad-bot" id="index-banner">
                 <div class="row">
+                    <div class="col s12 m6 push-m4 center card">
+                        <div class="row" id="addNewButtonGroup">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">search</i>
+                                <input style="color:black;" placeholder="search" id="itemSearch" class="autocomplete">
+                                {#                        <label style="color:black;" for="autocomplete-input">Search</label>#}
+                            </div>
+                            <div class="switch">
+                                <label>
+                                    Male
+                                    {% if current_profile.gender %}
+                                        <input id='gender_check' type="checkbox" checked>
+                                    {% else %}
+                                        <input id="gender_check" type="checkbox">
+                                    {% endif %}
+                                    <span class="lever"></span>
+                                    Female
+                                </label>
+                            </div>
+                            <div class="input-field col s12">
+                                <a class='dropdown-button btn waves-effect waves-light teal z-depth-3 clothType'
+                                   id='ShirtBtn' href='#' data-activates='shirtDropdown' style="margin:1%;">Tops > All</a>
+
+                                <ul id='shirtDropdown' class='dropdown-content'>
+                                    <li onClick="clothingClick('Shirt','Shirt')"><a>Shirts</a></li>
+                                    <li onClick="clothingClick('Shirt','Sweaters')"><a>Sweaters</a></li>
+                                    <li onClick="clothingClick('Shirt','Tanks')"><a>Tanks</a></li>
+                                    <li onClick="clothingClick('Shirt','Tops')"><a>Tops</a></li>
+                                    <li onClick="clothingClick('Shirt','Swim')"><a>Swim</a></li>
+                                    <li class="divider"></li>
+                                    <li onClick="clothingClick('Shirt','All')"><a>All</a></li>
+                                </ul>
+                                <a class='dropdown-button btn waves-effect waves-light z-depth-3 clothType'
+                                   id='PantsBtn' href='#' data-activates='pantsDropdown' style="margin:1%;">Bottoms</a>
+                                <ul id='pantsDropdown' class='dropdown-content'>
+                                    <li onClick="clothingClick('Pants','Jeans')"><a>Jeans</a></li>
+                                    <li onClick="clothingClick('Pants','Pants')"><a>Pants</a></li>
+                                    <li onClick="clothingClick('Pants','Joggers')"><a>Joggers</a></li>
+                                    <li onClick="clothingClick('Pants','Shorts')"><a>Shorts</a></li>
+                                    <li onClick="clothingClick('Pants','Swim')"><a>Swim</a></li>
+                                    <li onClick="clothingClick('Pants','Skirts')"><a>Skirts</a></li>
+                                    <li onClick="clothingClick('Pants','Leggings')"><a>Leggings</a></li>
+                                    <li class="divider"></li>
+                                    <li onClick="clothingClick('Pants','All')"><a>All</a></li>
+                                </ul>
+
+                                <a class='dropdown-button btn waves-effect waves-light z-depth-3 clothType'
+                                   id='ShoesBtn' href='#' data-activates='shoesDropdown' style="margin:1%;">Shoes</a>
+
+                                <ul id='shoesDropdown' class='dropdown-content'>
+                                    <li onClick="clothingClick('Shoes','Athletic')"><a>Athletic</a></li>
+                                    <li onClick="clothingClick('Shoes','Boots')"><a>Boots</a></li>
+                                    <li onClick="clothingClick('Shoes','Sandals')"><a>Sandals</a></li>
+                                    <li onClick="clothingClick('Shoes','Professional')"><a>Professional</a></li>
+                                    <li onClick="clothingClick('Shoes','Other')"><a>Other</a></li>
+                                    <li class="divider"></li>
+                                    <li onClick="clothingClick('Shoes','All')"><a>All</a></li>
+                                </ul>
+
+                                <a class='dropdown-button btn waves-effect waves-light z-depth-3 clothType'
+                                   id='AccessoriesBtn' href='#' data-activates='accessoriesDropdown' style="margin:1%;">Accessories</a>
+
+                                <ul id='accessoriesDropdown' class='dropdown-content'>
+                                    <li onClick="clothingClick('Accessories','Belts')"><a>Belts</a></li>
+                                    <li onClick="clothingClick('Accessories','Sunglasses')"><a>Sunglasses</a></li>
+                                    <li onClick="clothingClick('Accessories','Wallets')"><a>Wallets</a></li>
+                                    <li onClick="clothingClick('Accessories','Scarves & Wraps')"><a>Scarves & Wraps</a></li>
+                                    <li onClick="clothingClick('Accessories','Watches')"><a>Watches</a></li>
+                                    <li onClick="clothingClick('Accessories','Jewelry')"><a>Jewelry</a></li>
+                                    <li onClick="clothingClick('Accessories','Other')"><a>Other</a></li>
+                                    <li class="divider"></li>
+                                    <li onClick="clothingClick('Accessories','All')"><a>All</a></li>
+                                </ul>
+
+                                <a onClick="clothingClick('Favorites', 'All')" class='btn waves-effect waves-light z-depth-3 clothType'
+                                   id='FavoritesBtn' style="margin:1%;">My Favorites</a>
+                                {#                        <a class='dropdown-button btn waves-effect waves-light teal z-depth-3 clothType'#}
+                                {#                           id='othersBtn' href='#' data-activates='othersDropdown'>Other</a>#}
+                                {##}
+                                {#                            <ul id='othersDropdown' class='dropdown-content'>#}
+                                {#                                <li><a href="#!">Shirts</a></li>#}
+                                {#                                <li><a href="#!">Sweaters</a></li>#}
+                                {#                                <li><a href="#!">Tanks</a></li>#}
+                                {#                                <li><a href="#!">Tops</a></li>#}
+                                {#                            </ul>#}
+                                {#                        <a onClick="shirtClick(this.id)" id="shirtBtn" class="waves-effect waves-light teal btn z-depth-3 clothType">Shirts</a>#}
+                                {#                        <a onClick="pantsClick(this.id)" id="pantsBtn" class="waves-effect waves-light btn z-depth-3 clothType">Pants</a>#}
+                                {#                        <a onClick="shoesClick(this.id)" id="shoesBtn" class="waves-effect waves-light btn z-depth-3 clothType">Shoes</a>#}
+                            </div>
+                            <div class="col s12">
+                                <ul class="pagination" id="pagination">
+                                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                                    <li class="active"><a href="#!">1</a></li>
+                                    <li id='pag6' class="waves-effect disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                                </ul>
+                                {#                        <div id="loading_paginate" style="display:None;"><p>Loading more items..</p></div>#}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="routineLoader" class="col s12">
+                        <div id='routineBeforeL' class='loading-container'>
+                            <div class="progress">
+                                <div class="indeterminate"></div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div id="profile-page-sidebar" class="col s12 m6 push-m4">
                         <!-- Profile About Details  -->
 
-                        <div class="card col s12 l12 center mainCard" style='overflow-x:hidden;'>
 
-                            <div style="height:50%; position:relative; overflow-x:hidden; overflow-y:hidden;" id="popularBody">
-                                <div id="popular" style="overflow-y:hidden;" class="col s12">
-
-                                </div>
-                            </div>
-                            <div class="card-action row" style="padding-bottom:5px;">
-                                <div class="col s12" style="padding-bottom:10px;">
-                                    <div id="popularTags" class="col s12">
-
-                                    </div>
-                                </div>
-                                <div class="col s12">
-
-                                    <div class="col s3" style="float:left; margin-top:-15px; margin-left:-25px;">
-                                        <img id="popularProfileImg" src="{{ current_profile.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
-                                    </div>
-                                    <div class="col s5" style="margin-top:-20px; margin-left:-20px;">
-                                        <h5 id="popularProfileUser" class="grey-text text-darken-4 margin profileUser" style="margin-bottom:0;"></h5>
-                                        <span id="popularProfileLoc" class="grey-text text-darken-1 ultra-small"></span>
-                                    </div>
-                                    <div class="col s4">
-                                        <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="popularFollow" style="border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
-                                    </div>
-                                </div>
-                                <div class="col s12 profileSocialBody">
-                                    <div class="col s10">
-                                        <div class="col s12 " style="padding-top:5px;">
-                                            <i onClick="addWholeOutfit({{ current_outfit.pk }})" class="material-icons left socialIcons popularProfileSocial">shopping_cart</i>
-                                            <i onClick='likeOutfit(this.id)' id='popularLike' class="material-icons left socialIcons popularProfileSocial">favorite_border</i>
-                                            <i onClick='shareClick()' class="material-icons left socialIcons popularProfileSocial">share</i>
-{#                                            <i class="material-icons left socialIcons popularProfileSocial">comment</i>#}
-                                        </div>
-                                        <div id="shareBtnDiv" class="col s12 valign-wrapper" style="display:none;">
-                                            <div class="fb-share-button" data-href="www.fashion-ly.com/outfit/{{ current_outfit.pk }}" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fthawing-tor-61108.herokuapp.com%2Foutfit%2F10&amp;src=sdkpreparse">Share</a></div>
-                                            <a class="twitter-share-button"
-                                               href="https://twitter.com/intent/tweet?text=Check%20out%20this%20cool%20outfit!"
-                                               data-size="large">
-                                                Tweet
-                                            </a>
-                                            <a data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?url={{ request.build_absolute_uri }}" data-pin-height="28"></a>
-                                        </div>
-                                        <div class="col s12 popularProfileSocial" style="padding-top:5px;">
-                                            <span class="left grey-text text-darken-2 ultra-small" id="popularLikeComment"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col s2">
-                                        <i onClick="popularVert(this.id)" id="popularSocialShow" class="material-icons left socialIcons right">keyboard_arrow_down</i>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        <div class="card col s12 center">
-                            <div class="card-content black-text center">
-                                {% if current_outfit_in_cart %}
-                                    <button id='addWholeOutfit' style='border: 1px solid rgb(43, 187, 173); background-color: rgb(43, 187, 173); color: white;' onClick="addWholeOutfit({{ current_outfit.pk }})" class="btn waves-effect waves-light btn">
-                                        Outfit In Cart
-                                    </button>
-                                {% else %}
-                                    <button id='addWholeOutfit' onClick="addWholeOutfit({{ current_outfit.pk }})" class="btn waves-effect waves-light btn">
-                                        Add Whole Outfit to Cart
-                                    </button>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        {% for each_clothing in outfit_clothes %}
-                            <br>
-                            <hr>
-                            <div class="card col s12">
-                                <div class="col s12 center-align" style="padding-top:25px;">
-                                    <img style='height:20%;' src="{{ each_clothing.large_url }}">
-                                </div>
-                                <div class="col s12">
-                                    <div class="card-content" style="word-wrap: break-word;">
-                                        <h5>{{ each_clothing.name }}</h5>
-
-                                        <div class="col s8">
-                                            {% if each_clothing.carrier %}
-                                                <p>Vendor: {{ each_clothing.carrier }}</p>
-                                            {% endif %}
-                                            {% if each_clothing.brand %}
-                                                <p>Brand: {{ each_clothing.brand }}</p>
-                                            {% endif %}
-                                        </div>
-                                        <div class="col s4">
-                                            <h5 style="float:right;">Price: {{ each_clothing.price }}</h5>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                <div class="col s12" style="padding-bottom:15px;">
-                                    <div class="col s5">
-                                        <a href="../clothing/{{ each_clothing.pk }}">
-                                            <button class="btn waves-effect waves-light btn" href="/clothing/{{ each_clothing.pk }}">
-                                                More
-                                            </button>
-                                        </a>
-                                    </div>
-                                    <div class="col s7">
-                                        {% if each_clothing.is_in_cart %}
-                                            <button id='add{{ each_clothing.pk }}' style='border: 1px solid rgb(43, 187, 173); background-color: rgb(43, 187, 173); color: white;' onClick="addToCartSingle('{{ each_clothing.pk }}', '{{ current_outfit.pk }}')" class="btn waves-effect waves-light btn">
-                                                Item in Cart
-                                            </button>
-                                        {% else %}
-                                            <button id='add{{ each_clothing.pk }}' onClick="addToCartSingle('{{ each_clothing.pk }}', '{{ current_outfit.pk }}')" class="btn waves-effect waves-light btn">
-                                                Add to Cart
-                                            </button>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
 
                     </div>
                     <div class='col s12' style="height:20%;">
@@ -487,7 +473,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-touch-events/1.0.5/jquery.mobile-events.js"></script>
 
 <script src="../../static/js/materialize.js"></script>
-<script src="../../static/js/outfitPage.js"></script>
+<script src="../../static/js/discover_clothing.js"></script>
 
 
 </body>
