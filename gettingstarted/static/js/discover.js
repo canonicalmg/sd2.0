@@ -73,58 +73,6 @@ function populate_product(new_search){
                     'brand': $("#brandSelect").val(),
                     'colors': COLOR_LIST},
                 success: function (json) {
-                    // console.log("json = ", json);
-
-                    // if(json.products[0] == PAGINATION[PAGINATION.length-1] || json.products.length == 0){
-                    //     //scroll is loading duplicate content
-                    //     console.log("terminal case");
-                    //     OFFSET = "END";
-                    //     $("#product_loader").hide();
-                    //     return 0;
-                    // }
-
-                    // // else{
-                    // //     PAGINATION += json.products;
-                    // // }
-                    // var addFlag = true;
-                    // for(var i=0; i < json.products.length; i++){
-                    //     addFlag = true;
-                    //     // console.log("json prod = ", json.products[i]);
-                    //     console.log("pagination = ", jQuery.inArray( json.products[i], PAGINATION ));
-                    //     console.log("pagination_smaller = ", jQuery.inArray( json.products[i], add_to_pagination ));
-                    //     console.log("pagination arr = ", PAGINATION);
-                    //     console.log("pagination smaller arr = ", add_to_pagination);
-                    //
-                    //     // for(var j=0; j < PAGINATION.length; j++){
-                    //     //     if (json.products[i].pk == PAGINATION[j].pk){
-                    //     //         console.log("duplicate found, do not add to list");
-                    //     //         addFlag = false;
-                    //     //         break;
-                    //     //     }
-                    //     // }
-                    //     for(var j=0; j < add_to_pagination.length; j++){
-                    //         if (json.products[i].pk == add_to_pagination[j].pk){
-                    //             console.log("duplicate found, do not add to list");
-                    //             addFlag = false;
-                    //             break;
-                    //         }
-                    //     }
-                    //     if(addFlag){
-                    //         add_to_pagination.push(json.products[i]);
-                    //     }
-                    //     // if((jQuery.inArray( json.products[i], PAGINATION ) != -1) && (jQuery.inArray( json.products[i], add_to_pagination ) != -1)){
-                    //     //     console.log("in arr = ", jQuery.inArray( json.products[i], PAGINATION ));
-                    //     //     continue;
-                    //     //     //duplicate found
-                    //     // }
-                    //     // else{
-                    //     //     console.log("no dupe found, pushing");
-                    //     //     console.log("pagination = ", PAGINATION);
-                    //     //     add_to_pagination.push(json.products[i]);
-                    //     // }
-                    // }
-                    // PAGINATION += add_to_pagination;
-                    // console.log("offset = ", old_offset);
                     if(json.products.length == 0){
                         $("#noResults").show();
                     }
@@ -134,26 +82,17 @@ function populate_product(new_search){
                     if(new_search){
                         PAGINATION = [];
                     }
-                    var old_offset = OFFSET;
                     OFFSET = json.offset;
-                    var add_to_pagination = [];
                     var duplicate = false;
                     for(var i=0; i < json.products.length; i++){
                         duplicate = false;
                         for(var j=0; j < PAGINATION.length; j++){
                             if(json.products[i].pk == PAGINATION[j].pk){
-                                console.log("DUPLICATE FOUND WITH PK ", json.products[i].pk);
-                                console.log("pagination = ", PAGINATION[j]);
                                 duplicate = true;
                                 break;
                             }
                         }
                         if(!duplicate) {
-                            // if (i == 0) {
-                            //     product_loader_template([json.products[i]], new_search);
-                            // }
-                            // else {
-                            // }
                             product_loader_template([json.products[i]], false);
                             PAGINATION.push(json.products[i])
                         }

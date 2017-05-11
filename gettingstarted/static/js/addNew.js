@@ -617,7 +617,7 @@ function clothingClick(clothingType, subtype){
     CLOTH_TYPE = clothingType;
     CLOTH_SUB_TYPE = subtype;
     populate_product();
-    $("#ShirtsBtn").html("Tops");
+    $("#ShirtBtn").html("Tops");
     $("#PantsBtn").html("Bottoms");
     $("#ShoesBtn").html("Shoes");
     $("#AccessoriesBtn").html("Accessories");

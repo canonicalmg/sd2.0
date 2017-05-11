@@ -561,6 +561,74 @@ def get_product(request):
     return HttpResponse("Error")
 
 @csrf_exempt
+def get_product_offset(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            cloth_type = request.POST.get('cloth_type')
+            offset = int(request.POST.get('offset'))
+            cloth_sub_type = request.POST.get('cloth_sub_type')
+            current_profile = profile.objects.get(user=request.user)
+
+            # amazon = AmazonAPI('AKIAJOR5NTXK2ERTU6AQ',
+            #                    'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
+            #                    'can037-20',
+            #                    region="US")
+            # products = amazon.search_n(15, Keywords="Women's " + cloth_type, SearchIndex="Apparel")
+            current_gender = request.POST.get('gender')
+            pagesize = 15
+            if current_gender == 'true':
+                current_gender = True
+            else:
+                current_gender = False
+            print "cloth type = ", cloth_type
+            print "gender = ", current_gender
+            print "cloth sub type = ", cloth_sub_type
+            if cloth_type == "Favorites":
+                products = current_profile.favorite_clothing.all()
+            elif cloth_sub_type == "All":
+                products = clothing.objects.filter(gender=current_gender,
+                                                   cloth_type=cloth_type,
+                                                   # cloth_sub_type__icontains=cloth_sub_type
+                                                   )
+            else:
+                if cloth_sub_type == "Scarves & Wraps":
+                    products = clothing.objects.filter(
+                        (Q(cloth_sub_type__icontains="Scarves") |
+                         Q(cloth_sub_type__icontains="Wraps") |
+                         Q(cloth_sub_type__icontains="Scarves & Wraps")),
+                        gender=current_gender
+                    )
+                else:
+                    products = clothing.objects.filter(gender=current_gender,
+                                                       # cloth_type=cloth_type,
+                                                       cloth_sub_type__icontains=cloth_sub_type
+                                                       )
+            print "products = ", products
+            products = products[offset:pagesize+offset]
+            product_list = []
+            for each_product in products:
+                if (each_product.small_url is not None) and (each_product.large_url is not None):
+                    product_list.append({'small_url': each_product.small_url,
+                                         'cloth_type': cloth_type,
+                                         'item_id': str(each_product.carrier_id),
+                                         'large_url': each_product.large_url,
+                                         'carrier': each_product.carrier,
+                                         'price': each_product.price,
+                                         'brand': each_product.brand,
+                                         'name': each_product.name,
+                                         'color': each_product.color,
+                                         'pk': each_product.pk,
+                                         'is_in_cart': each_product.is_in_cart(current_profile)})
+            less_than_pagesize = len(products) < pagesize
+            json_stuff = json.dumps({"products": product_list,
+                                     "cloth_type": cloth_type,
+                                     "offset": offset + len(products),
+                                     "less_than_pagesize": less_than_pagesize
+                                     })
+            return HttpResponse(json_stuff, content_type="application/json")
+    return HttpResponse("Error")
+
+@csrf_exempt
 def get_outfit_discover(request):
     if request.is_ajax():
         if request.method == 'POST':
