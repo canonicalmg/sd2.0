@@ -565,9 +565,7 @@ def get_product_offset(request):
     if request.is_ajax():
         if request.method == 'POST':
             cloth_type = request.POST.get('cloth_type')
-            offset = request.POST.get('offset')
-            if offset != "END":
-                offset = int(offset)
+            offset = int(request.POST.get('offset'))
             cloth_sub_type = request.POST.get('cloth_sub_type')
             current_profile = profile.objects.get(user=request.user)
 

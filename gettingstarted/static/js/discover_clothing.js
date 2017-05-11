@@ -50,7 +50,7 @@ function populate_product(new_search){
                 data: {'cloth_type': CLOTH_TYPE,
                     'cloth_sub_type': CLOTH_SUB_TYPE,
                     'gender': GENDER,
-                    'offset': OFFSET},
+                    'offset': offsetVar},
                 success: function (json) {
                     if(json.products.length == 0){
                         $("#noResults").show();
