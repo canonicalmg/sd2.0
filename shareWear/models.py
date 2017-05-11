@@ -51,6 +51,12 @@ class profile(models.Model):
         else:
             return "Male"
 
+    def item_in_favorites(self, clothing_item):
+        for each_item in self.favorite_clothing.all():
+            if each_item == clothing_item:
+                return True
+        return False
+
     def item_in_cart(self, cart_item):
         for each_item in self.cart_items.all():
             if (each_item.outfit == cart_item.outfit) and (each_item.clothing == cart_item.clothing):
@@ -98,6 +104,15 @@ class clothing(models.Model):
             if each_item.clothing == self:
                 return True
         #else not found
+        return False
+
+    def is_in_favorites(self, profile):
+        all_favorite_items = profile.favorite_clothing.all()
+        for each_item in all_favorite_items:
+            print "each item = ", each_item
+            print "self = ", self
+            if each_item == self:
+                return True
         return False
 
 class tag(models.Model):

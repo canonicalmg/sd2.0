@@ -2,6 +2,14 @@
     $(function(){
         $('.button-collapse').sideNav();
         $('.modal').modal();
+        $('input.autocomplete').autocomplete({
+            data: BRANDS,
+            limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+            onAutocomplete: function(val) {
+                populate_product(true);
+            },
+            minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
+        });
     }); // end of document ready
 })(jQuery); // end of jQuery name space
 
@@ -38,8 +46,7 @@ function populate_product(new_search){
         offsetVar = 0;
     }
     $("#routineLoader").show();
-    console.log("CALLING POPULATE PRODUCT ON ", CLOTH_TYPE);
-    console.log("REQUESTS = ", REQUESTS);
+
     REQUESTS.push(
         $.ajax({
                 type: 'POST',
@@ -49,6 +56,7 @@ function populate_product(new_search){
                 },
                 data: {'cloth_type': CLOTH_TYPE,
                     'cloth_sub_type': CLOTH_SUB_TYPE,
+                    'brand': $("#brandSelect").val(),
                     'gender': GENDER,
                     'offset': offsetVar},
                 success: function (json) {
@@ -104,7 +112,6 @@ function populate_product(new_search){
 }
 
 function product_loader_template(items, newSearch){
-    console.log("items = ", items);
     if(newSearch){
         $("#profile-page-sidebar").empty();
     }
@@ -112,7 +119,7 @@ function product_loader_template(items, newSearch){
         + "<hr>"
         + "<div class='card col s12'>"
         + "<div class='col s12 center-align' style='padding-top:25px;'>"
-        + "<img style='height:20%;' src='"+items.large_url+"'>"
+        + "<img class='responsive-img' style='height:20%;' src='"+items.large_url+"'>"
         + "</div>"
         + "<div class='col s12'>"
         + "<div class='card-content' style='word-wrap: break-word;'>"
@@ -134,58 +141,97 @@ function product_loader_template(items, newSearch){
         + "</div>"
         + "</div>"
         + "<div class='col s12' style='padding-bottom:15px;'>"
-        + "<div class='col s5'>"
+        + "<div class='col s12'>";
+    if (items.is_in_cart) {
+        htmlString += "<button id='add"+items.pk+"' style='margin:1%; width:100%; border: 1px solid rgb(43, 187, 173); background-color: rgb(43, 187, 173); color: white;' class='btn waves-effect waves-light btn'>"
+            + "Item in Cart"
+            + "</button>"
+            + "</div>";
+    }
+    else {
+        htmlString += "<button id='add"+items.pk+"' style='margin:1%; width:100%;' class='btn waves-effect waves-light btn'>"
+            + "Add to Cart"
+            + "</button>"
+            + "</div>";
+    }
+    if(items.is_in_favorites){
+        htmlString += "<div class='col s12'>"
+        + "<button id='favorite"+items.pk+"' style='margin:1%; width:100%; border: 1px solid rgb(43, 187, 173); background-color: rgb(43, 187, 173); color: white;' class='btn waves-effect waves-light btn'>"
+        + "Item in Favorites"
+        + "</button>"
+        + "</div>";
+    }
+    else{
+        htmlString += "<div class='col s12'>"
+            + "<button id='favorite"+items.pk+"' style='width:100%; margin:1%;' class='btn waves-effect waves-light btn'>"
+            + "Add to Favorites"
+            + "</button>"
+            + "</div>";
+    }
+    htmlString += "<div class='col s12'>"
         + "<a href='../clothing/"+items.pk+"'>"
-        + "<button class='btn waves-effect waves-light btn' href='/clothing/"+items.pk+"'>"
-        + "More"
+        + "<button style='width:100%; margin:1%;' class='btn waves-effect waves-light btn' href='/clothing/"+items.pk+"'>"
+        + "More Info"
         + "</button>"
         + "</a>"
         + "</div>"
-        + "<div class='col s7'>";
-    if (items.is_in_cart) {
-        htmlString += "<button id='add"+items.pk+"' style='border: 1px solid rgb(43, 187, 173); background-color: rgb(43, 187, 173); color: white;' class='btn waves-effect waves-light btn'>"
-            + "Item in Cart"
-            + "</button>";
-    }
-    else {
-        htmlString += "<button id='add"+items.pk+"' class='btn waves-effect waves-light btn'>"
-            + "Add to Cart"
-            + "</button>";
-    }
-    htmlString += "</div>"
         + "</div>"
         + "</div>";
     $("#profile-page-sidebar").append(htmlString);
     $("#add"+items.pk).click(function(e){
-        console.log("e = ", e);
         addToCartSingle(e.target.id.split("add")[1], -1);
+    });
+    $("#favorite"+items.pk).click(function(e){
+        favoriteItem(e.target.id.split("favorite")[1]);
     });
 }
 
-function remove_requests(){
-    for(var i = 0; i < REQUESTS.length; i++) {
-        REQUESTS[i].abort();
-        REQUESTS.splice( i, 1 );
-        console.log("request aborted");
+function favoriteItem(id){
+    $.ajax({
+            type: 'POST',
+            url: '/add_to_favorites/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'clothing': id},
+            success: function (json) {
+                var itemToAdd = $("#favorite" + id);
+                if(json == "Added") {
+                    itemToAdd.html("Item in Favorites");
+                    itemToAdd.css('border', '1px solid rgb(43, 187, 173)');
+                    itemToAdd.css('background-color', 'rgb(43, 187, 173)');
+                    itemToAdd.css('color', 'white');
+                    Materialize.toast('Item added to Favorites', 4000) // 4000 is the duration of the toast
+                }
+                else if(json == "Removed"){
+                    itemToAdd.html("Add to Favorites");
+                    itemToAdd.css('border', '');
+                    itemToAdd.css('background-color', '');
+                    itemToAdd.css('color', '');
+                    Materialize.toast('Item removed from Favorites', 4000) // 4000 is the duration of the toast
+                }
 
-    }
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
+            }
+        }
+    )
 }
 
+
 function clothingClick(clothingType, subtype){
-    console.log("clothing type = ", clothingType);
-    console.log("subtype = ", subtype);
     CLOTH_TYPE = clothingType;
     CLOTH_SUB_TYPE = subtype;
     populate_product(true);
     $("#ShirtBtn").html("Tops");
     $("#PantsBtn").html("Bottoms");
     $("#ShoesBtn").html("Shoes");
+    $("#FavoritesBtn").html("Favorites");
     $("#AccessoriesBtn").html("Accessories");
-    console.log("removing teal");
     $(".clothType").removeClass("teal");
-    console.log("adding teal");
     $("#"+clothingType+"Btn").addClass("teal");
-    console.log("changing name");
     $("#"+clothingType+"Btn").html(clothingType + " > " + subtype);
 }
 
@@ -199,7 +245,6 @@ function addToCartSingle(clothingKey, outfitKey){
             },
             data: {'clothing': clothingKey, 'outfit': outfitKey},
             success: function (json) {
-                console.log("json = ", json);
                 var itemToAdd = $("#add" + clothingKey);
                 itemToAdd.html("Item in Cart");
                 if(json == "Added") {
@@ -265,8 +310,23 @@ $(window).scroll(throttle(function (event) {
             console.log("in half");
             populate_product(false);
         }
-        console.log(scroll + " - " + $(window).height());
-        console.log(scroll > $(window).height() / 4);
     }
     // Do something
 },3000));
+
+// $('#brandSelect').bind("enterKey",function(e){
+//     //do stuff here
+//     console.log("entered");
+//     populate_product(true);
+// });
+// $('#brandSelect').keyup(function(e){
+//     if(e.keyCode == 13)
+//     {
+//         $(this).trigger("enterKey");
+//     }
+// });
+
+// $("#brandSelect").focusout(function(e){
+//     console.log("focusout");
+//     populate_product(true);
+// });

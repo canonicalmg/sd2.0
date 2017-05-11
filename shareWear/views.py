@@ -565,24 +565,17 @@ def get_product_offset(request):
     if request.is_ajax():
         if request.method == 'POST':
             cloth_type = request.POST.get('cloth_type')
+            brand = request.POST.get('brand')
             offset = int(request.POST.get('offset'))
             cloth_sub_type = request.POST.get('cloth_sub_type')
             current_profile = profile.objects.get(user=request.user)
 
-            # amazon = AmazonAPI('AKIAJOR5NTXK2ERTU6AQ',
-            #                    'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
-            #                    'can037-20',
-            #                    region="US")
-            # products = amazon.search_n(15, Keywords="Women's " + cloth_type, SearchIndex="Apparel")
             current_gender = request.POST.get('gender')
             pagesize = 15
             if current_gender == 'true':
                 current_gender = True
             else:
                 current_gender = False
-            print "cloth type = ", cloth_type
-            print "gender = ", current_gender
-            print "cloth sub type = ", cloth_sub_type
             if cloth_type == "Favorites":
                 products = current_profile.favorite_clothing.all()
             elif cloth_sub_type == "All":
@@ -603,7 +596,9 @@ def get_product_offset(request):
                                                        # cloth_type=cloth_type,
                                                        cloth_sub_type__icontains=cloth_sub_type
                                                        )
-            print "products = ", products
+            if brand != "":
+                products = products.filter(brand__contains=brand,
+                                           gender=current_gender)
             products = products[offset:pagesize+offset]
             product_list = []
             for each_product in products:
@@ -618,7 +613,9 @@ def get_product_offset(request):
                                          'name': each_product.name,
                                          'color': each_product.color,
                                          'pk': each_product.pk,
-                                         'is_in_cart': each_product.is_in_cart(current_profile)})
+                                         'gender': each_product.gender,
+                                         'is_in_cart': each_product.is_in_cart(current_profile),
+                                         'is_in_favorites': each_product.is_in_favorites(current_profile)})
             less_than_pagesize = len(products) < pagesize
             json_stuff = json.dumps({"products": product_list,
                                      "cloth_type": cloth_type,
@@ -1005,6 +1002,34 @@ def follow_user(request):
                         return HttpResponse("Follow")
                 except Exception as e:
                     print "Error ", e
+    return HttpResponse("Error")
+
+@csrf_exempt
+def add_to_favorites(request):
+    if request.user.is_authenticated():
+        if request.is_ajax():
+            if request.method == 'POST':
+                try:
+                    clothing_key = request.POST.get('clothing')
+                    print "clothing key = ", clothing_key
+                    clothing_obj = clothing.objects.get(pk=clothing_key)
+                    current_profile = profile.objects.get(user=request.user)
+                    #looking to see if item is in cart. If so, remove from cart
+                    if current_profile.item_in_favorites(clothing_obj):
+                        print "in favorites"
+                        current_profile.favorite_clothing.remove(clothing_obj)
+                        return HttpResponse("Removed")
+
+                    else:
+                        #could not find item in cart, creating instead
+                        current_profile.favorite_clothing.add(clothing_obj)
+                        current_profile.save()
+                        return HttpResponse("Added")
+
+                except Exception as e:
+                    print "Error ", e
+    else:
+        add_to_cart_single_unregistered(request)
     return HttpResponse("Error")
 
 @csrf_exempt

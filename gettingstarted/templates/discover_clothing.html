@@ -193,6 +193,9 @@
         main {
             flex: 1 0 auto;
         }
+        input#brandSelect.autocomplete{
+            color:black !important;
+        }
     </style>
 
     <style>
@@ -285,6 +288,9 @@
     </style>
 </head>
 <body>
+<script>
+    var BRANDS = JSON.parse("{{brands | escapejs}}");
+</script>
 <header>
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
@@ -301,14 +307,14 @@
                 <li>
                     <div class="col s12 center" style="margin-right:10px; margin-top:25px;">
                         <div class="col s3">
-                            <img id="featuredProfileImg" style='height:150px; width:150px;' src="{{ current_profile_self.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
+                            <img id="featuredProfileImg" style='height:150px; width:150px;' src="{{ current_profile.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
                         </div>
                         <div class="col s5" style="word-wrap: break-word;">
-                            {% if current_profile_self.user.username %}
-                                <h5 id="featuredProfileUser" class="white-text margin" style="margin-bottom:0;">{{ current_profile_self.user.username }}</h5>
+                            {% if current_profile.user.username %}
+                                <h5 id="featuredProfileUser" class="white-text margin" style="margin-bottom:0;">{{ current_profile.user.username }}</h5>
                             {% endif %}
-                            {% if current_profile_self.location %}
-                                <span id="featuredProfileLoc" class="white-text ultra-small">{{ current_profile_self.location }}</span>
+                            {% if current_profile.location %}
+                                <span id="featuredProfileLoc" class="white-text ultra-small">{{ current_profile.location }}</span>
                             {% endif %}
                         </div>
                     </div>
@@ -334,9 +340,13 @@
                     <div class="col s12 m6 push-m4 center card">
                         <div class="row" id="addNewButtonGroup">
                             <div class="input-field col s12">
-                                <i class="material-icons prefix">search</i>
-                                <input style="color:black;" placeholder="search" id="itemSearch" class="autocomplete">
-                                {#                        <label style="color:black;" for="autocomplete-input">Search</label>#}
+                                <div class="col s2 left-align">
+                                    <i class="material-icons socialIcons prefix">search</i>
+                                </div>
+                                <div class="col s10">
+                                    <input id='brandSelect' type="text" placeholder="Filter by Brand" class="autocomplete">
+                                    <label for="brandSelect">Autocomplete</label>
+                                </div>
                             </div>
                             <div class="switch">
                                 <label>
@@ -406,34 +416,9 @@
                                 </ul>
 
                                 <a onClick="clothingClick('Favorites', 'All')" class='btn waves-effect waves-light z-depth-3 clothType'
-                                   id='FavoritesBtn' style="margin:1%;">My Favorites</a>
-                                {#                        <a class='dropdown-button btn waves-effect waves-light teal z-depth-3 clothType'#}
-                                {#                           id='othersBtn' href='#' data-activates='othersDropdown'>Other</a>#}
-                                {##}
-                                {#                            <ul id='othersDropdown' class='dropdown-content'>#}
-                                {#                                <li><a href="#!">Shirts</a></li>#}
-                                {#                                <li><a href="#!">Sweaters</a></li>#}
-                                {#                                <li><a href="#!">Tanks</a></li>#}
-                                {#                                <li><a href="#!">Tops</a></li>#}
-                                {#                            </ul>#}
-                                {#                        <a onClick="shirtClick(this.id)" id="shirtBtn" class="waves-effect waves-light teal btn z-depth-3 clothType">Shirts</a>#}
-                                {#                        <a onClick="pantsClick(this.id)" id="pantsBtn" class="waves-effect waves-light btn z-depth-3 clothType">Pants</a>#}
-                                {#                        <a onClick="shoesClick(this.id)" id="shoesBtn" class="waves-effect waves-light btn z-depth-3 clothType">Shoes</a>#}
-                            </div>
-                            <div class="col s12">
-                                <ul class="pagination" id="pagination">
-                                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                                    <li class="active"><a href="#!">1</a></li>
-                                    <li id='pag6' class="waves-effect disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-                                </ul>
-                                {#                        <div id="loading_paginate" style="display:None;"><p>Loading more items..</p></div>#}
-                            </div>
-                        </div>
-                    </div>
-                    <div id="routineLoader" class="col s12">
-                        <div id='routineBeforeL' class='loading-container'>
-                            <div class="progress">
-                                <div class="indeterminate"></div>
+                                   id='FavoritesBtn' style="margin:1%;">
+                                    My Favorites
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -443,6 +428,24 @@
 
 
 
+                    </div>
+                    <div id="routineLoader" class="col s12">
+                        <div id='routineBeforeL' class='loading-container'>
+                            <div class="progress">
+                                <div class="indeterminate"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id='noResults' class="card col s12 m6 push-m3 center" style="display: none; padding:0px !important;">
+                        <div class="row" id="addNewButtonGroup">
+                            <div class="col s12">
+                                <h5>No search results found</h5>
+                            </div>
+
+
+
+
+                        </div>
                     </div>
                     <div class='col s12' style="height:20%;">
                     </div>
