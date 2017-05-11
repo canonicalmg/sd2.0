@@ -499,9 +499,12 @@ def get_product(request):
                                                   )
             else:
                 if cloth_sub_type == "Scarves & Wraps":
-                    products = clothing.objects.filter(Q(cloth_sub_type__icontains="Scarves") |
-                                                       Q(cloth_sub_type__icontains="Wraps") |
-                                                       Q(cloth_sub_type__icontains="Scarves & Wraps"))
+                    products = clothing.objects.filter(
+                        (Q(cloth_sub_type__icontains="Scarves") |
+                         Q(cloth_sub_type__icontains="Wraps") |
+                         Q(cloth_sub_type__icontains="Scarves & Wraps")),
+                        gender=current_gender
+                    )
                 else:
                     products = clothing.objects.filter(gender=current_gender,
                                                        # cloth_type=cloth_type,
