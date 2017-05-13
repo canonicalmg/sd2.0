@@ -515,9 +515,7 @@ def get_product(request):
                 current_gender = True
             else:
                 current_gender = False
-            print "cloth type = ", cloth_type
-            print "gender = ", current_gender
-            print "cloth sub type = ", cloth_sub_type
+
             if cloth_type == "Favorites":
                 products = current_profile.favorite_clothing.all()
             elif cloth_sub_type == "All":
@@ -538,7 +536,6 @@ def get_product(request):
                                                        # cloth_type=cloth_type,
                                                        cloth_sub_type__icontains=cloth_sub_type
                                                        )
-            print "products = ", products
             product_list = []
             for each_product in products:
                 if (each_product.small_url is not None) and (each_product.large_url is not None):
