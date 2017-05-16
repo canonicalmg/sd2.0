@@ -66,6 +66,7 @@ function registerClick(){
     var passAgain = $("#register-password-again").val() || null;
     var email = $("#email").val() || null;
     var gender = document.getElementById('gender_check').checked;
+    var promoCode = $("#promoCode").val() || "none";
     if((user == null) || (pass == null) || (passAgain == null) || (email == null)){
         Materialize.toast("All fields required", 2000);
         return 0;
@@ -84,7 +85,7 @@ function registerClick(){
             headers: {
                 "X-CSRFToken": getCookie("csrftoken")
             },
-            data: {'data': [user,pass,email,gender]},
+            data: {'data': [user,pass,email,gender, promoCode]},
             success: function (json) {
                 //hide scroll wheel
                 //redirect

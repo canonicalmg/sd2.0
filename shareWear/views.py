@@ -291,6 +291,8 @@ def headerSignUp(request):
     if request.is_ajax():
         if request.method == "POST":
             data = request.POST.getlist("data[]")
+            if str(data[0]) == "Admin":
+                return HttpResponse("Username Exists")
             try:
                 user = User.objects.create_user(username=str(data[0]),
                                                 email=str(data[2]),
@@ -306,6 +308,16 @@ def headerSignUp(request):
                 profile_obj = profile(user=user,
                                       gender=gender)
                 profile_obj.save()
+
+                #check for promo
+                promoCode = data[4]
+                if promoCode is not "none":
+                    try:
+                        promo_user = profile.objects.get(profile__username=str(data[4]))
+                        promo_user.has_recruited.add(profile_obj)
+                        promo_user.save()
+                    except:
+                        pass
             except Exception as e:
                 print "e = ", str(e)
                 if str(e) == "column username is not unique":

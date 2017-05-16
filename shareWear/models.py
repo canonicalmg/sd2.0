@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from social_django.models import *
+import random
 
 # Create your models here.
 
@@ -24,6 +25,9 @@ class profile(models.Model):
     display_website = models.BooleanField(default=True)
     display_location = models.BooleanField(default=True)
     display_description = models.BooleanField(default=True)
+
+    #promo
+    has_recruited = models.ManyToManyField('profile', related_name='recruitedProfiles')
 
     def __unicode__(self):
         return self.user.username
