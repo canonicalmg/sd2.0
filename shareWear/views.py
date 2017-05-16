@@ -568,7 +568,10 @@ def get_product_offset(request):
             current_profile = profile.objects.get(user=request.user)
 
             current_gender = request.POST.get('gender')
-            pagesize = 15
+            try:
+                pagesize = int(request.POST.get('pagesize'))
+            except:
+                pagesize = 15
             if current_gender == 'true':
                 current_gender = True
             else:

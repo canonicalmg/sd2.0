@@ -32,32 +32,79 @@ var CLOTH_TYPE = "Shirt";
 var CLOTH_SUB_TYPE = "All";
 var GENDER = document.getElementById('gender_check').checked;
 var TAG_LIST = [];
+var OFFSET = 0;
+var COLOR_LIST = [];
 populate_product();
 
-function populate_product(){
-    $("#product_list").empty();
+function populate_product(new_search){
+    var offsetVar = OFFSET;
+    if(new_search) {
+        $("#product_list").empty();
+        offsetVar = 0;
+    }
     $("#routineLoader").show();
-    console.log("CALLING POPULATE PRODUCT ON ", CLOTH_TYPE);
-    console.log("REQUESTS = ", REQUESTS);
+
     REQUESTS.push(
         $.ajax({
                 type: 'POST',
-                url: 'get_product/',
+                url: '/get_product_offset/',
                 headers: {
                     "X-CSRFToken": getCookie("csrftoken")
                 },
                 data: {'cloth_type': CLOTH_TYPE,
                     'cloth_sub_type': CLOTH_SUB_TYPE,
-                    'gender': GENDER},
+                    'brand': $("#itemSearch").val(),
+                    'gender': GENDER,
+                    'offset': offsetVar,
+                    'pagesize': 50},
                 success: function (json) {
-                    console.log("json = ", json);
-                    PAGINATION = json.products;
-                    product_loader_template(json.products);
-                    load_pagination();
-                    load_page(1);
+                    if(json.products.length == 0){
+                        var searchString = CLOTH_TYPE + " > " + CLOTH_SUB_TYPE;
+                        if($("#itemSearch").val()){
+                            console.log("brand = ", $("#itemSearch").val());
+                            searchString += "<br><br>With selected brand: " + $("#itemsearch").val();
+                        }
+                        $("#searchCriteria").html(searchString);
+                        $("#noResults").show();
+                    }
+                    else{
+                        $("#noResults").hide();
+                    }
+                    if(new_search){
+                        PAGINATION = [];
+                    }
+                    OFFSET = json.offset;
+                    var duplicate = false;
+                    for(var i=0; i < json.products.length; i++){
+                        duplicate = false;
+                        for(var j=0; j < PAGINATION.length; j++){
+                            if(json.products[i].small_url == PAGINATION[j].small_url){
+                                duplicate = true;
+                                break;
+                            }
+                        }
+                        if(!duplicate) {
+                            product_loader_template(json.products[i], false);
+                            PAGINATION.push(json.products[i])
+                        }
+                    }
+
+
                     $("#loading_paginate").show();
+                    // $("#routineLoader").hide();
+                    $('.carousel').carousel();
+                    if(json.less_than_pagesize){
+                        OFFSET = "END";
+                        $("#product_loader").hide();
+                        $("#routineLoader").hide();
+                        return 0;
+                    }
+
+                    //end
+                    // PAGINATION = json.products;
+                    // product_loader_template(json.products);
+                    // $("#loading_paginate").show();
                     $("#routineLoader").hide();
-                    // back_load_product()
                 },
                 error: function (json) {
                     // $("#createRoutine").show();
@@ -68,17 +115,60 @@ function populate_product(){
     );
 }
 
-function product_loader_template(items){
-    $("#product_list").empty();
-    for(var i=0; i < items.length; i++){
-        $("#product_list").append("<img onclick=\"itemClick('" + items[i].item_id + "')\" id='item"+items[i].item_id+"' class='clothItem' src='"+items[i].small_url+"'>");
+// function populate_product(){
+//     $("#product_list").empty();
+//     $("#routineLoader").show();
+//     console.log("CALLING POPULATE PRODUCT ON ", CLOTH_TYPE);
+//     console.log("REQUESTS = ", REQUESTS);
+//     REQUESTS.push(
+//         $.ajax({
+//                 type: 'POST',
+//                 url: 'get_product/',
+//                 headers: {
+//                     "X-CSRFToken": getCookie("csrftoken")
+//                 },
+//                 data: {'cloth_type': CLOTH_TYPE,
+//                     'cloth_sub_type': CLOTH_SUB_TYPE,
+//                     'gender': GENDER},
+//                 success: function (json) {
+//                     console.log("json = ", json);
+//                     PAGINATION = json.products;
+//                     product_loader_template(json.products);
+//                     load_pagination();
+//                     load_page(1);
+//                     $("#loading_paginate").show();
+//                     $("#routineLoader").hide();
+//                     // back_load_product()
+//                 },
+//                 error: function (json) {
+//                     // $("#createRoutine").show();
+//                     console.log("ERROR", json);
+//                 }
+//             }
+//         )
+//     );
+// }
+
+// function product_loader_template(items){
+//     console.log("in loader ", items);
+//     $("#product_list").empty();
+//     for(var i=0; i < items.length; i++){
+//         $("#product_list").append("<img onclick=\"itemClick('" + items[i].item_id + "')\" id='item"+items[i].item_id+"' class='clothItem' src='"+items[i].small_url+"'>");
+//     }
+// }
+
+function product_loader_template(items, newSearch){
+    if(newSearch){
+        $("#product_list").empty();
     }
+    var htmlString = "<img onclick=\"itemClick('" + items.pk + "')\" id='item"+items.pk+"' class='clothItem' src='"+items.small_url+"'>";
+    $("#product_list").append(htmlString);
 }
 
 function itemClick(id){
     console.log("clicked ", id);
     for(var i=0; i < PAGINATION.length; i++){
-        if (PAGINATION[i].item_id == id){
+        if (PAGINATION[i].pk == id){
             console.log("found");
             openItemModal(PAGINATION[i]);
             break;
@@ -616,7 +706,7 @@ function clothingClick(clothingType, subtype){
     console.log("subtype = ", subtype);
     CLOTH_TYPE = clothingType;
     CLOTH_SUB_TYPE = subtype;
-    populate_product();
+    populate_product(true);
     $("#ShirtBtn").html("Tops");
     $("#PantsBtn").html("Bottoms");
     $("#ShoesBtn").html("Shoes");
@@ -643,3 +733,33 @@ $('#itemSearch').keyup(function(e){
 $("#itemSearch").focusout(function(e){
     console.log("out");
 });
+
+function throttle(func, wait) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        if (!timeout) {
+            // the first time the event fires, we setup a timer, which
+            // is used as a guard to block subsequent calls; once the
+            // timer's handler fires, we reset it and create a new one
+            timeout = setTimeout(function() {
+                timeout = null;
+                func.apply(context, args);
+            }, wait);
+        }
+    }
+}
+
+$("#product_list").scroll(throttle(function (event) {
+    console.log("scroll");
+    if(OFFSET != "END") {
+        // var scroll = $(window).scrollTop();
+        var scroll = $("#product_list").scrollTop();
+        console.log(scroll);
+        if (scroll >= $("#product_list").height() / 2) {
+            console.log("in half");
+            populate_product(false);
+        }
+    }
+    // Do something
+},3000));
