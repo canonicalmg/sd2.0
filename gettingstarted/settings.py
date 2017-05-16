@@ -39,8 +39,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'shareWear',
     'social.apps.django_app.default',
-    'social_django'
+    'social_django',
+    'google_analytics'
 )
+
+GOOGLE_ANALYTICS = {
+    'google_analytics_id': 'UA-99208710-1',
+}
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',

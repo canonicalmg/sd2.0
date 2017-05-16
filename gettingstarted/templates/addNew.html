@@ -315,6 +315,10 @@
 
 </head>
 <body>
+{% load google_analytics_tags %}
+<div style="display:none">
+    <img src="{% google_analytics %}" width="0" height="0" />
+</div>
 <header>
     <nav class="white" role="navigation">
         <div class="nav-wrapper container">
@@ -536,7 +540,7 @@
             </div>
 
         </div>
-        <div id="modal1" style='max-height:60%;' class="modal bottom-sheet modal-fixed-footer">
+        <div id="modal1" style='z-index:9999999; max-height:60%;' class="modal bottom-sheet modal-fixed-footer">
             <div class="modal-content">
                 <div class="row">
                     <div class="col s12">
