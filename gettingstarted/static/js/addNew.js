@@ -34,84 +34,92 @@ var GENDER = document.getElementById('gender_check').checked;
 var TAG_LIST = [];
 var OFFSET = 0;
 var COLOR_LIST = [];
-populate_product();
+var LIST_HEIGHT = $("#product_list").height();
+populate_product(true);
 
 function populate_product(new_search){
     var offsetVar = OFFSET;
+    console.log("NEW SEARCH = ", new_search);
     if(new_search) {
         $("#product_list").empty();
         offsetVar = 0;
+        LIST_HEIGHT = $("#product_list").height();
     }
     $("#routineLoader").show();
 
-    REQUESTS.push(
-        $.ajax({
-                type: 'POST',
-                url: '/get_product_offset/',
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken")
-                },
-                data: {'cloth_type': CLOTH_TYPE,
-                    'cloth_sub_type': CLOTH_SUB_TYPE,
-                    'brand': $("#itemSearch").val(),
-                    'gender': GENDER,
-                    'offset': offsetVar,
-                    'pagesize': 50},
-                success: function (json) {
-                    if(json.products.length == 0){
-                        var searchString = CLOTH_TYPE + " > " + CLOTH_SUB_TYPE;
-                        if($("#itemSearch").val()){
-                            console.log("brand = ", $("#itemSearch").val());
-                            searchString += "<br><br>With selected brand: " + $("#itemsearch").val();
-                        }
-                        $("#searchCriteria").html(searchString);
-                        $("#noResults").show();
+    $.ajax({
+            type: 'POST',
+            url: '/get_product_offset/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'cloth_type': CLOTH_TYPE,
+                'cloth_sub_type': CLOTH_SUB_TYPE,
+                'brand': $("#itemSearch").val(),
+                'gender': GENDER,
+                'offset': offsetVar,
+                'pagesize': 25,
+                'new_search': new_search},
+            success: function (json) {
+                console.log(json);
+                if(json.products.length == 0){
+                    var searchString = CLOTH_TYPE + " > " + CLOTH_SUB_TYPE;
+                    if($("#itemSearch").val()){
+                        console.log("brand = ", $("#itemSearch").val());
+                        searchString += "<br><br>With selected brand: " + $("#itemsearch").val();
                     }
-                    else{
-                        $("#noResults").hide();
-                    }
-                    if(new_search){
-                        PAGINATION = [];
-                    }
-                    OFFSET = json.offset;
-                    var duplicate = false;
-                    for(var i=0; i < json.products.length; i++){
-                        duplicate = false;
-                        for(var j=0; j < PAGINATION.length; j++){
-                            if(json.products[i].small_url == PAGINATION[j].small_url){
-                                duplicate = true;
-                                break;
-                            }
-                        }
-                        if(!duplicate) {
-                            product_loader_template(json.products[i], false);
-                            PAGINATION.push(json.products[i])
-                        }
-                    }
-
-
-                    $("#loading_paginate").show();
-                    // $("#routineLoader").hide();
-                    $('.carousel').carousel();
-                    if(json.less_than_pagesize){
-                        OFFSET = "END";
-                        $("#product_loader").hide();
-                        $("#routineLoader").hide();
-                        return 0;
-                    }
-
-                    //end
-                    // PAGINATION = json.products;
-                    // product_loader_template(json.products);
-                    // $("#loading_paginate").show();
-                    $("#routineLoader").hide();
-                },
-                error: function (json) {
-                    // $("#createRoutine").show();
-                    console.log("ERROR", json);
+                    $("#searchCriteria").html(searchString);
+                    $("#noResults").show();
                 }
+                else{
+                    $("#noResults").hide();
+                }
+                if(new_search){
+                    PAGINATION = [];
+                }
+                else{
+                    console.log(new_search);
+                    console.log("adding height");
+                    LIST_HEIGHT += $("#product_list").height();
+                }
+                OFFSET = json.offset;
+                var duplicate = false;
+                for(var i=0; i < json.products.length; i++){
+                    duplicate = false;
+                    for(var j=0; j < PAGINATION.length; j++){
+                        if(json.products[i].small_url == PAGINATION[j].small_url){
+                            duplicate = true;
+                            break;
+                        }
+                    }
+                    if(!duplicate) {
+                        product_loader_template(json.products[i], false);
+                        PAGINATION.push(json.products[i])
+                    }
+                }
+
+
+                $("#loading_paginate").show();
+                // $("#routineLoader").hide();
+                $('.carousel').carousel();
+                if(json.less_than_pagesize){
+                    OFFSET = "END";
+                    $("#product_loader").hide();
+                    $("#routineLoader").hide();
+                    return 0;
+                }
+
+                //end
+                // PAGINATION = json.products;
+                // product_loader_template(json.products);
+                // $("#loading_paginate").show();
+                $("#routineLoader").hide();
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
             }
-        )
+        }
     );
 }
 
@@ -547,28 +555,26 @@ function load_outfit(whereToAdd, whatToAdd){
 }
 
 function back_load_product(){
-    REQUESTS.push(
-        $.ajax({
-                type: 'POST',
-                url: 'get_product_full/',
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken")
-                },
-                data: {'cloth_type': CLOTH_TYPE},
-                success: function (json) {
-                    console.log("in back_load, json = ", json);
-                    PAGINATION = json.products;
-                    $("#loading_paginate").show();
-                    load_pagination();
-                    load_page(1);
-                },
-                error: function (json) {
-                    // $("#createRoutine").show();
-                    console.log("ERROR", json);
-                }
+    $.ajax({
+            type: 'POST',
+            url: 'get_product_full/',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            data: {'cloth_type': CLOTH_TYPE},
+            success: function (json) {
+                console.log("in back_load, json = ", json);
+                PAGINATION = json.products;
+                $("#loading_paginate").show();
+                load_pagination();
+                load_page(1);
+            },
+            error: function (json) {
+                // $("#createRoutine").show();
+                console.log("ERROR", json);
             }
-        )
-    );
+        }
+    )
 }
 
 function load_pagination(){
@@ -756,10 +762,11 @@ $("#product_list").scroll(throttle(function (event) {
         // var scroll = $(window).scrollTop();
         var scroll = $("#product_list").scrollTop();
         console.log(scroll);
-        if (scroll >= $("#product_list").height() / 2) {
+        console.log(LIST_HEIGHT / 2);
+        if (scroll >= LIST_HEIGHT / 2) {
             console.log("in half");
             populate_product(false);
         }
     }
     // Do something
-},3000));
+},1000));

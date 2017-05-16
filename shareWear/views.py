@@ -570,8 +570,10 @@ def get_product_offset(request):
             current_gender = request.POST.get('gender')
             try:
                 pagesize = int(request.POST.get('pagesize'))
+                new_search = request.POST.get('new_search')
             except:
                 pagesize = 15
+                new_search = "Ignore"
             if current_gender == 'true':
                 current_gender = True
             else:
@@ -620,7 +622,8 @@ def get_product_offset(request):
             json_stuff = json.dumps({"products": product_list,
                                      "cloth_type": cloth_type,
                                      "offset": offset + len(products),
-                                     "less_than_pagesize": less_than_pagesize
+                                     "less_than_pagesize": less_than_pagesize,
+                                     "new_search": new_search
                                      })
             return HttpResponse(json_stuff, content_type="application/json")
     return HttpResponse("Error")
