@@ -316,8 +316,8 @@ def headerSignUp(request):
                         promo_user = profile.objects.get(profile__username=str(data[4]))
                         promo_user.has_recruited.add(profile_obj)
                         promo_user.save()
-                    except:
-                        pass
+                    except Exception as e:
+                        print "exception on promocode: ", e
             except Exception as e:
                 print "e = ", str(e)
                 if str(e) == "column username is not unique":
