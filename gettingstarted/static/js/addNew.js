@@ -48,7 +48,7 @@ function populate_product(new_search){
     // $("#routineLoader").show();
     $("#product_list").append("<div id='tempLoad' class='progress'> <div class='indeterminate'></div> </div>");
 
-    $.ajax({
+    REQUESTS.push($.ajax({
             type: 'POST',
             url: '/get_product_offset/',
             headers: {
@@ -123,7 +123,7 @@ function populate_product(new_search){
                 console.log("ERROR", json);
             }
         }
-    );
+    ));
 }
 
 // function populate_product(){
