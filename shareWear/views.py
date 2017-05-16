@@ -313,7 +313,7 @@ def headerSignUp(request):
                 promoCode = data[4]
                 if promoCode is not "none":
                     try:
-                        promo_user = profile.objects.get(profile__username=str(data[4]))
+                        promo_user = profile.objects.get(user__username=str(data[4]))
                         promo_user.has_recruited.add(profile_obj)
                         promo_user.save()
                     except Exception as e:
