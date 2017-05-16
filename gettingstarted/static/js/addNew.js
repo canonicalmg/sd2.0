@@ -45,7 +45,8 @@ function populate_product(new_search){
         offsetVar = 0;
         LIST_HEIGHT = $("#product_list").height();
     }
-    $("#routineLoader").show();
+    // $("#routineLoader").show();
+    $("#product_list").append("<div id='tempLoad' class='progress'> <div class='indeterminate'></div> </div>");
 
     $.ajax({
             type: 'POST',
@@ -61,7 +62,7 @@ function populate_product(new_search){
                 'pagesize': 25,
                 'new_search': new_search},
             success: function (json) {
-                console.log(json);
+                // console.log(json);
                 if(json.products.length == 0){
                     var searchString = CLOTH_TYPE + " > " + CLOTH_SUB_TYPE;
                     if($("#itemSearch").val()){
@@ -78,8 +79,8 @@ function populate_product(new_search){
                     PAGINATION = [];
                 }
                 else{
-                    console.log(new_search);
-                    console.log("adding height");
+                    // console.log(new_search);
+                    // console.log("adding height");
                     LIST_HEIGHT += $("#product_list").height();
                 }
                 OFFSET = json.offset;
@@ -105,7 +106,8 @@ function populate_product(new_search){
                 if(json.less_than_pagesize){
                     OFFSET = "END";
                     $("#product_loader").hide();
-                    $("#routineLoader").hide();
+                    // $("#routineLoader").hide();
+                    $("#tempLoad").remove();
                     return 0;
                 }
 
@@ -113,7 +115,8 @@ function populate_product(new_search){
                 // PAGINATION = json.products;
                 // product_loader_template(json.products);
                 // $("#loading_paginate").show();
-                $("#routineLoader").hide();
+                // $("#routineLoader").hide();
+                $("#tempLoad").remove();
             },
             error: function (json) {
                 // $("#createRoutine").show();
@@ -761,8 +764,8 @@ $("#product_list").scroll(throttle(function (event) {
     if(OFFSET != "END") {
         // var scroll = $(window).scrollTop();
         var scroll = $("#product_list").scrollTop();
-        console.log(scroll);
-        console.log(LIST_HEIGHT / 2);
+        // console.log(scroll);
+        // console.log(LIST_HEIGHT / 2);
         if (scroll >= LIST_HEIGHT / 2) {
             console.log("in half");
             populate_product(false);
