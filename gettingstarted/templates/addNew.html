@@ -320,11 +320,6 @@
         .n-tag{
             color:black !important;
         }
-
-        #product_list{
-            height:250px;
-            overflow-y: scroll;
-        }
     </style>
 
 </head>
@@ -514,8 +509,13 @@
                         {#                        <a onClick="shoesClick(this.id)" id="shoesBtn" class="waves-effect waves-light btn z-depth-3 clothType">Shoes</a>#}
                     </div>
 
-                    <div class="col s12" id="product_list" style="padding-top:15px;">
+                    <div class="col s12" id="outer_list" style="overflow-y: scroll; height:250px;">
+                        <div class="col s12" id="product_list" style="padding-top:15px;">
 
+                        </div>
+                        <div id='prodLoad' class="progress">
+                            <div class="indeterminate"></div>
+                        </div>
                     </div>
 {#                    <div id="routineLoader" class="col s12">#}
 {#                        <div id='routineBeforeL' class='loading-container'>#}

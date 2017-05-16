@@ -34,7 +34,7 @@ var GENDER = document.getElementById('gender_check').checked;
 var TAG_LIST = [];
 var OFFSET = 0;
 var COLOR_LIST = [];
-var LIST_HEIGHT = $("#product_list").height();
+var LIST_HEIGHT = $("#outer_list").height();
 populate_product(true);
 
 function populate_product(new_search){
@@ -43,87 +43,86 @@ function populate_product(new_search){
     if(new_search) {
         $("#product_list").empty();
         offsetVar = 0;
-        LIST_HEIGHT = $("#product_list").height();
+        LIST_HEIGHT = $("#outer_list").height();
     }
     // $("#routineLoader").show();
-    $("#product_list").append("<div id='tempLoad' class='progress'> <div class='indeterminate'></div> </div>");
+    $("#prodLoad").show();
 
-    REQUESTS.push($.ajax({
-            type: 'POST',
-            url: '/get_product_offset/',
-            headers: {
-                "X-CSRFToken": getCookie("csrftoken")
-            },
-            data: {'cloth_type': CLOTH_TYPE,
-                'cloth_sub_type': CLOTH_SUB_TYPE,
-                'brand': $("#itemSearch").val(),
-                'gender': GENDER,
-                'offset': offsetVar,
-                'pagesize': 25,
-                'new_search': new_search},
-            success: function (json) {
-                // console.log(json);
-                if(json.products.length == 0){
-                    var searchString = CLOTH_TYPE + " > " + CLOTH_SUB_TYPE;
-                    if($("#itemSearch").val()){
-                        console.log("brand = ", $("#itemSearch").val());
-                        searchString += "<br><br>With selected brand: " + $("#itemsearch").val();
-                    }
-                    $("#searchCriteria").html(searchString);
-                    $("#noResults").show();
+    $.ajax({
+        type: 'POST',
+        url: '/get_product_offset/',
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        data: {'cloth_type': CLOTH_TYPE,
+            'cloth_sub_type': CLOTH_SUB_TYPE,
+            'brand': $("#itemSearch").val(),
+            'gender': GENDER,
+            'offset': offsetVar,
+            'pagesize': 25,
+            'new_search': new_search},
+        success: function (json) {
+            // console.log(json);
+            if(json.products.length == 0){
+                var searchString = CLOTH_TYPE + " > " + CLOTH_SUB_TYPE;
+                if($("#itemSearch").val()){
+                    console.log("brand = ", $("#itemSearch").val());
+                    searchString += "<br><br>With selected brand: " + $("#itemsearch").val();
                 }
-                else{
-                    $("#noResults").hide();
-                }
-                if(new_search){
-                    PAGINATION = [];
-                }
-                else{
-                    // console.log(new_search);
-                    // console.log("adding height");
-                    LIST_HEIGHT += $("#product_list").height();
-                }
-                OFFSET = json.offset;
-                var duplicate = false;
-                for(var i=0; i < json.products.length; i++){
-                    duplicate = false;
-                    for(var j=0; j < PAGINATION.length; j++){
-                        if(json.products[i].small_url == PAGINATION[j].small_url){
-                            duplicate = true;
-                            break;
-                        }
-                    }
-                    if(!duplicate) {
-                        product_loader_template(json.products[i], false);
-                        PAGINATION.push(json.products[i])
-                    }
-                }
-
-
-                $("#loading_paginate").show();
-                // $("#routineLoader").hide();
-                $('.carousel').carousel();
-                if(json.less_than_pagesize){
-                    OFFSET = "END";
-                    $("#product_loader").hide();
-                    // $("#routineLoader").hide();
-                    $("#tempLoad").remove();
-                    return 0;
-                }
-
-                //end
-                // PAGINATION = json.products;
-                // product_loader_template(json.products);
-                // $("#loading_paginate").show();
-                // $("#routineLoader").hide();
-                $("#tempLoad").remove();
-            },
-            error: function (json) {
-                // $("#createRoutine").show();
-                console.log("ERROR", json);
+                $("#searchCriteria").html(searchString);
+                $("#noResults").show();
             }
+            else{
+                $("#noResults").hide();
+            }
+            if(new_search){
+                PAGINATION = [];
+            }
+            else{
+                // console.log(new_search);
+                console.log("adding height");
+                LIST_HEIGHT += $("#outer_list").height();
+            }
+            OFFSET = json.offset;
+            var duplicate = false;
+            for(var i=0; i < json.products.length; i++){
+                duplicate = false;
+                for(var j=0; j < PAGINATION.length; j++){
+                    if(json.products[i].small_url == PAGINATION[j].small_url){
+                        duplicate = true;
+                        break;
+                    }
+                }
+                if(!duplicate) {
+                    product_loader_template(json.products[i], false);
+                    PAGINATION.push(json.products[i])
+                }
+            }
+
+
+            // $("#loading_paginate").show();
+            // $("#routineLoader").hide();
+            if(json.less_than_pagesize){
+                OFFSET = "END";
+                // $("#product_loader").hide();
+                // $("#routineLoader").hide();
+                $("#prodLoad").hide();
+                return 0;
+            }
+
+            //end
+            // PAGINATION = json.products;
+            // product_loader_template(json.products);
+            // $("#loading_paginate").show();
+            // $("#routineLoader").hide();
+            $("#prodLoad").hide();
+        },
+        error: function (json) {
+            // $("#createRoutine").show();
+            console.log("ERROR", json);
         }
-    ));
+    }
+    );
 }
 
 // function populate_product(){
@@ -759,17 +758,19 @@ function throttle(func, wait) {
     }
 }
 
-$("#product_list").scroll(throttle(function (event) {
+$("#outer_list").scroll(throttle(function (event) {
     console.log("scroll");
+    console.log("offset = ", OFFSET);
     if(OFFSET != "END") {
         // var scroll = $(window).scrollTop();
-        var scroll = $("#product_list").scrollTop();
-        // console.log(scroll);
-        // console.log(LIST_HEIGHT / 2);
-        if (scroll >= LIST_HEIGHT / 2) {
+        var scroll = $("#outer_list").scrollTop();
+        console.log(scroll);
+        console.log(LIST_HEIGHT / 2);
+        console.log(parseInt(scroll) >= (parseInt(LIST_HEIGHT) / 2));
+        if (parseInt(scroll) >= (parseInt(LIST_HEIGHT) / 2)) {
             console.log("in half");
             populate_product(false);
         }
     }
     // Do something
-},1000));
+},500));
