@@ -50,7 +50,9 @@ function login(){
                     Materialize.toast("Info does not match our records.");
                 }
                 else if(json == "Success"){
-                    document.location.href="/";
+                    // document.location.href="/";
+                    $('#signInRegister').modal('close');
+                    Materialize.toast("Welcome!", 2000);
                 }
             },
             error: function (json) {

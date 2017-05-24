@@ -103,20 +103,22 @@ class clothing(models.Model):
         return "%s %s - %s(%s, %s)" % (gender_verbose, self.cloth_type, self.name, self.carrier, self.price)
 
     def is_in_cart(self, profile):
-        all_cart_items = profile.cart_items.all()
-        for each_item in all_cart_items:
-            if each_item.clothing == self:
-                return True
+        if profile is not None:
+            all_cart_items = profile.cart_items.all()
+            for each_item in all_cart_items:
+                if each_item.clothing == self:
+                    return True
         #else not found
         return False
 
     def is_in_favorites(self, profile):
-        all_favorite_items = profile.favorite_clothing.all()
-        for each_item in all_favorite_items:
-            print "each item = ", each_item
-            print "self = ", self
-            if each_item == self:
-                return True
+        if profile is not None:
+            all_favorite_items = profile.favorite_clothing.all()
+            for each_item in all_favorite_items:
+                print "each item = ", each_item
+                print "self = ", self
+                if each_item == self:
+                    return True
         return False
 
 class tag(models.Model):

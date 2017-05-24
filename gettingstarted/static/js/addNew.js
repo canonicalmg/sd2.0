@@ -319,26 +319,15 @@ function hammerIt(elm) {
             transform = "";
         }
 
-        console.log("top = ", top_index);
         top_index = top_index + 1;
         el.style.zIndex = top_index;
-        console.log("top = ", top_index);
         //pan
-        // client_height = document.getElementById('addNewBody').clientHeight;
-        // client_width = document.getElementById('addNewBody').clientWidth;
-        // last_posX = last_posX * (client_width / static_width);
-        // last_posY = last_posY * (client_height / static_height);
         posX = last_posX + ev.deltaX;
         posY = last_posY + ev.deltaY;
 
-        // posX = posX * (client_width / static_width);
-        // posY = posY * (client_height / static_height);
-        // console.log("client height = ", document.getElementById('addNewBody').clientHeight);
-        // console.log("client width = ", document.getElementById('addNewBody').clientWidth);
         max_pos_y = document.getElementById('addNewBody').clientHeight * .45;
         max_pos_x = document.getElementById('addNewBody').clientWidth * .45;
-        // console.log("pos x = ", posX);
-        // console.log("max_pos_x = ", max_pos_x);
+
         if (posX > max_pos_x * 0.1) {
             posX = max_pos_x * 0.1;
         }
@@ -493,23 +482,28 @@ function submit_outfit(){
             success: function (json) {
                 //if not logged in
                 //success
-                console.log("success, ", json);
-                $("#addNewButtonGroup").hide();
-                $("#addNewAfterSuccess").show();
-                $(".task-card-title").html("Success");
-                $("#userTitle").show();
-                for(var i=0; i < items.length; i++){
-                    load_outfit($("#shirt"), items[i]);
+                if(json == "Login"){
+                    $('#signInRegister').modal('open');
                 }
-                //load tags
-                var splitTags = tagsToSend;
-                var tagList = "";
-                for(var i=0; i < splitTags.length; i++){
-                    tagList += "<div class='chip'>"+splitTags[i]+"</div>";
+                else {
+                    console.log("success, ", json);
+                    $("#addNewButtonGroup").hide();
+                    $("#addNewAfterSuccess").show();
+                    $(".task-card-title").html("Success");
+                    $("#userTitle").show();
+                    for (var i = 0; i < items.length; i++) {
+                        load_outfit($("#shirt"), items[i]);
+                    }
+                    //load tags
+                    var splitTags = tagsToSend;
+                    var tagList = "";
+                    for (var i = 0; i < splitTags.length; i++) {
+                        tagList += "<div class='chip'>" + splitTags[i] + "</div>";
+                    }
+                    $("#newTags").html(tagList);
+                    $('#modal1').modal('close');
+                    swal("Good job!", "You have created your outfit!", "success")
                 }
-                $("#newTags").html(tagList);
-                $('#modal1').modal('close');
-                swal("Good job!", "You have created your outfit!", "success")
             },
             error: function (json) {
                 // $("#createRoutine").show();
@@ -661,7 +655,7 @@ function shoesClick(elem){
 
 $("#gender_check").change(function() {
     GENDER = this.checked;
-    populate_product();
+    populate_product(true);
 });
 
 $('#tag_list').on('change', function (event)
