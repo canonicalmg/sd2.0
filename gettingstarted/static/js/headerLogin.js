@@ -65,7 +65,7 @@ function registerClick(){
     var pass = $("#register-password").val() || null;
     var passAgain = $("#register-password-again").val() || null;
     var email = $("#email").val() || null;
-    var gender = document.getElementById('gender_check').checked;
+    var gender = document.getElementById('gender_check_register').checked;
     var promoCode = $("#promoCode").val() || "none";
     if((user == null) || (pass == null) || (passAgain == null) || (email == null)){
         Materialize.toast("All fields required", 2000);

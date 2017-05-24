@@ -396,31 +396,35 @@ def get_front_page(request):
     return HttpResponse("Error")
 
 def signUpLogIn(request):
-    if request.user.is_authenticated():
+    # if request.user.is_authenticated():
         #send them to /home
-        template = loader.get_template('discover.html')
-        try:
-            current_profile = profile.objects.get(user=request.user)
-
-            brand_list = brands.objects.filter()
-            brand_json = {}
-            for each_item in brand_list:
-                brand_json[each_item.name] = None
-            context = {
-                "current_profile": current_profile,
-                "brands": json.dumps(brand_json)
-            }
-        except Exception as e:
-            print "error ", e
-            template = loader.get_template('headerLogin.html')
-            context = {
-                "asd": "asd"
-            }
-    else:
-        template = loader.get_template('headerLogin.html')
-        context = {
-            "asd": "asd"
-        }
+    template = loader.get_template('discover.html')
+    # try:
+    print "in login"
+    try:
+        current_profile = profile.objects.get(user=request.user)
+    except Exception as e:
+        print "error ", e
+        current_profile = None
+    brand_list = brands.objects.filter()
+    brand_json = {}
+    for each_item in brand_list:
+        brand_json[each_item.name] = None
+    context = {
+        "current_profile": current_profile,
+        "brands": json.dumps(brand_json)
+    }
+    # except Exception as e:
+    #     print "error ", e
+    #     template = loader.get_template('headerLogin.html')
+    #     context = {
+    #         "asd": "asd"
+    #     }
+    # else:
+    #     template = loader.get_template('headerLogin.html')
+    #     context = {
+    #         "asd": "asd"
+    #     }
     return HttpResponse(template.render(context, request))
 
 def discover_clothing(request):

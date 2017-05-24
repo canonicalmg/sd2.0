@@ -36,6 +36,9 @@
     <link href="../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link rel="stylesheet" type="text/css" href="../static/css/sweetalert.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/css/bootstrap-social.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
 
     <style>
         body {
@@ -170,6 +173,14 @@
         .select-dropdown{
             overflow-y: auto !important;
         }
+        .margin {
+            margin: 0 !important;
+        }
+        input[type="text"]:focus:not([readonly]){
+            border-color:#C00;
+            box-shadow:0 1px 0 0 #C00;
+            color:black;
+        }
     </style>
 
     <style>
@@ -278,6 +289,7 @@
 
             <ul id="nav-mobile" class="side-nav fixed">
                 <li>
+                {% if current_profile %}
                     <div class="col s12 center" style="margin-right:10px; margin-top:25px;">
                         <div class="col s3">
                             <img id="featuredProfileImgMain" style='height:150px; width:150px;' src="{{ current_profile.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
@@ -291,6 +303,11 @@
                             {% endif %}
                         </div>
                     </div>
+                {% else %}
+{#                    <a onClick="signInRegister()"><i class="material-icons left">power_settings_new</i>Sign In / Register</a>#}
+                    <a onClick="$('.button-collapse').sideNav('hide');" style="margin-top:5%; background-color:#2bbbad" class="waves-effect waves-light btn" href="#signInRegister"><i class="material-icons left">power_settings_new</i>Sign In / Register</a>
+                    <br>
+                {% endif %}
                 </li>
                 <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
                 <li><a href="/addNew"><i class="material-icons left">note_add</i>Create Outfit</a></li>
@@ -298,7 +315,9 @@
                 <li><a href="/discover"><i class="material-icons left">find_in_page</i>Discover Outfits</a></li>
                 <li><a href="/discover_clothing"><i class="material-icons left">whatshot</i>Discover Clothing</a></li>
                 <li><a href="/myCart"><i class="material-icons left">shopping_cart</i>My Cart</a></li>
+            {% if current_profile %}
                 <li><a onClick="signOut()"><i class="material-icons left">power_settings_new</i>Sign Out</a></li>
+            {% endif %}
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons" style="color:#ff6e66;">menu</i></a>
         </div>
@@ -306,7 +325,160 @@
 </header>
 
 <main>
-{#    <section>#}
+        <div id="signInRegister" class="modal">
+            <div class="modal-content">
+                <div id="login">
+                    <form class="login-form" id="login-form">
+                            <div class="row">
+                                <div class="input-field col s12 center">
+                                    <img src="../static/img/logo.png" alt="" class="responsive-img valign profile-image-login">
+                                </div>
+                            </div>
+                            <div class="row margin">
+                                <div class="input-field col s12" style="width:100%; margin-left:0;">
+                                    <i class="material-icons prefix">person_pin</i>
+                                    <input id="username1" type="text">
+                                    <label for="username1" style="color:#9e9e9e;">Username</label>
+                                </div>
+                            </div>
+                            <div class="row margin">
+                                <div class="input-field col s12" style="width:100%; margin-left:0;">
+                                    <i class="material-icons prefix">lock</i>
+                                    <input id="password1" type="password">
+                                    <label for="password1" style="color:#9e9e9e;">Password</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id='loginButtons' class="input-field col s12">
+                                    <a onClick="login()" style="margin-bottom:15px !important;" id='loginBtn' class="btn waves-effect waves-light col s12">Login</a>
+                                    <div class="center-align">or</div>
+
+                                    <br>
+                                    <a id='facebookLink' href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn-block btn-social btn-facebook">
+                                        <span class="fa fa-facebook"></span> Sign in with Facebook
+                                    </a>
+                                    {#                        <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>#}
+                                    {#                        <a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Login with Twitter</a>#}
+                                    <a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}" class="btn btn-block btn-social btn-twitter">
+                                        <span class="fa fa-twitter"></span> Sign in with Twitter
+                                    </a>
+                                </div>
+                                <div id="routineLoader" class="col s12 center-align" style="display:none;">
+                                    {#                        <div id='routineBeforeL' class='loading-container'>#}
+                                    {#                            <div class='loading'></div>#}
+                                    {#                            <div class='loading-text'>loading</div>#}
+                                    {#                        </div>#}
+                                    <div class="preloader-wrapper big active">
+                                        <div class="spinner-layer spinner-blue">
+                                            <div class="circle-clipper left">
+                                                <div class="circle"></div>
+                                            </div><div class="gap-patch">
+                                            <div class="circle"></div>
+                                        </div>
+                                            <div class="circle-clipper right">
+                                                <div class="circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <p class="margin medium-small"><a onClick="register()">Register Now!</a></p>
+                                </div>
+                                <div class="input-field col s6">
+                                    {#                        <p class="margin right-align medium-small"><a onClick="forgotPassword()">Forgot password ?</a></p>#}
+                                </div>
+
+                            </div>
+
+                        </form>
+                    <div class="row">
+                        <div class="col s12 z-depth-4 card-panel" style="padding-bottom:5%;">
+                            <div class="input-field col s7">
+                                <p class="margin left-align medium-small"><a href="/terms">Terms and Conditions</a></p>
+                            </div>
+                            <div class="input-field col s5">
+                                <p class="margin right-align medium-small"><a href="/privacy">Privacy Policy</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id='register-page' style="display:None;" class="login-form">
+                            <div class="row">
+                                <div class="input-field col s12 center">
+                                    <h4>Register</h4>
+                                    <p class="center">Join to our community now !</p>
+                                </div>
+                            </div>
+                            <div class="row margin">
+                                <div class="input-field col s12" style="width:100%; margin-left:0;">
+                                    <i class="material-icons prefix">person_pin</i>
+                                    <input id="register-username" type="text">
+                                    <label for="register-username" style="color:#9e9e9e;">Username</label>
+                                </div>
+                            </div>
+
+                            <div class="row margin">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">email</i>
+                                    <input id="email" type="email" class="validate">
+                                    <label for="email">Email</label>
+                                </div>
+                            </div>
+                            <div class="row margin">
+                                <div class="input-field col s12" style="width:100%; margin-left:0;">
+                                    <i class="material-icons prefix">lock</i>
+                                    <input id="register-password" type="password">
+                                    <label for="register-password">Password</label>
+                                </div>
+                            </div>
+                            <div class="row margin">
+                                <div class="input-field col s12" style="width:100%; margin-left:0;">
+                                    <i class="material-icons prefix">lock</i>
+                                    <input id="register-password-again" type="password">
+                                    <label for="register-password-again">Password Again</label>
+                                </div>
+                            </div>
+                            <div class="row margin">
+                                <div class="col s12">
+                                    <p>Referred from a friend? Enter their Username below</p>
+                                </div>
+                            </div>
+                            <div class="row margin">
+                                <div class="input-field col s12" style="width:100%; margin-left:0;">
+                                    <i class="material-icons prefix">supervisor_account</i>
+                                    <input id="promoCode" type="text">
+                                    <label for="promoCode" style="color:#9e9e9e;">Username of referer</label>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom:20px;">
+                                <div class="input-field col s12">
+                                    <div class="switch">
+                                        <label>
+                                            Male
+                                            <input id='gender_check_register' type="checkbox" checked>
+                                            <span class="lever"></span>
+                                            Female
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <a onClick="registerClick()" class="btn waves-effect waves-light col s12">Register Now</a>
+                                </div>
+                                <div class="input-field col s12">
+                                    <p class="margin center medium-small sign-up">Already have an account? <a onClick="showLogin()">Login</a></p>
+                                </div>
+                            </div>
+                        </form>
+
+            </div>
+        </div>
+
+
         <div class="container">
             <div class="section no-pad-bot">
                 <div class="row" style="background-color:#f0f0f0; padding-left:10px; padding-right: 10px;">
@@ -323,11 +495,15 @@
                                 <div class="col s10 switch">
                                     <label style="margin-left:20%;">
                                         Male
+                                    {% if current_profile %}
                                         {% if profile.gender %}
                                             <input id='gender_check' type="checkbox" checked>
                                         {% else %}
                                             <input id="gender_check" type="checkbox">
                                         {% endif %}
+                                    {% else %}
+                                        <input id='gender_check' type="checkbox" checked>
+                                    {% endif %}
                                         <span class="lever"></span>
                                         Female
                                     </label>
@@ -428,6 +604,7 @@
 <script src="../static/js/materialize.js"></script>
 <script src="../static/js/sweetalert.min.js"></script>
 <script src="../static/js/discover.js"></script>
+<script src="../static/js/headerLogin.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.4/typeahead.bundle.min.js"></script>
 <script src="../static/js/materialize-tags.js"></script>
 

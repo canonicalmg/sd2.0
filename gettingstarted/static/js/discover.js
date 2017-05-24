@@ -3,6 +3,7 @@
         // $('select').material_select();
         $('.button-collapse').sideNav();
         $('.carousel').carousel();
+        $('.modal').modal();
         $('input.autocomplete').autocomplete({
             data: BRANDS,
             limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
@@ -509,6 +510,7 @@ $('#colorSelect').on('change', function (event)
 }).trigger('change');
 
 $("#gender_check").change(function() {
+    console.log("gender checked");
     GENDER = this.checked;
     populate_product(true);
 });
@@ -552,7 +554,6 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 else{
     $("#visitApp").show();
 }
-
 
 // $("#brandSelect").off("click")(function(e){
 //     console.log($("#brandSelect").val());
