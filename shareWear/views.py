@@ -83,87 +83,87 @@ def populate_db_amazon_user_req(request, gender, main_cloth, cloth):
         return HttpResponse("Error")
 
 def populate_db_amazon(request):
-    # try:
-    #     amazon = bottlenose.Amazon('AKIAJOR5NTXK2ERTU6AQ',
-    #                                'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
-    #                                'can037-20',
-    #                                MaxQPS=0.9
-    #                                )
-    #     # cloth_types = ["Shirt", "Pants", "Shoes", "sweaters", "tanks", "tops", "swim top", "jeans", "joggers", "shorts", "swim shorts",
-    #     #                "skirts", "leggings", "athletic shoes", "boots", "sandals", "professional" "shoes", "belts", "sunglasses", "wallets",
-    #     #                "scarves & wraps", "watches", "jewelry"
-    #     #                ]
-    #     cloth_types = {
-    #         "Shirt": ["Sweaters", "Tanks", "Tops", "Swim Top", "Shirt"],
-    #        # "Pants": ["Jeans", "Joggers", "Shorts", "Swim Shorts", "Skirts", "Leggings", "Pants"],
-    #        # "Shoes": ["Athletic Shoes", "Boots", "Sandals", "Professional Shoes"],
-    #        # "Accessories": ["Belts", "Sunglasses", "Wallets", "Scarves & Wraps", "Watches", "Jewelry"]
-    #     }
-    #     gender = [
-    #         # "Women",
-    #         "Men"
-    #     ]
-    #     pages = [1,2,3,4,5]
-    #     for each_gender in gender:
-    #         for each_cloth_type in cloth_types:
-    #             for each_cloth_subtype in cloth_types[each_cloth_type]:
-    #                 for each_page in pages:
-    #                     product = amazon.ItemSearch(Keywords="%s's %s" % (each_gender, each_cloth_subtype),
-    #                                                 SearchIndex="All",
-    #                                                 ResponseGroup="Images, SalesRank, OfferFull, ItemAttributes",
-    #                                                 Availability="Available",
-    #                                                 paginate=True,
-    #                                                 ItemPage=each_page)
-    #                     soup = BeautifulSoup(product, "xml")
-    #
-    #                     newDictionary = xmltodict.parse(str(soup))
-    #                     try:
-    #                         # print "item = ", newDictionary['ItemSearchResponse']['Items']
-    #                         for each_item in newDictionary['ItemSearchResponse']['Items']['Item']:
-    #                             try:
-    #                                 current_clothing = clothing.objects.get(carrier='amazon',
-    #                                                                         carrier_id=each_item['ASIN'])
-    #                             except:
-    #                                 #clothing does not exist in db
-    #                                 try:
-    #                                     if each_gender == "Women":
-    #                                         gender_bool = True
-    #                                     else:
-    #                                         gender_bool = False
-    #                                     new_clothing = clothing(name=each_item['ItemAttributes']['Title'],
-    #                                                             carrier="amazon",
-    #                                                             carrier_id=each_item['ASIN'],
-    #                                                             small_url=each_item['SmallImage']['URL'],
-    #                                                             large_url=each_item['LargeImage']['URL'],
-    #                                                             gender=gender_bool,
-    #                                                             price=each_item['OfferSummary']['LowestNewPrice']['FormattedPrice'],
-    #                                                             color=each_item['ItemAttributes']['Color'],
-    #                                                             brand=each_item['ItemAttributes']['Brand'],
-    #                                                             aff_url=generate_amazon_link(each_item['ASIN']),
-    #                                                             cloth_type=each_cloth_type,
-    #                                                             cloth_sub_type="%s, all" % each_cloth_subtype)
-    #                                     new_clothing.save()
-    #                                     newbrand = brands.objects.filter(name=each_item['ItemAttributes']['Brand'])
-    #                                     if len(newbrand) == 0:
-    #                                         newbrand = brands(name=each_item['ItemAttributes']['Brand'])
-    #                                         newbrand.save()
-    #                                     print "added item"
-    #                                 except Exception as e:
-    #                                     print "error ", e
-    #                                     pass
-    #                     except Exception as e:
-    #                         print "Error on upper try: ", e
-    #     return HttpResponse("Success")
     try:
-        all_clothes = clothing.objects.filter()
-        print "all clothes"
-        print "len - ", len(all_clothes)
-        for each_clothing in all_clothes:
-            if each_clothing.aff_url == "https://www.amazon.com/dp/"+each_clothing.carrier_id+"/?tag=can037-20":
-                each_clothing.aff_url = "https://www.amazon.com/dp/"+each_clothing.carrier_id+"/?tag=fashionly02-20"
-                each_clothing.save()
-                print "Changed ", each_clothing
+        amazon = bottlenose.Amazon('AKIAJOR5NTXK2ERTU6AQ',
+                                   'kck/SKuTJif9bl7qeq5AyB4CU8HWsdz14VW4Iaz2',
+                                   'can037-20',
+                                   MaxQPS=0.9
+                                   )
+        # cloth_types = ["Shirt", "Pants", "Shoes", "sweaters", "tanks", "tops", "swim top", "jeans", "joggers", "shorts", "swim shorts",
+        #                "skirts", "leggings", "athletic shoes", "boots", "sandals", "professional" "shoes", "belts", "sunglasses", "wallets",
+        #                "scarves & wraps", "watches", "jewelry"
+        #                ]
+        cloth_types = {
+            "Shirt": ["Sweaters", "Tanks", "Tops", "Swim Top", "Shirt"],
+           # "Pants": ["Jeans", "Joggers", "Shorts", "Swim Shorts", "Skirts", "Leggings", "Pants"],
+           # "Shoes": ["Athletic Shoes", "Boots", "Sandals", "Professional Shoes"],
+           # "Accessories": ["Belts", "Sunglasses", "Wallets", "Scarves & Wraps", "Watches", "Jewelry"]
+        }
+        gender = [
+            # "Women",
+            "Men"
+        ]
+        pages = [1,2,3,4,5]
+        for each_gender in gender:
+            for each_cloth_type in cloth_types:
+                for each_cloth_subtype in cloth_types[each_cloth_type]:
+                    for each_page in pages:
+                        product = amazon.ItemSearch(Keywords="%s's %s" % (each_gender, each_cloth_subtype),
+                                                    SearchIndex="All",
+                                                    ResponseGroup="Images, SalesRank, OfferFull, ItemAttributes",
+                                                    Availability="Available",
+                                                    paginate=True,
+                                                    ItemPage=each_page)
+                        soup = BeautifulSoup(product, "xml")
+
+                        newDictionary = xmltodict.parse(str(soup))
+                        try:
+                            # print "item = ", newDictionary['ItemSearchResponse']['Items']
+                            for each_item in newDictionary['ItemSearchResponse']['Items']['Item']:
+                                try:
+                                    current_clothing = clothing.objects.get(carrier='amazon',
+                                                                            carrier_id=each_item['ASIN'])
+                                except:
+                                    #clothing does not exist in db
+                                    try:
+                                        if each_gender == "Women":
+                                            gender_bool = True
+                                        else:
+                                            gender_bool = False
+                                        new_clothing = clothing(name=each_item['ItemAttributes']['Title'],
+                                                                carrier="amazon",
+                                                                carrier_id=each_item['ASIN'],
+                                                                small_url=each_item['SmallImage']['URL'],
+                                                                large_url=each_item['LargeImage']['URL'],
+                                                                gender=gender_bool,
+                                                                price=each_item['OfferSummary']['LowestNewPrice']['FormattedPrice'],
+                                                                color=each_item['ItemAttributes']['Color'],
+                                                                brand=each_item['ItemAttributes']['Brand'],
+                                                                aff_url=generate_amazon_link(each_item['ASIN']),
+                                                                cloth_type=each_cloth_type,
+                                                                cloth_sub_type="%s, all" % each_cloth_subtype)
+                                        new_clothing.save()
+                                        newbrand = brands.objects.filter(name=each_item['ItemAttributes']['Brand'])
+                                        if len(newbrand) == 0:
+                                            newbrand = brands(name=each_item['ItemAttributes']['Brand'])
+                                            newbrand.save()
+                                        print "added item"
+                                    except Exception as e:
+                                        print "error ", e
+                                        pass
+                        except Exception as e:
+                            print "Error on upper try: ", e
         return HttpResponse("Success")
+    # try:
+    #     all_clothes = clothing.objects.filter()
+    #     print "all clothes"
+    #     print "len - ", len(all_clothes)
+    #     for each_clothing in all_clothes:
+    #         if each_clothing.aff_url == "https://www.amazon.com/dp/"+each_clothing.carrier_id+"/?tag=can037-20":
+    #             each_clothing.aff_url = "https://www.amazon.com/dp/"+each_clothing.carrier_id+"/?tag=fashionly02-20"
+    #             each_clothing.save()
+    #             print "Changed ", each_clothing
+    #     return HttpResponse("Success")
     except Exception as e:
         print "error ", e
         return HttpResponse("Error")

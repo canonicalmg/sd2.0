@@ -39,7 +39,7 @@ function login(){
     }
     $.ajax({
             type: 'POST',
-            url: 'headerSignIn/',
+            url: '/headerSignIn/',
             headers: {
                 "X-CSRFToken": getCookie("csrftoken")
             },
@@ -83,7 +83,7 @@ function registerClick(){
     }
     $.ajax({
             type: 'POST',
-            url: 'headerSignUp/',
+            url: '/headerSignUp/',
             headers: {
                 "X-CSRFToken": getCookie("csrftoken")
             },
