@@ -265,7 +265,7 @@ def populate_db(request):
         return HttpResponse("Error")
 
 def generate_amazon_link(ASIN):
-    return "https://www.amazon.com/dp/%s/?tag=can037-20" % (ASIN)
+    return "https://www.amazon.com/dp/%s/?tag=fashionly02-20" % (ASIN)
 
 def logout(request):
     auth_logout(request)
@@ -435,7 +435,7 @@ def discover_clothing(request):
             for each_item in brand_list:
                 brand_json[each_item.name] = None
             context = {
-                "current_profile": current_profile,
+                "current_profile_self": current_profile,
                 "brands": json.dumps(brand_json)
             }
         except Exception as e:
