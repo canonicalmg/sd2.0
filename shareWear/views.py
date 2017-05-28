@@ -1522,6 +1522,17 @@ def terms(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
+def blog(request):
+    template = loader.get_template('blogPage.html')
+    post_dict = [
+        {"title": "Post Title",
+         "content": "dfsfsdfsfsdf"},
+        {"title": "Post Title2",
+         "content": "dfsfsdfsfsdf"}
+    ]
+    context = {"posts": post_dict}
+    return HttpResponse(template.render(context, request))
+
 def privacy(request):
     template = loader.get_template('privacy.html')
     context = {}

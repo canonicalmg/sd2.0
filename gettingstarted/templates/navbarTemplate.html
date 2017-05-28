@@ -1,8 +1,8 @@
 <nav class="white" role="navigation">
     <div class="nav-wrapper container">
-        <a id="logo-container" href="/" class="brand-logo center">
-            {#                                <img style="padding-top:5%;" class='responsive-img' src="../static/img/newlogo.png">#}
-            <h4 style="color: #ff6e66;">Fashionly</h4>
+        <a id="logo-container" href="/" style="z-index:999999;" class="brand-logo center">
+                                            <img style="padding-top:5%; max-height:100px;" class='responsive-img' src="../static/img/pnglogo2.png">
+{#            <h4 style="color: #ff6e66;">Fashionly</h4>#}
         </a>            <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
         <ul class="right hide-on-med-and-down">
             <li><a style="color:black;" onClick="signOut()">Sign Out</a></li>
@@ -26,7 +26,7 @@
                     </div>
                 {% else %}
                     {#                    <a onClick="signInRegister()"><i class="material-icons left">power_settings_new</i>Sign In / Register</a>#}
-                    <a onClick="$('.button-collapse').sideNav('hide');" style="margin-top:5%; background-color:#2bbbad" class="waves-effect waves-light btn" href="#signInRegister"><i class="material-icons left">power_settings_new</i>Sign In / Register</a>
+                    <a onClick="$('.button-collapse').sideNav('hide');" style="width:80%; margin-top:5%; background-color:#2bbbad" class="waves-effect waves-light btn" href="#signInRegister"><i style="margin:0;" class="material-icons left">power_settings_new</i>Sign In / Register</a>
                     <br>
                 {% endif %}
             </li>
@@ -36,6 +36,7 @@
             <li><a href="/discover"><i class="material-icons left">find_in_page</i>Discover Outfits</a></li>
             <li><a href="/discover_clothing"><i class="material-icons left">whatshot</i>Discover Clothing</a></li>
             <li><a href="/myCart"><i class="material-icons left">shopping_cart</i>My Cart</a></li>
+            <li><a href="/blog"><i class="material-icons left">local_library</i>Blog</a></li>
             {% if current_profile %}
                 <li><a onClick="signOut()"><i class="material-icons left">power_settings_new</i>Sign Out</a></li>
             {% endif %}

@@ -34,5 +34,6 @@ urlpatterns = [
     url(r'^discover_clothing/$', views.discover_clothing, name='discover_clothing'),
     url(r'^cart_checkout/', views.cart_checkout, name='cart_checkout'),
     url(r'^terms/', views.terms, name='terms'),
+    url(r'^blog/', views.blog, name='blog'),
     url(r'^privacy/', views.privacy, name='privacy'),
 ]
