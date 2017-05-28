@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^', include('shareWear.urls')),
     url(r'^admin/', admin.site.urls),
     url('', include('social.apps.django_app.urls', namespace='social')),
+    url(r'^tinymce/', include('tinymce.urls')),
     url(r'^djga/', include('google_analytics.urls')),
 
 ]

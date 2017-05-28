@@ -35,5 +35,6 @@ urlpatterns = [
     url(r'^cart_checkout/', views.cart_checkout, name='cart_checkout'),
     url(r'^terms/', views.terms, name='terms'),
     url(r'^blog/', views.blog, name='blog'),
+    url(r'^article/(?P<slug>[\w\-]+)/$', views.blog_item, name='blog item'),
     url(r'^privacy/', views.privacy, name='privacy'),
 ]

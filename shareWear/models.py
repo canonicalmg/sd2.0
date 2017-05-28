@@ -1,6 +1,8 @@
 from django.db import models
+from tinymce.models import HTMLField
 from django.contrib.auth.models import User
 from social_django.models import *
+
 import random
 
 # Create your models here.
@@ -236,6 +238,13 @@ class cart_referral(models.Model):
     def __unicode__(self):
         return "%s - %s - %s" % (self.profile.user.username, self.store, self.created_date)
 
+class blog_post(models.Model):
+    title = models.CharField(max_length=100, null=True, blank=True)
+    slug = models.SlugField(max_length=100, unique=True)
+    body_content = HTMLField()
+
+    def __unicode__(self):
+        return self.title
 
 
 

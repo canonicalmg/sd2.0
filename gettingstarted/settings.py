@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'shareWear',
     'social.apps.django_app.default',
     'social_django',
-    'google_analytics'
+    'google_analytics',
+    'tinymce'
 )
 
 GOOGLE_ANALYTICS = {

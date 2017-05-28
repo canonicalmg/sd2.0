@@ -1524,13 +1524,15 @@ def terms(request):
 
 def blog(request):
     template = loader.get_template('blogPage.html')
-    post_dict = [
-        {"title": "Post Title",
-         "content": "dfsfsdfsfsdf"},
-        {"title": "Post Title2",
-         "content": "dfsfsdfsfsdf"}
-    ]
-    context = {"posts": post_dict}
+    all_posts = blog_post.objects.filter()
+    context = {"posts": all_posts}
+    return HttpResponse(template.render(context, request))
+
+def blog_item(request, slug):
+    print "slug = ", slug
+    template = loader.get_template('blogArticlePage.html')
+    all_posts = blog_post.objects.filter()
+    context = {"posts": all_posts}
     return HttpResponse(template.render(context, request))
 
 def privacy(request):

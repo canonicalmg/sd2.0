@@ -1,5 +1,6 @@
+{% load static %}
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
-<link href="../static/css/bootstrap-social.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="{% static 'css/bootstrap-social.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 
 <div id="signInRegister" class="modal">
     <div class="modal-content">
@@ -7,7 +8,7 @@
             <form class="login-form" id="login-form">
                 <div class="row">
                     <div class="input-field col s12 center">
-                        <img src="../static/img/logo.png" alt="" class="responsive-img valign profile-image-login">
+                        <img src="{% static 'img/logo.png' %}" alt="" class="responsive-img valign profile-image-login">
                     </div>
                 </div>
                 <div class="row margin">
@@ -153,4 +154,4 @@
     </div>
 </div>
 
-<script src="../static/js/headerLogin.js"></script>
+<script src="{% static 'js/headerLogin.js' %}"></script>
