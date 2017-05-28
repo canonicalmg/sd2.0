@@ -58,6 +58,10 @@ function followClick(dom_id){
                     domObject.css('border', '1px solid #ff6e66');
                     $("#profileFollowers").html(parseInt($("#profileFollowers").html()) - 1);
                 }
+                else if(json == "Not Logged In"){
+                    //tell user they are not logged in
+                    Materialize.toast("You must be logged in to do that.", 2000);
+                }
 
             },
             error: function (json) {

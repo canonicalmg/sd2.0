@@ -63,6 +63,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/css/swiper.min.css">
     <link href="../../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
     <style>
         body {
@@ -278,48 +279,12 @@
     var CURRENT_PROFILE_JSON = JSON.parse("{{ current_profile_json | escapejs }}");
 </script>
 <header>
-    <nav class="white" role="navigation">
-        <div class="nav-wrapper container">
-            <a id="logo-container" href="/" class="brand-logo center">
-                {#                <img style="padding-top:5%;" class='responsive-img' src="../static/img/toplogo.png">#}
-                <h4 style="color: #ff6e66;">Fashion-ly</h4>
-            </a>
-            <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="#">Navbar Link</a></li>
-                <li><a onClick="signOut()">Sign Out</a></li>
-            </ul>
-
-            <ul id="nav-mobile" class="side-nav">
-                <li>
-                    <div class="col s12 center" style="margin-right:10px; margin-top:25px;">
-                        <div class="col s3">
-                            <img id="featuredProfileImg" style='height:150px; width:150px;' src="{{ current_profile_self.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
-                        </div>
-                        <div class="col s5" style="word-wrap: break-word;">
-                            {% if current_profile_self.user.username %}
-                                <h5 id="featuredProfileUser" class="white-text margin" style="margin-bottom:0;">{{ current_profile_self.user.username }}</h5>
-                            {% endif %}
-                            {% if current_profile_self.location %}
-                                <span id="featuredProfileLoc" class="white-text ultra-small">{{ current_profile_self.location }}</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </li>
-                <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
-                <li><a href="/addNew"><i class="material-icons left">note_add</i>Create Outfit</a></li>
-                <li><a href="/discover"><i class="material-icons left">find_in_page</i>Discover Outfits</a></li>
-                <li><a href="/discover_clothing"><i class="material-icons left">whatshot</i>Discover Clothing</a></li>
-                <li><a href="/user/{{ current_profile_self.pk }}"><i class="material-icons left">account_circle</i>My Account</a></li>
-                <li><a href="/myCart"><i class="material-icons left">shopping_cart</i>My Cart</a></li>
-                <li><a onClick="signOut()"><i class="material-icons left">power_settings_new</i>Sign Out</a></li>
-            </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons" style="color:#ff6e66;">menu</i></a>
-        </div>
-    </nav>
+    {% include "navbarTemplate.html" %}
 </header>
 
 <main>
+    {% include "loginTemplate.html" %}
+
     <section>
         <div class="container">
             <div class="section no-pad-bot" id="index-banner">
@@ -329,19 +294,19 @@
                         <div class="row" style="margin-bottom:0px !important;">
                             <div class="col s6">
                                 <figure class="card-profile-image">
-                                    <img src="{{ current_profile.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
+                                    <img src="{{ current_profile_user.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
                                 </figure>
                             </div>
                             <div class="col s6" style="word-wrap: break-word;">
-                                <h4 class="card-title grey-text text-darken-4">{{ current_profile.user.username }}</h4>
-                                <p class="medium-small grey-text">{{ current_profile.location }}</p>
+                                <h4 class="card-title grey-text text-darken-4">{{ current_profile_user.user.username }}</h4>
+                                <p class="medium-small grey-text">{{ current_profile_user.location }}</p>
                                 {% if not is_self %}
                                     {% if is_following %}
 {#                                        <h1>YES FOLLOWING</h1>#}
-                                        <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="follow{{ current_profile.pk }}" style="border:1px solid #2bbbad; background-color:#2bbbad; color:white;">Following</a>
+                                        <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="follow{{ current_profile_user.pk }}" style="border:1px solid #2bbbad; background-color:#2bbbad; color:white;">Following</a>
                                     {% else %}
 {#                                        <h1>not following</h1>#}
-                                        <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="follow{{ current_profile.pk }}" style="border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
+                                        <a class="waves-effect waves-dark btn" onClick="followClick(this.id)" id="follow{{ current_profile_user.pk }}" style="border:1px solid #ff6e66; background-color:white; color:#ff6e66;">Follow</a>
                                     {% endif %}
                                 {% endif %}
                             </div>
@@ -353,11 +318,11 @@
                                     <p class="medium-small grey-text">Outfits Created</p>
                                 </div>
                                 <div class="col s3 center-align">
-                                    <h4 id='profileFollowers' class="card-title grey-text text-darken-4">{{ current_profile.num_followers }}</h4>
+                                    <h4 id='profileFollowers' class="card-title grey-text text-darken-4">{{ current_profile_user.num_followers }}</h4>
                                     <p class="medium-small grey-text">Followers</p>
                                 </div>
                                 <div class="col s3 center-align">
-                                    <h4 id='profileFollowing' class="card-title grey-text text-darken-4">{{ current_profile.num_following }}</h4>
+                                    <h4 id='profileFollowing' class="card-title grey-text text-darken-4">{{ current_profile_user.num_following }}</h4>
                                     <p class="medium-small grey-text">Following</p>
                                 </div>
                             </div>
@@ -375,12 +340,12 @@
                             </div>
                         {% endif %}
 
-                        {% if current_profile.display_description %}
-                            {% if current_profile.description %}
+                        {% if current_profile_user.display_description %}
+                            {% if current_profile_user.description %}
                                 <div class="card light-blue">
                                     <div class="card-content white-text">
                                         <span class="card-title">Description</span>
-                                        <p>{{ current_profile.description }}</p>
+                                        <p>{{ current_profile_user.description }}</p>
                                     </div>
                                 </div>
                             {% endif %}
@@ -388,52 +353,52 @@
 
                         <!-- Profile About Details  -->
                         <ul id="profile-page-about-details" class="collection z-depth-1">
-                            {% if current_profile.display_fullName %}
-                                {% if current_profile.display_fullName %}
+                            {% if current_profile_user.display_fullName %}
+                                {% if current_profile_user.display_fullName %}
                                     <li class="collection-item">
                                         <div class="row">
                                             <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Name</div>
-                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile.full_name }}</div>
+                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile_user.full_name }}</div>
                                         </div>
                                     </li>
                                 {% endif %}
                             {% endif %}
-                            {% if current_profile.display_gender %}
-                                {% if current_profile.gender_verbose %}
+                            {% if current_profile_user.display_gender %}
+                                {% if current_profile_user.gender_verbose %}
                                     <li class="collection-item">
                                         <div class="row">
                                             <div class="col s5 grey-text darken-1"><i class="mdi-social-poll"></i> Gender</div>
-                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile.gender_verbose }}</div>
+                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile_user.gender_verbose }}</div>
                                         </div>
                                     </li>
                                 {% endif %}
                             {% endif %}
-                            {% if current_profile.display_joined_date %}
-                                {% if current_profile.joined_date %}
+                            {% if current_profile_user.display_joined_date %}
+                                {% if current_profile_user.joined_date %}
                                     <li class="collection-item">
                                         <div class="row">
                                             <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Joined on</div>
-                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile.joined_date.date }}</div>
+                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile_user.joined_date.date }}</div>
                                         </div>
                                     </li>
                                 {% endif %}
                             {% endif %}
-                            {% if current_profile.display_email %}
-                                {% if current_profile.user.email %}
+                            {% if current_profile_user.display_email %}
+                                {% if current_profile_user.user.email %}
                                     <li class="collection-item">
                                         <div class="row">
                                             <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Email</div>
-                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile.user.email }}</div>
+                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile_user.user.email }}</div>
                                         </div>
                                     </li>
                                 {% endif %}
                             {% endif %}
-                            {% if current_profile.display_website %}
-                                {% if current_profile.website %}
+                            {% if current_profile_user.display_website %}
+                                {% if current_profile_user.website %}
                                     <li class="collection-item">
                                         <div class="row">
                                             <div class="col s5 grey-text darken-1"><i class="mdi-social-domain"></i> Website</div>
-                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile.website }}</div>
+                                            <div class="col s7 grey-text text-darken-4 right-align">{{ current_profile_user.website }}</div>
                                         </div>
                                     </li>
                                 {% endif %}
@@ -557,7 +522,7 @@
                                         <label style="padding:5%;">
                                             Male
                                             <input type="checkbox"
-                                            {% if current_profile.gender %}
+                                            {% if current_profile_user.gender %}
                                                 checked
                                             {% endif %}>
                                             <span class="lever"></span>
@@ -581,7 +546,7 @@
                                     <label style="padding:5%;">
                                         Off
                                         <input id="displayFullName" type="checkbox"
-                                               {% if current_profile.display_fullName %}
+                                               {% if current_profile_user.display_fullName %}
                                                    checked
                                                {% endif %}
                                         >
@@ -596,7 +561,7 @@
                                     <label style="padding:5%;">
                                         Off
                                         <input id="displayGender" type="checkbox"
-                                                {% if current_profile.display_gender %}
+                                                {% if current_profile_user.display_gender %}
                                                checked
                                                 {% endif %}
                                         >
@@ -611,7 +576,7 @@
                                     <label style="padding:5%;">
                                         Off
                                         <input id="displayJoinedDate" type="checkbox"
-                                                {% if current_profile.display_joined_date %}
+                                                {% if current_profile_user.display_joined_date %}
                                                checked
                                                 {% endif %}
                                         >
@@ -626,7 +591,7 @@
                                     <label style="padding:5%;">
                                         Off
                                         <input id="displayEmail" type="checkbox"
-                                                {% if current_profile.display_email %}
+                                                {% if current_profile_user.display_email %}
                                                checked
                                                 {% endif %}
                                         >
@@ -641,7 +606,7 @@
                                     <label style="padding:5%;">
                                         Off
                                         <input id="displayWebsite" type="checkbox"
-                                                {% if current_profile.display_website %}
+                                                {% if current_profile_user.display_website %}
                                                checked
                                                 {% endif %}
                                         >
@@ -656,7 +621,7 @@
                                     <label style="padding:5%;">
                                         Off
                                         <input id="displayLocation" type="checkbox"
-                                                {% if current_profile.display_location %}
+                                                {% if current_profile_user.display_location %}
                                                checked
                                                 {% endif %}
                                         >
@@ -671,7 +636,7 @@
                                     <label style="padding:5%;">
                                         Off
                                         <input id="displayDescription" type="checkbox"
-                                                {% if current_profile.display_description %}
+                                                {% if current_profile_user.display_description %}
                                                checked
                                                 {% endif %}
                                         >
@@ -697,7 +662,6 @@
 
 <!--  Scripts-->
 
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/js/swiper.jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-touch-events/1.0.5/jquery.mobile-events.js"></script>
 

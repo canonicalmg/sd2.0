@@ -389,20 +389,24 @@ def get_outfit_items(outfits, current_profile):
     return outfits_arr
 
 def get_front_page(request):
-    if request.user.is_authenticated():
-        if request.method == "POST":
-            if request.is_ajax():
-                index = request.POST.get("index")
+    # if request.user.is_authenticated():
+    if request.method == "POST":
+        if request.is_ajax():
+            index = request.POST.get("index")
+            try:
                 current_profile = profile.objects.get(user=request.user)
-                featured_outfits = get_featured_outfits(current_profile)
-                popular_outfits = get_popular_outfits(current_profile)
-                new_outfits = get_new_outfits(current_profile)
+            except:
+                #user is likely not logged in
+                current_profile = None
+            featured_outfits = get_featured_outfits(current_profile)
+            popular_outfits = get_popular_outfits(current_profile)
+            new_outfits = get_new_outfits(current_profile)
 
-                print "index = ", index
-                json_stuff = json.dumps({"featured": featured_outfits,
-                                         "new": new_outfits,
-                                         "popular": popular_outfits,})
-                return HttpResponse(json_stuff, content_type="application/json")
+            print "index = ", index
+            json_stuff = json.dumps({"featured": featured_outfits,
+                                     "new": new_outfits,
+                                     "popular": popular_outfits,})
+            return HttpResponse(json_stuff, content_type="application/json")
     return HttpResponse("Error")
 
 def signUpLogIn(request):
@@ -438,31 +442,35 @@ def signUpLogIn(request):
     return HttpResponse(template.render(context, request))
 
 def discover_clothing(request):
-    if request.user.is_authenticated():
+    # if request.user.is_authenticated():
         #send them to /home
-        template = loader.get_template('discover_clothing.html')
-        try:
-            current_profile = profile.objects.get(user=request.user)
-
-            brand_list = brands.objects.filter()
-            brand_json = {}
-            for each_item in brand_list:
-                brand_json[each_item.name] = None
-            context = {
-                "current_profile_self": current_profile,
-                "brands": json.dumps(brand_json)
-            }
-        except Exception as e:
-            print "error ", e
-            template = loader.get_template('headerLogin.html')
-            context = {
-                "asd": "asd"
-            }
-    else:
-        template = loader.get_template('headerLogin.html')
-        context = {
-            "asd": "asd"
-        }
+    template = loader.get_template('discover_clothing.html')
+    # try:
+    try:
+        current_profile = profile.objects.get(user=request.user)
+    except Exception as e:
+        print "error ", e
+        #user likely not logged in
+        current_profile = None
+    brand_list = brands.objects.filter()
+    brand_json = {}
+    for each_item in brand_list:
+        brand_json[each_item.name] = None
+    context = {
+        "current_profile_self": current_profile,
+        "brands": json.dumps(brand_json)
+    }
+    #     except Exception as e:
+    #         print "error ", e
+    #         template = loader.get_template('headerLogin.html')
+    #         context = {
+    #             "asd": "asd"
+    #         }
+    # else:
+    #     template = loader.get_template('headerLogin.html')
+    #     context = {
+    #         "asd": "asd"
+    #     }
     return HttpResponse(template.render(context, request))
 
 def about(request):
@@ -845,16 +853,20 @@ def test(request):
     return HttpResponse(template.render(context, request))
 
 def discover(request):
-    if request.user.is_authenticated():
-        template = loader.get_template('index.html')
+    # if request.user.is_authenticated():
+    template = loader.get_template('index.html')
+    try:
         current_profile = profile.objects.get(user=request.user)
-        context = {
-            "current_profile": current_profile,
-        }
-    else:
-        template = loader.get_template('headerLogin.html')
-        context = {
-        }
+    except:
+        #user is likely not logged in
+        current_profile = None
+    context = {
+        "current_profile": current_profile,
+    }
+    # else:
+    #     template = loader.get_template('headerLogin.html')
+    #     context = {
+    #     }
     return HttpResponse(template.render(context, request))
 
 def myCart(request):
@@ -1047,6 +1059,8 @@ def follow_user(request):
                         return HttpResponse("Follow")
                 except Exception as e:
                     print "Error ", e
+    else:
+        return HttpResponse("Not Logged In")
     return HttpResponse("Error")
 
 @csrf_exempt
@@ -1074,7 +1088,7 @@ def add_to_favorites(request):
                 except Exception as e:
                     print "Error ", e
     else:
-        add_to_cart_single_unregistered(request)
+        return add_to_cart_single_unregistered(request)
     return HttpResponse("Error")
 
 @csrf_exempt
@@ -1113,16 +1127,17 @@ def add_to_cart_single(request):
                 except Exception as e:
                     print "Error ", e
     else:
-        add_to_cart_single_unregistered(request)
+        print "using unregistered"
+        return add_to_cart_single_unregistered(request)
     return HttpResponse("Error")
 
 def add_to_cart_single_unregistered(request):
     if request.is_ajax():
         if request.method == 'POST':
             try:
-                outfit_key = request.POST.get('outfit')
+                # outfit_key = request.POST.get('outfit')
                 clothing_key = request.POST.get('clothing')
-                outfit_obj = outfit.objects.get(pk=outfit_key)
+                # outfit_obj = outfit.objects.get(pk=outfit_key)
                 clothing_obj = clothing.objects.get(pk=clothing_key)
                 #looking to see if item is in cart. If so, remove from cart
                 try:
@@ -1248,48 +1263,55 @@ def remove_from_cart(request):
 
                 except Exception as e:
                     print "Error ", e
+    else:
+        #remove from unregistered cart
+        return add_to_cart_single_unregistered(request)
     return HttpResponse("Error")
 
 def userProfile(request, pk):
-    if request.user.is_authenticated():
-        template = loader.get_template('userProfile.html')
-        current_profile = profile.objects.get(pk=pk)
+    # if request.user.is_authenticated():
+    template = loader.get_template('userProfile.html')
+    current_profile = profile.objects.get(pk=pk)
+    try:
         current_profile_self = profile.objects.get(user=request.user)
-        all_outfits = outfit.objects.filter(profile=current_profile)
-        outfit_number = len(all_outfits)
-        current_profile_outfits = get_outfit_items(all_outfits, current_profile)
-        current_profile_json = {}
-        print "IS FOLLOWING = ", current_profile.is_following(current_profile_self)
-        if current_profile.user == request.user:
-            current_profile_json = {
-                'fullName': current_profile.full_name,
-                'gender': current_profile.gender,
-                'joinedDate': str(current_profile.joined_date),
-                'email': current_profile.user.email,
-                'website': current_profile.website,
-                'location': current_profile.location,
-                'description': current_profile.description,
-                'displayFullName': current_profile.display_fullName,
-                'displayGender': current_profile.display_gender,
-                'displayJoinedDate': current_profile.display_joined_date,
-                'displayEmail': current_profile.display_email,
-                'displayWebsite': current_profile.display_website,
-                'displayLocation': current_profile.display_location,
-                'displayDescription': current_profile.display_description
-            }
-        context = {
-            "current_profile": current_profile,
-            "current_profile_self": current_profile_self,
-            "is_following": current_profile.is_following(current_profile_self),
-            "outfit_number": outfit_number,
-            "is_self": current_profile.user == request.user,
-            "outfits": json.dumps(current_profile_outfits),
-            "current_profile_json": json.dumps(current_profile_json)
+    except:
+        #user is likely not logged in
+        current_profile_self = None
+    all_outfits = outfit.objects.filter(profile=current_profile)
+    outfit_number = len(all_outfits)
+    current_profile_outfits = get_outfit_items(all_outfits, current_profile)
+    current_profile_json = {}
+    print "IS FOLLOWING = ", current_profile.is_following(current_profile_self)
+    if current_profile.user == request.user:
+        current_profile_json = {
+            'fullName': current_profile.full_name,
+            'gender': current_profile.gender,
+            'joinedDate': str(current_profile.joined_date),
+            'email': current_profile.user.email,
+            'website': current_profile.website,
+            'location': current_profile.location,
+            'description': current_profile.description,
+            'displayFullName': current_profile.display_fullName,
+            'displayGender': current_profile.display_gender,
+            'displayJoinedDate': current_profile.display_joined_date,
+            'displayEmail': current_profile.display_email,
+            'displayWebsite': current_profile.display_website,
+            'displayLocation': current_profile.display_location,
+            'displayDescription': current_profile.display_description
         }
-    else:
-        template = loader.get_template('headerLogin.html')
-        context = {
-        }
+    context = {
+        "current_profile_user": current_profile,
+        "current_profile": current_profile_self,
+        "is_following": current_profile.is_following(current_profile_self),
+        "outfit_number": outfit_number,
+        "is_self": current_profile.user == request.user,
+        "outfits": json.dumps(current_profile_outfits),
+        "current_profile_json": json.dumps(current_profile_json)
+    }
+    # else:
+    #     template = loader.get_template('headerLogin.html')
+    #     context = {
+    #     }
     return HttpResponse(template.render(context, request))
 
 def outfit_page(request, pk):
@@ -1356,13 +1378,13 @@ def clothing_page(request, pk):
     template = loader.get_template('clothingPage.html')
     current_clothing = clothing.objects.get(pk=pk)
     try:
-        current_profile_self = profile.objects.get(user=request.user)
+        current_profile = profile.objects.get(user=request.user)
     except Exception as e:
         print "Error ", e
         #user is likely not logged in
-        current_profile_self = None
+        current_profile = None
     context = {
-        "current_profile_self": current_profile_self,
+        "current_profile_self": current_profile,
         "current_clothing": current_clothing
     }
     # else:

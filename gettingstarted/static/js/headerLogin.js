@@ -47,7 +47,7 @@ function login(){
             success: function (json) {
                 if(json == "Does not match"){
                     //display error
-                    Materialize.toast("Info does not match our records.");
+                    Materialize.toast("Info does not match our records.", 2000);
                 }
                 else if(json == "Success"){
                     // document.location.href="/";
@@ -95,7 +95,7 @@ function registerClick(){
                     document.location.href="/";
                 }
                 if(json == "Username Exists"){
-                    Materialize.toast("An Account with this username already exists.");
+                    Materialize.toast("An Account with this username already exists.", 2000);
                     return 0;
                 }
                 

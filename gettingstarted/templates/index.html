@@ -76,6 +76,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/css/swiper.min.css">
     <link href="../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
     <style>
         body {
@@ -289,50 +290,14 @@
 </head>
 <body>
 <header>
-    <nav class="white" role="navigation">
-        <div class="nav-wrapper container">
-            <a id="logo-container" href="/" class="brand-logo center">
-                {#                <img style="padding-top:5%;" class='responsive-img' src="../static/img/toplogo.png">#}
-                <h4 style="color: #ff6e66;">Fashion-ly</h4>
-            </a>
-            <a href="/myCart"><i class="material-icons right" style="color:#ff6e66;">shopping_cart</i></a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="#">Navbar Link</a></li>
-                <li><a onClick="signOut()">Sign Out</a></li>
-            </ul>
-
-            <ul id="nav-mobile" class="side-nav fixed">
-                <li>
-                    <div class="col s12 center" style="margin-right:10px; margin-top:25px;">
-                        <div class="col s3">
-                            <img id="featuredProfileImgMain" style='height:150px; width:150px;' src="{{ current_profile.profile_image }}" alt="" class="circle responsive-img profile-post-uer-image">
-                        </div>
-                        <div class="col s5" style="word-wrap: break-word;">
-                            {% if current_profile.user.username %}
-                                <h5 class="white-text margin" style="margin-bottom:0;">{{ current_profile.user.username }}</h5>
-                            {% endif %}
-                            {% if current_profile.location %}
-                                <span class="white-text ultra-small">{{ current_profile.location }}</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </li>
-                <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
-                <li><a href="/addNew"><i class="material-icons left">note_add</i>Create Outfit</a></li>
-                <li><a href="/user/{{ current_profile.pk }}"><i class="material-icons left">account_circle</i>My Account</a></li>
-                <li><a href="/discover"><i class="material-icons left">find_in_page</i>Discover Outfits</a></li>
-                <li><a href="/discover_clothing"><i class="material-icons left">whatshot</i>Discover Clothing</a></li>
-                <li><a href="/myCart"><i class="material-icons left">shopping_cart</i>My Cart</a></li>
-                <li><a onClick="signOut()"><i class="material-icons left">power_settings_new</i>Sign Out</a></li>
-            </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons" style="color:#ff6e66;">menu</i></a>
-        </div>
-    </nav>
+    {% include "navbarTemplate.html" %}
 
     <link rel="shortcut icon" href="../static/img/favicon.ico">
 </header>
 
 <main>
+    {% include "loginTemplate.html" %}
+
     <div class="section no-pad-bot" id="index-banner">
 
         <div class="row mainRow">
@@ -647,7 +612,6 @@
 
 <!--  Scripts-->
 
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.0/js/swiper.jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-touch-events/1.0.5/jquery.mobile-events.js"></script>
 
