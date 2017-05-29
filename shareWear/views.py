@@ -1525,15 +1525,24 @@ def terms(request):
 def blog(request):
     template = loader.get_template('blogPage.html')
     all_posts = blog_post.objects.filter()
-    context = {"posts": all_posts}
+    try:
+        current_profile = profile.objects.get(user=request.user)
+    except:
+        current_profile = None
+    context = {"posts": all_posts,
+               "current_profile": current_profile}
     return HttpResponse(template.render(context, request))
 
 def blog_item(request, slug):
     print "slug = ", slug
     current_post = blog_post.objects.get(slug=slug)
     template = loader.get_template('blogArticlePage.html')
-    all_posts = blog_post.objects.filter()
-    context = {"posts": [current_post]}
+    try:
+        current_profile = profile.objects.get(user=request.user)
+    except:
+        current_profile = None
+    context = {"posts": [current_post],
+               "current_profile": current_profile}
     return HttpResponse(template.render(context, request))
 
 def privacy(request):

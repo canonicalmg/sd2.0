@@ -33,7 +33,9 @@
             </li>
             <li><a href="/"><i class="material-icons left">home</i>Home</a></li>
             <li><a href="/addNew"><i class="material-icons left">note_add</i>Create Outfit</a></li>
-            <li><a href="/user/{{ current_profile.pk }}"><i class="material-icons left">account_circle</i>My Account</a></li>
+            {% if current_profile %}
+                <li><a href="/user/{{ current_profile.pk }}"><i class="material-icons left">account_circle</i>My Account</a></li>
+            {% endif %}
             <li><a href="/discover"><i class="material-icons left">find_in_page</i>Discover Outfits</a></li>
             <li><a href="/discover_clothing"><i class="material-icons left">whatshot</i>Discover Clothing</a></li>
             <li><a href="/myCart"><i class="material-icons left">shopping_cart</i>My Cart</a></li>
@@ -45,3 +47,5 @@
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons" style="color:#ff6e66;">menu</i></a>
     </div>
 </nav>
+
+<script src="{% static 'js/nav.js' %}"></script>
