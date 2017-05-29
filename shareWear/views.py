@@ -1530,9 +1530,10 @@ def blog(request):
 
 def blog_item(request, slug):
     print "slug = ", slug
+    current_post = blog_post.objects.get(slug=slug)
     template = loader.get_template('blogArticlePage.html')
     all_posts = blog_post.objects.filter()
-    context = {"posts": all_posts}
+    context = {"posts": [current_post]}
     return HttpResponse(template.render(context, request))
 
 def privacy(request):
