@@ -41,11 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'shareWear',
-    'social.apps.django_app.default',
-    'social_django',
-    'google_analytics',
-    'tinymce'
+    'plr_app',
 )
 
 GOOGLE_ANALYTICS = {
@@ -53,13 +49,7 @@ GOOGLE_ANALYTICS = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.facebook.FacebookOAuth2',
-    'social_core.backends.google.GoogleOpenId',
-    'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.google.GoogleOAuth',
-    'social_core.backends.twitter.TwitterOAuth',
-    'social_core.backends.pinterest.PinterestOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -155,44 +145,6 @@ STATIC_URL = '/static/'
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
-)
-
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_FACEBOOK_KEY = '1385275688183042'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'e521564e48073b62679a7def6c2002ef'
-
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    'fields': 'id,name,email',
-}
-
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '92609870777-3kb8113joc8am0pje6qi76sro8fgfror.apps.googleusercontent.com'
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '7gC-8MbkeIDxKjBASC8KoQGN'
-SOCIAL_AUTH_TWITTER_KEY = '5NMz1a2nast6ySwIL6cezgqlz'
-SOCIAL_AUTH_TWITTER_SECRET = 'Ope9Y10QNbcQZuK0sTapWGygRitokQ1D1RAY2pENEvj4qrWDTR'
-
-SOCIAL_AUTH_PINTEREST_KEY = '4898704492964365324'
-SOCIAL_AUTH_PINTEREST_SECRET = '325429b0be3d7f18f71f25335dabc3572fd6f75fc9e4b253e34f0fcbec6467eb'
-SOCIAL_AUTH_PINTEREST_SCOPE = [
-    'read_public',
-    'write_public',
-    'read_relationships',
-    'write_relationships'
-]
-
-SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',
-    'social_core.pipeline.social_auth.social_uid',
-    'social_core.pipeline.social_auth.auth_allowed',
-    # 'social_core.pipeline.social_auth.social_user',
-    'shareWear.views.social_user',
-    'social_core.pipeline.user.get_username',
-    'social_core.pipeline.user.create_user',
-    'social_core.pipeline.social_auth.associate_user',
-    'social_core.pipeline.social_auth.load_extra_data',
-    'social_core.pipeline.user.user_details',
-    'shareWear.views.save_profile',  # <--- set the path to the function
-    'shareWear.views.get_avatar', # This is a path of your pipeline.py
 )
 
 

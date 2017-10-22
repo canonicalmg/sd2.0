@@ -3,19 +3,15 @@ from django.conf.urls import include, url
 from django.contrib import admin
 admin.autodiscover()
 
-import shareWear.views
+import plr_app.views
 
 # Examples:
 # url(r'^$', 'gettingstarted.views.home', name='home'),
 # url(r'^blog/', include('blog.urls')),
 
 urlpatterns = [
-    url(r'^', include('shareWear.urls')),
+    url(r'^', include('plr_app.urls')),
     url(r'^admin/', admin.site.urls),
-    url('', include('social.apps.django_app.urls', namespace='social')),
-    url(r'^tinymce/', include('tinymce.urls')),
-    url(r'^djga/', include('google_analytics.urls')),
-
 ]
 
 
