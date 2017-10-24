@@ -5,6 +5,31 @@ from django.template.defaultfilters import slugify
 import time
 
 
+class get_categories():
+
+    def __init__(self, url):
+        page_html = urllib2.urlopen(url)
+
+        # get page
+        soup = BeautifulSoup(page_html, 'html5lib')
+        all_category = soup.find_all('li', attrs={'class': 'cat-item'})
+        for each_category in all_category:
+            print each_category.find('a').text
+            print each_category.find('a')['href']
+            current_category, created = category.objects.get_or_create(slug=slugify(each_category.find('a').text))
+            if created:
+                current_category.name = each_category.find('a').text
+                current_category.url = each_category.find('a')['href']
+                current_category.save()
+                print "category %s created " % current_category.name
+
+class scrape_content_from_categories():
+
+    def __init__(self):
+        for each_category in category.objects.all().exclude(name="Acne").exclude(name="Advertising").exclude(name="Adsense"):
+            print "____________On Category %s_____________" % (each_category.name)
+            get_articles_from_category(each_category.url, each_category.name)
+
 class get_articles_from_category():
 
     def __init__(self, category_url, category_name):
@@ -27,7 +52,9 @@ class get_articles_from_category():
         # build live articles
         for each in each_article:
             doc_item = each.find('h1', attrs={'class': 'entry-title'}).find('a')
-            self.build_live_doc(doc_item.text, doc_item['href'], category_name)
+            # self.build_live_doc(doc_item.text, doc_item['href'], category_name)
+            build_article(doc_item['href'])
+            time.sleep(0.5)  # to avoid spamming servers
 
         # get next page
         try:
@@ -60,24 +87,30 @@ class build_article():
                        page_content['category'])
 
     def get_html_content(self, page):
-        page_html = urllib2.urlopen(page)
+        try:
+            page_html = urllib2.urlopen(page)
 
-        # get page
-        soup = BeautifulSoup(page_html, 'html5lib')
-        title = soup.find('h1', attrs={'class': 'entry-title'})
-        content = soup.find('div', attrs={'class': 'entry-content'})
-        page_category = soup.find('footer', attrs={'class': 'entry-meta'})
+            # get page
+            soup = BeautifulSoup(page_html, 'html5lib')
+            title = soup.find('h1', attrs={'class': 'entry-title'})
+            content = soup.find('div', attrs={'class': 'entry-content'})
+            page_category = soup.find('footer', attrs={'class': 'entry-meta'})
 
-        # remove extraneous html and word-count
-        content = content.text.encode('UTF-8', 'ignore').split("\n Word count: ")[0]
-        page_category = page_category.find_all('a')
-        page_category_arr = []
-        for each_item in page_category:
-            page_category_arr.append(each_item.text)
+            # remove extraneous html and word-count
+            content = content.text.encode('UTF-8', 'ignore').split("\n Word count: ")[0]
+            page_category = page_category.find_all('a')
+            page_category_arr = []
+            for each_item in page_category:
+                page_category_arr.append(each_item.text)
 
-        return {"title": title.text,
-                "content": content,
-                "category": page_category_arr}
+            return {"title": title.text,
+                    "content": content,
+                    "category": page_category_arr}
+        except:
+            print "Error getting html content"
+            return {"title": "",
+                    "content": "",
+                    "category": 1}
 
     def add_to_db(self, title, content, page_category):
         article_item, created = article.objects.get_or_create(slug=slugify(title))
@@ -97,5 +130,6 @@ class build_article():
                 article_item.category.add(current_cat)
 
         article_item.save()
+        print "Article %s added." % article_item.name
 
 
