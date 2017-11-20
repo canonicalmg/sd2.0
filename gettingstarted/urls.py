@@ -3,14 +3,14 @@ from django.conf.urls import include, url
 from django.contrib import admin
 admin.autodiscover()
 
-import plr_app.views
+import brain.views
 
 # Examples:
 # url(r'^$', 'gettingstarted.views.home', name='home'),
 # url(r'^blog/', include('blog.urls')),
 
 urlpatterns = [
-    url(r'^', include('plr_app.urls')),
+    url(r'^', include('brain.urls')),
     url(r'^admin/', admin.site.urls),
 ]
 

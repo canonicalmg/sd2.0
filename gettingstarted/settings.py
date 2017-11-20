@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    'plr_app',
+    'brain',
 )
 
 GOOGLE_ANALYTICS = {
