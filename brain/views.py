@@ -3,5 +3,6 @@ from .models import *
 from django.template import loader
 
 def signUpLogIn(request):
-    return HttpResponse("done")
-    #test
+    template = loader.get_template('index.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
