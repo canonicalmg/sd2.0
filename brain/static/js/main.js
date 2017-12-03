@@ -2,6 +2,69 @@ $(window).load(function() {
     $("#preloader").fadeOut("slow");
 });
 
+$("#view_more_reviews").click(function(e){
+    $("#reviews_more").show();
+    $("#reviews_more").append("<div class='wow fadeInUp' style='padding-top:25px;'>"+reviewStrings()+"</div>");
+    $("#view_more_reviews").hide();
+});
+
+function reviewTemplate(name, location, verbiage){
+    return "<div class='row'>"
+        + "<div class='col-md-2 testimonials'>"
+        + "<div class='carousel-info'>"
+        + "<div class='pull-left'>"
+        + "<span class='testimonials-name'>"+name+"</span>"
+        + "<span class='testimonials-post'>"+location+"</span>"
+        + "</div>"
+        + "</div>"
+        + "</div>"
+        + "<div class='col-md-10'>"
+        + "<div class='testimonials' style='margin-top:25px;'>"
+        + "<div class='active item'>"
+        + "<blockquote><p>"+verbiage+"</p></blockquote>"
+        + "</div>"
+        + "</div>"
+        + "</div>"
+        + "</div>";
+}
+
+function reviewStrings(){
+    var dataObjs = [
+        {
+            'name': "Erin",
+            'location': "Software Engineer",
+            'verbiage': "Interestingly, I noticed a similar potentiating effect from brain revitalize towards coffee. Sampling this product was a joy and I will gladly buy a bottle when it becomes available."
+        },
+        {
+            'name': "Austin",
+            'location': "Musician",
+            'verbiage': "10/10"
+        },
+        {
+            'name': "Steven",
+            'location': "Student",
+            'verbiage': "The absolutely worst thing about smoking is feeling so sluggish and lazy the next day. I didn't get that at all with this."
+        },
+        {
+            'name': "Raj",
+            'location': "Weightlifter",
+            'verbiage': "I have been looking for something like this on the market for years now. Keep up the good work!"
+        },
+        {
+            'name': "Beverly",
+            'location': "Student",
+            'verbiage': "If you smoke a lot of weed then you need to get this. Period"
+        }
+    ];
+
+    var templateString = "";
+    for(var i=0; i < dataObjs.length; i++){
+        templateString += reviewTemplate(dataObjs[i].name,dataObjs[i].location,dataObjs[i].verbiage);
+    }
+
+    return templateString;
+}
+
 $(document).ready(function(){
 
     wow = new WOW({
