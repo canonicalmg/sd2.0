@@ -1,14 +1,15 @@
 from django.http import HttpResponse
 from .models import *
 from django.template import loader
+from django.views.decorators.csrf import csrf_exempt
 
 def signUpLogIn(request):
     template = loader.get_template('index.html')
     context = {}
     return HttpResponse(template.render(context, request))
 
-
-def submit_info_form(request):
+@csrf_exempt
+def submit_info_form(request):  # todo fix csrf issue. Possibly because submitting over http
     print "inside submit"
     if request.is_ajax():
         if request.method == "POST":
