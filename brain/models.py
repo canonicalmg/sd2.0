@@ -14,3 +14,7 @@ class freeSampleSubmission(models.Model):
 
     def __unicode__(self):
         return self.email
+
+class addToCartEmailSubmission(models.Model):
+    name = models.CharField(max_length=300, blank=True)
+    email = models.CharField(max_length=300)

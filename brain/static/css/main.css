@@ -216,11 +216,11 @@ a:active {
     font-weight: bold;
 }
 
-.btn-home:hover,
+/*.btn-home:hover,
 .btn-home:focus {
     background-color: #fff;
     color: #555;
-}
+}*/
 
 .btn-border {
     border: 1px solid #fff;
@@ -284,6 +284,18 @@ a:active {
 /*Preloader*/
 
 #preloader {
+    background-color: #fff;
+    bottom: auto;
+    height: 100%;
+    left: auto;
+    position: fixed;
+    right: auto;
+    top: auto;
+    width: 100%;
+    z-index: 9999;
+}
+
+#oops {
     background-color: #fff;
     bottom: auto;
     height: 100%;

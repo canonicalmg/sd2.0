@@ -25,3 +25,21 @@ def submit_info_form(request):  # todo fix csrf issue. Possibly because submitti
             print "data = ", data
             return HttpResponse("Success")
     return HttpResponse("Error")
+
+@csrf_exempt
+def submit_add_to_cart_email_form(request):
+    if request.is_ajax():
+        if request.method == "POST":
+            print "inside post"
+            data = request.POST.getlist("data[]")
+            new_request = addToCartEmailSubmission(name=data[0], email=data[1])
+            new_request.save()
+            print "obj created"
+            print "data = ", data
+            return HttpResponse("Success")
+    return HttpResponse("Error")
+
+def add_to_cart(request):
+    template = loader.get_template('add_to_cart.html')
+    context = {}
+    return HttpResponse(template.render(context,request))
