@@ -2,30 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c7ba8940-f5e2-4be5-aee3-f37fd8242296" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/android-chrome-192x192.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/android-chrome-512x512.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/apple-touch-icon.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/article.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/brain/static/images/246.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/brain/static/images/DSC_5382.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/brain/static/images/IMG_5316.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/brain/static/images/about-img.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/brain/static/images/about.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/brain/static/images/bottle.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/brain/static/images/call-to-action.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/brain/static/images/header-bg.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/brain/static/images/john.jpg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/brain/static/images/label-1.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/brain/static/js/main.js" afterPath="$PROJECT_DIR$/brain/static/js/main.js" />
-      <change beforePath="$PROJECT_DIR$/brain/static/js/plugins.js" afterPath="$PROJECT_DIR$/brain/static/js/plugins.js" />
-      <change beforePath="$PROJECT_DIR$/brain/templates/add_to_cart.html" afterPath="" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/brain/static/images/sdlogo.png" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/brain/templates/index.html" afterPath="$PROJECT_DIR$/brain/templates/index.html" />
-      <change beforePath="$PROJECT_DIR$/brain/templates/index2.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/favicon-16x16.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/favicon-32x32.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/favicon.ico" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/mstile-150x150.png" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -69,16 +48,30 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/brain/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="978">
-              <caret line="233" column="49" lean-forward="false" selection-start-line="233" selection-start-column="39" selection-end-line="233" selection-end-column="49" />
+            <state relative-caret-position="561">
+              <caret line="213" column="29" lean-forward="true" selection-start-line="213" selection-start-column="29" selection-end-line="213" selection-end-column="29" />
               <folding>
-                <element signature="e#9916#9922#0" expanded="true" />
+                <element signature="e#9714#9720#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="hehlz7BV_400x400.jpg" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/brain/static/images/hehlz7BV_400x400.jpg">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sdlogo.png" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/brain/static/images/sdlogo.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/brain/static/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -118,6 +111,7 @@
       <find>/img/</find>
       <find>bootstrap.</find>
       <find>WOW</find>
+      <find>ziggy html</find>
     </findStrings>
     <replaceStrings>
       <replace>/images/</replace>
@@ -135,9 +129,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/requirements.txt" />
-        <option value="$PROJECT_DIR$/brain/templates/index.html" />
         <option value="$PROJECT_DIR$/brain/static/css/tooplate-style.css" />
         <option value="$PROJECT_DIR$/brain/static/js/main.js" />
+        <option value="$PROJECT_DIR$/brain/templates/index.html" />
       </list>
     </option>
   </component>
@@ -181,6 +175,19 @@
               <item name="brain-landing-page-revision" type="b2602c69:ProjectViewProjectNode" />
               <item name="brain-landing-page-revision" type="462c0819:PsiDirectoryNode" />
               <item name="brain" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="brain-landing-page-revision" type="b2602c69:ProjectViewProjectNode" />
+              <item name="brain-landing-page-revision" type="462c0819:PsiDirectoryNode" />
+              <item name="brain" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="brain-landing-page-revision" type="b2602c69:ProjectViewProjectNode" />
+              <item name="brain-landing-page-revision" type="462c0819:PsiDirectoryNode" />
+              <item name="brain" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="brain-landing-page-revision" type="b2602c69:ProjectViewProjectNode" />
@@ -321,15 +328,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1517869594808</updated>
-      <workItem from="1517869596268" duration="1391000" />
+      <workItem from="1517869596268" duration="3601000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1391000" />
+    <option name="totallyTimeSpent" value="3601000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2891" y="-11" width="2902" height="1582" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -343,7 +351,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293201" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -442,16 +450,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/brain/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="978">
-          <caret line="233" column="49" lean-forward="false" selection-start-line="233" selection-start-column="39" selection-end-line="233" selection-end-column="49" />
-          <folding>
-            <element signature="e#9916#9922#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/brain/static/js/jquery.validate.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -468,6 +466,26 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brain/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="213" column="29" lean-forward="true" selection-start-line="213" selection-start-column="29" selection-end-line="213" selection-end-column="29" />
+          <folding>
+            <element signature="e#9714#9720#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brain/static/images/hehlz7BV_400x400.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brain/static/images/sdlogo.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
   </component>
